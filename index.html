@@ -1,0 +1,3925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#EDEBE5">
+<title>One Thing · one real idea a day</title>
+<meta name="description" content="You read for two hours yesterday. Name one thing you kept. One Thing gives you one real idea a day, five minutes, then gets out of your way.">
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.webmanifest">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="One Thing · one real idea a day">
+<meta property="og:description" content="You read for two hours yesterday. Name one thing you kept. One real idea a day, five minutes, then we get out of your way.">
+<meta property="og:image" content="/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="One Thing · one real idea a day">
+<meta name="twitter:description" content="You read for two hours yesterday. Name one thing you kept.">
+<meta name="twitter:image" content="/og-image.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Archivo:wght@400;500;600;700&display=swap">
+
+<style>
+
+:root{
+  --ink:#16181D; --ground:#EDEBE5; --card:#FFFDFA; --line:#DAD6CC;
+  --green:#0C6B47; --green-mid:#128A5C; --green-soft:#E0EFE7;
+  --brick:#9B4A32; --mute:#65685F;
+  --tone:#0C6B47; --tint:#E0EFE7;           /* per-topic, set inline */
+  --display:'Fraunces',Georgia,serif; --read:'Source Serif 4',Georgia,serif;
+  --ui:'Archivo',system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%}
+body{background:var(--ground);color:var(--ink);font-family:var(--ui);font-size:16px;line-height:1.5;overflow:hidden}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+:focus-visible{outline:2.5px solid var(--green);outline-offset:3px;border-radius:5px}
+
+#stage{height:100%;display:flex;align-items:center;justify-content:center;gap:34px;padding:20px}
+#device{width:100%;max-width:414px;height:100%;max-height:896px;background:var(--card);
+  position:relative;overflow:hidden;display:flex;flex-direction:column}
+@media(min-width:900px){
+  #device{border-radius:38px;border:1px solid var(--line);
+    box-shadow:0 40px 80px -30px rgba(22,24,29,.3),0 2px 0 rgba(255,255,255,.6) inset}
+}
+#console{display:none;flex-direction:column;width:360px;max-height:896px;height:100%}
+@media(min-width:900px){#console{display:flex}}
+#console[hidden]{display:none!important}
+
+#streakbar{display:flex;align-items:center;gap:10px;width:100%;padding:12px 22px;flex:none;
+  border-bottom:1px solid var(--line);background:var(--green-soft);color:var(--ink);
+  font-family:var(--ui);font-size:13.5px;font-weight:600;text-align:left}
+#streakbar[hidden]{display:none!important}
+#streakbar.risk{background:rgba(155,74,50,.09);color:var(--brick)}
+#streakbar .flame{width:19px;height:19px;flex:none;color:var(--green-mid)}
+#streakbar.risk .flame{color:var(--brick);animation:flamepulse 1.7s ease-in-out infinite}
+#streakbar .n{font-family:var(--display);font-size:19px;font-weight:700;flex:none;color:inherit}
+@keyframes flamepulse{0%,100%{transform:scale(1)}50%{transform:scale(1.14)}}
+
+.confetti-piece{position:absolute;width:7px;height:12px;top:0;left:0;pointer-events:none;z-index:95;
+  opacity:0;animation:confetti-fall var(--dur,1100ms) cubic-bezier(.15,.6,.4,1) forwards}
+@keyframes confetti-fall{
+  0%{opacity:1;transform:translate(0,0) rotate(0deg)}
+  100%{opacity:0;transform:translate(var(--dx),var(--dy)) rotate(var(--rot))}
+}
+.xppop{position:absolute;z-index:96;pointer-events:none;font-family:var(--display);font-weight:700;
+  font-size:20px;color:var(--green);white-space:nowrap;left:0;top:0;
+  animation:xppop 1150ms cubic-bezier(.2,.8,.2,1) forwards}
+@keyframes xppop{
+  0%{opacity:0;transform:translate(-50%,-40%) scale(.6)}
+  16%{opacity:1;transform:translate(-50%,-72%) scale(1.18)}
+  32%{transform:translate(-50%,-82%) scale(1)}
+  100%{opacity:0;transform:translate(-50%,-170%) scale(1)}
+}
+
+#screen{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;position:relative}
+.pad{padding:26px 24px 28px}
+nav#tabs{display:flex;border-top:1px solid var(--line);background:var(--card);flex:none}
+nav#tabs[hidden]{display:none}
+nav#tabs button{flex:1;padding:11px 4px calc(11px + env(safe-area-inset-bottom));font-size:10.5px;
+  letter-spacing:.1em;text-transform:uppercase;font-weight:600;color:var(--mute);
+  display:flex;flex-direction:column;align-items:center;gap:6px;min-height:56px}
+nav#tabs button[aria-current="page"]{color:var(--ink)}
+nav#tabs button[aria-current="page"] .glyph{color:var(--green)}
+.glyph{width:20px;height:20px;display:block}
+
+.eyebrow{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--mute)}
+.eyebrow.tone{color:var(--tone)}
+h1,h2,h3{font-family:var(--display);font-weight:600;margin:0;letter-spacing:-.022em;line-height:1.09}
+h1{font-size:34px;font-variation-settings:'SOFT' 32,'opsz' 72}
+h2{font-size:26px}
+h3{font-size:18px;letter-spacing:-.01em}
+.read{font-family:var(--read);font-size:17.5px;line-height:1.62}
+.small{font-size:13px;color:var(--mute)}
+.tnum{font-variant-numeric:tabular-nums}
+
+.btn{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;background:var(--ink);
+  color:var(--card);padding:16px;border-radius:14px;font-weight:600;font-size:15px;min-height:54px;
+  transition:transform .12s,opacity .12s}
+.btn:active{transform:scale(.985)}
+.btn[disabled]{opacity:.3;cursor:not-allowed}
+.btn.primary{background:var(--green)}
+.btn.ghost{background:none;border:1.5px solid var(--line);color:var(--ink)}
+.btn.tiny{padding:10px 14px;font-size:12.5px;min-height:40px;width:auto;border-radius:10px}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--line);padding:9px 14px;border-radius:100px;font-size:14px;font-weight:500;
+  min-height:42px;display:flex;align-items:center;transition:.14s}
+.chip[aria-pressed="true"]{background:var(--green);color:#fff;border-color:var(--green)}
+.chip.sm{font-size:12.5px;padding:7px 12px;min-height:36px}
+
+/* dot calendar lives only on Progress now */
+.dots{display:grid;grid-template-columns:repeat(14,1fr);gap:6px}
+.dot{aspect-ratio:1;border-radius:50%;background:transparent;border:1.5px solid var(--line)}
+.dot.on{background:var(--green);border-color:var(--green)}
+.dot.miss{border-style:dotted;border-color:#C6BEB0}
+.dot.today{border:2px solid var(--green-mid);animation:pulse 2.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(18,138,92,.34)}50%{box-shadow:0 0 0 5px rgba(18,138,92,0)}}
+
+/* ---------- illustrated cards ---------- */
+.art{position:relative;overflow:hidden;background:var(--tint)}
+.art svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.today-card{border:1.5px solid var(--line);border-radius:22px;overflow:hidden;background:var(--card)}
+.today-art{height:150px}
+.stack{position:relative}
+
+/* ---------- story deck ---------- */
+#deck{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--tint)}
+.segs{display:flex;gap:4px;padding:14px 16px 0;flex:none;position:relative;z-index:4}
+.segs i{flex:1;height:3px;border-radius:99px;background:rgba(22,24,29,.16);overflow:hidden}
+.segs i.done{background:var(--tone)}
+.deckbar{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;flex:none;position:relative;z-index:4}
+.deckbar .btn{background:rgba(255,255,255,.66);border:0;color:var(--ink);backdrop-filter:blur(6px)}
+.storyart{position:absolute;inset:0;z-index:0;opacity:.5}
+.storybody{position:relative;z-index:3;flex:1;overflow-y:auto;padding:8px 26px 26px;
+  display:flex;flex-direction:column;justify-content:center;pointer-events:none}
+.storybody button,.storybody a,.storybody textarea,.storybody .hlable{pointer-events:auto}
+.storybody button[disabled]{pointer-events:none}
+.storybody.top{justify-content:flex-start;padding-top:12px}
+.tapzone{position:absolute;top:56px;bottom:0;z-index:2;width:32%}
+.tapzone.fwd{right:0;width:66%}
+.tapzone.back{left:0}
+.lcard{animation:rise .4s cubic-bezier(.16,1,.3,1) both;background:rgba(255,253,250,.88);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:20px;
+  padding:22px 20px;box-shadow:0 10px 34px -16px rgba(22,24,29,.28)}
+.lcard .lcard{box-shadow:none;background:rgba(255,253,250,.6)}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.hook{font-family:var(--display);font-size:29px;font-weight:600;line-height:1.16;letter-spacing:-.022em;
+  font-variation-settings:'SOFT' 40,'opsz' 90}
+.finding{font-family:var(--display);font-size:32px;font-weight:600;line-height:1.12;letter-spacing:-.025em;color:var(--tone)}
+.nextfab{position:absolute;right:20px;bottom:24px;z-index:5;width:54px;height:54px;border-radius:50%;
+  background:var(--ink);color:var(--card);display:flex;align-items:center;justify-content:center;
+  box-shadow:0 8px 22px -6px rgba(22,24,29,.45)}
+.nextfab[disabled]{opacity:.25}
+
+.sel{width:100%;text-align:left;border:1.5px solid rgba(22,24,29,.16);background:rgba(255,255,255,.72);
+  border-radius:14px;padding:15px 16px;font-size:15.5px;font-family:var(--read);margin-bottom:9px;
+  transition:.16s;display:block;min-height:54px}
+.sel:hover:not([disabled]){border-color:var(--ink)}
+.sel[data-s="pick"]{border-color:var(--ink);background:var(--ink);color:var(--card)}
+.sel[data-s="right"]{border-color:var(--green);background:var(--green);color:#fff;font-weight:600}
+.sel[data-s="wrong"]{border-color:var(--brick);background:rgba(155,74,50,.09);color:var(--brick)}
+.hl{background:rgba(18,138,92,.2);box-shadow:0 1.5px 0 rgba(12,107,71,.45);border-radius:2px}
+.hlable{cursor:pointer}
+
+.rule{height:1px;background:var(--line);border:0;margin:22px 0}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.note{background:var(--green-soft);border-left:2.5px solid var(--green);padding:13px 15px;
+  border-radius:0 10px 10px 0;font-size:13.5px;line-height:1.5}
+.note.warn{background:rgba(155,74,50,.07);border-left-color:var(--brick)}
+.note.plain{background:rgba(22,24,29,.045);border-left-color:rgba(22,24,29,.2)}
+.bignum{font-family:var(--display);font-size:58px;font-weight:600;line-height:.9;font-variation-settings:'SOFT' 40}
+.xpline{display:flex;justify-content:space-between;font-size:14.5px;padding:8px 0;border-bottom:1px dashed var(--line)}
+.meter{height:7px;background:rgba(22,24,29,.1);border-radius:99px;overflow:hidden}
+.meter i{display:block;height:100%;background:var(--green);border-radius:99px;transition:width .9s cubic-bezier(.16,1,.3,1)}
+.topicbar{height:10px;border-radius:99px;background:var(--tone)}
+.thumb{width:52px;height:52px;border-radius:12px;flex:none}
+.toast{position:absolute;left:16px;right:16px;bottom:78px;background:var(--ink);color:var(--card);
+  padding:14px 16px;border-radius:13px;font-size:14.5px;z-index:80;animation:rise .3s both;
+  box-shadow:0 10px 30px -8px rgba(0,0,0,.4)}
+.sheet{position:absolute;inset:0;background:rgba(22,24,29,.44);z-index:90;display:flex;align-items:flex-end}
+.sheet>div{background:var(--card);width:100%;border-radius:24px 24px 0 0;padding:24px;max-height:86%;
+  overflow:auto;animation:up .34s cubic-bezier(.16,1,.3,1) both}
+@keyframes up{from{transform:translateY(100%)}to{transform:none}}
+summary{list-style:none;min-height:44px;display:flex;align-items:center;gap:7px}
+summary::-webkit-details-marker{display:none}
+summary:after{content:'';width:6px;height:6px;border-right:1.5px solid currentColor;
+  border-bottom:1.5px solid currentColor;transform:rotate(45deg);opacity:.6;margin-bottom:3px}
+details[open] summary:after{transform:rotate(-135deg);margin:3px 0 0}
+
+#console h4{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;margin:0 0 9px;color:var(--mute);font-weight:700}
+.cbox{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px;margin-bottom:11px}
+.cbtns{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.cbtn{border:1px solid var(--line);border-radius:9px;padding:9px 8px;font-size:12px;font-weight:600;
+  background:var(--card);text-align:center}
+.cbtn:hover{border-color:var(--ink)}
+.cbtn.hot{border-color:var(--brick);color:var(--brick)}
+#log{font-family:ui-monospace,Menlo,monospace;font-size:11px;line-height:1.55;flex:1;overflow:auto;
+  background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px}
+#log div{padding:2px 0;border-bottom:1px solid rgba(0,0,0,.04)}
+#log .ok{color:var(--green)} #log .no{color:var(--brick)} #log .dim{color:var(--mute)}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="device">
+    <button id="streakbar" data-a="tab:today" hidden></button>
+    <div id="screen"><div class="pad" id="view"></div></div>
+    <nav id="tabs" hidden aria-label="Main"></nav>
+  </div>
+  <aside id="console" aria-label="Stress test console">
+    <h4>Stress console</h4>
+    <div class="cbox" id="cstate"></div>
+    <div class="cbox"><div class="cbtns" id="cbtns"></div></div>
+    <div id="log"></div>
+  </aside>
+</div>
+<script>
+
+/* =============================================================
+   ONE THING, SERVER CORE
+   Pure, dependency-free business logic. This module is the ONLY
+   place that decides XP, streaks, assignment and eligibility.
+   PRD §96: "The frontend displays state. The backend determines state."
+
+   In production every function here runs inside a Postgres RPC or an
+   Edge Function. The prototype calls the identical functions so the
+   logic is proven once, not twice (PRD §95: no duplicated business logic).
+   ============================================================= */
+
+// ---------- date primitives ----------
+// All day maths is done on CALENDAR DATE STRINGS, never on epoch deltas.
+// FIX (crack #2): epoch arithmetic breaks on DST, a "day" can be 23h or 25h.
+
+function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+/** Local calendar date for a user, honouring a configurable day-start hour.
+ *  dayStartHour = 0 is the literal calendar day the PRD specifies (§16).
+ *  dayStartHour = 4 is the opt-in "night owl" boundary (see FIX #3). */
+function localDate(utcMs, tzOffsetMin, dayStartHour) {
+  dayStartHour = dayStartHour || 0;
+  const shifted = utcMs + tzOffsetMin * 60000 - dayStartHour * 3600000;
+  const d = new Date(shifted);
+  return d.getUTCFullYear() + '-' + pad(d.getUTCMonth() + 1) + '-' + pad(d.getUTCDate());
+}
+
+function parseDate(s) {
+  const p = s.split('-').map(Number);
+  return Date.UTC(p[0], p[1] - 1, p[2], 12, 0, 0); // noon anchor: DST-proof
+}
+
+function addDays(s, n) {
+  const d = new Date(parseDate(s) + n * 86400000);
+  return d.getUTCFullYear() + '-' + pad(d.getUTCMonth() + 1) + '-' + pad(d.getUTCDate());
+}
+
+function daysBetween(a, b) { return Math.round((parseDate(b) - parseDate(a)) / 86400000); }
+
+// ---------- level curve ----------
+// FIX (crack #13): the PRD names six levels but defines no thresholds and
+// no answer for what a 365-day user does at max level. Levels continue past
+// Polymath with a repeating band so long-term users still see movement.
+const LEVEL_NAMES = ['Curious', 'Explorer', 'Learner', 'Thinker', 'Scholar', 'Polymath'];
+const LEVEL_THRESHOLDS = [0, 300, 900, 2000, 4200, 8000];
+
+function levelFor(xp) {
+  let i = 0;
+  while (i + 1 < LEVEL_THRESHOLDS.length && xp >= LEVEL_THRESHOLDS[i + 1]) i++;
+  if (i === LEVEL_THRESHOLDS.length - 1) {
+    // Polymath II, III … every 6000 XP beyond the last threshold.
+    const over = Math.floor((xp - LEVEL_THRESHOLDS[i]) / 6000);
+    const next = LEVEL_THRESHOLDS[i] + (over + 1) * 6000;
+    const prev = LEVEL_THRESHOLDS[i] + over * 6000;
+    return {
+      level: 6 + over,
+      name: LEVEL_NAMES[5] + (over ? ' ' + roman(over + 1) : ''),
+      floor: prev, ceiling: next,
+      progress: (xp - prev) / (next - prev)
+    };
+  }
+  const prev = LEVEL_THRESHOLDS[i], next = LEVEL_THRESHOLDS[i + 1];
+  return {
+    level: i + 1, name: LEVEL_NAMES[i], floor: prev, ceiling: next,
+    progress: (xp - prev) / (next - prev)
+  };
+}
+function roman(n) { return ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'][n] || ('x' + n); }
+
+// ---------- recommendation ----------
+// FIX (crack #22): the PRD scores "- Previously Seen" as a penalty. On a
+// one-item-per-day product a repeat is 100% of that day, so seen content is
+// a HARD FILTER, not a subtraction. Score only ranks eligible candidates.
+
+// Adjacency is the tier-1 fallback, so every topic offered in onboarding MUST
+// appear here, and every name used here MUST be a real topic. A topic missing
+// from this map silently collapses to the global tier and the user stops being
+// personalised at all. Both invariants are asserted in the test suite
+// ("every topic offered in onboarding has an adjacency entry", "adjacency is
+// symmetric", "no topic is an island"), because the failure is invisible at
+// runtime: the user simply stops being personalised and nothing errors.
+// Edges are UNDIRECTED. The original map was one-way in sixteen places, so
+// Science listed nothing of Technology while Technology listed Science, and a
+// Science-only reader never saw the adjacent tier the other side offered.
+const ADJACENT = {
+  Science:     ['Technology', 'Space', 'Nature', 'Environment', 'Health', 'Sleep'],
+  Technology:  ['Science', 'AI', 'Engineering', 'Aeronautics', 'Education', 'Business'],
+  AI:          ['Technology', 'Engineering', 'Philosophy', 'Movies'],
+  Engineering: ['Technology', 'AI', 'Aeronautics', 'Space', 'Design'],
+  Aeronautics: ['Technology', 'Engineering', 'Space', 'Design'],
+  Space:       ['Science', 'Engineering', 'Aeronautics', 'Nature'],
+  Nature:      ['Science', 'Space', 'Environment', 'Health', 'Sleep'],
+  Environment: ['Science', 'Nature', 'Society'],
+  Health:      ['Science', 'Nature', 'Sleep', 'Beauty', 'Psychology'],
+  Sleep:       ['Science', 'Nature', 'Health', 'Psychology'],
+  Beauty:      ['Health', 'Culture', 'Design'],
+  Psychology:  ['Health', 'Sleep', 'Philosophy', 'Society', 'Education', 'Finance'],
+  Philosophy:  ['AI', 'Psychology', 'Society', 'History', 'Books'],
+  Society:     ['Environment', 'Psychology', 'Philosophy', 'History', 'Economics', 'Finance'],
+  History:     ['Philosophy', 'Society', 'Culture', 'Arts', 'Books', 'Economics'],
+  Culture:     ['Beauty', 'History', 'Arts', 'Books', 'Movies'],
+  Arts:        ['History', 'Culture', 'Books', 'Movies', 'Design'],
+  Books:       ['Philosophy', 'History', 'Culture', 'Arts', 'Education'],
+  Movies:      ['AI', 'Culture', 'Arts', 'Design'],
+  Design:      ['Engineering', 'Aeronautics', 'Beauty', 'Arts', 'Movies'],
+  Education:   ['Technology', 'Psychology', 'Books'],
+  Business:    ['Technology', 'Economics', 'Finance'],
+  Economics:   ['Society', 'History', 'Business', 'Finance'],
+  Finance:     ['Psychology', 'Society', 'Business', 'Economics']
+};
+
+const DIFF_RANK = { Beginner: 1, Balanced: 2, Challenging: 3 };
+
+/** Returns { contentId, tier, confidence, why[] } and NEVER null while the
+ *  corpus is non-empty (PRD §47/§80). tier 0=interest 1=adjacent 2=global
+ *  3=evergreen emergency 4=revisit. */
+function recommend(opts) {
+  const corpus = opts.corpus, profile = opts.profile;
+  const seen = new Set(opts.seenIds || []);
+  const recentTopics = opts.recentTopics || []; // newest first
+  const skipped = new Set(opts.skippedIds || []);
+  const rand = opts.rand || (() => 0.5);
+
+  const interests = new Set(profile.interests || []);
+  const adjacent = new Set();
+  interests.forEach(t => (ADJACENT[t] || []).forEach(a => { if (!interests.has(a)) adjacent.add(a); }));
+
+  // Consecutive-topic run drives the diversity term (PRD §40).
+  let run = 0;
+  if (recentTopics.length) {
+    const head = recentTopics[0];
+    while (run < recentTopics.length && recentTopics[run] === head) run++;
+  }
+  const staleTopic = run >= 2 ? recentTopics[0] : null;
+
+  const wantRank = DIFF_RANK[profile.difficulty] || 2;
+  const approved = corpus.filter(c => c.status === 'approved');
+
+  function score(c) {
+    const why = [];
+    let s = 0;
+    if (interests.has(c.topic)) { s += 40; why.push('matches your interest in ' + c.topic); }
+    else if (adjacent.has(c.topic)) { s += 18; why.push(c.topic + ' sits next to what you follow'); }
+
+    // Affinity is suppressed for the subject the user is stuck on. Otherwise
+    // the behavioural loop that §41 creates directly defeats the diversity
+    // rule §40 asks for: liking Psychology makes you see only Psychology,
+    // which raises your Psychology affinity, and so on.
+    if (c.topic !== staleTopic) {
+      const affinity = (profile.affinity && profile.affinity[c.topic]) || 0;
+      s += Math.max(-15, Math.min(20, affinity * 4));
+      if (affinity >= 3) why.push('you finish ' + c.topic + ' pieces');
+    }
+
+    s += (c.quality - 70) * 0.6;
+    if (c.quality >= 88) why.push('unusually strong source');
+
+    const gap = Math.abs((DIFF_RANK[c.difficulty] || 2) - wantRank);
+    s += gap === 0 ? 14 : gap === 1 ? 4 : -12;
+
+    if (c.minutes === profile.duration) s += 8;
+    else if (Math.abs(c.minutes - profile.duration) <= 5) s += 3;
+    else s -= 6;
+
+    // Escalating, so a longer rut is harder to stay in.
+    if (staleTopic && c.topic === staleTopic) { s -= (20 + run * 10); }
+    else if (staleTopic) { s += 14; why.push('a change of subject'); }
+
+    if (skipped.has(c.id)) s -= 25;
+
+    // Exploration. FIX (crack #24): on a one-a-day product a bad exploration
+    // day costs the user 100% of their day, so it is throttled and never
+    // fires during the fragile first week.
+    if ((opts.streak || 0) >= 7 && !interests.has(c.topic) && rand() < 0.14) {
+      s += 22; why.push('a deliberate detour outside your usual topics');
+    }
+    return { s, why };
+  }
+
+  function best(pool, tier) {
+    if (!pool.length) return null;
+    const ranked = pool.map(c => {
+      const r = score(c);
+      return { c, s: r.s, why: r.why };
+    }).sort((a, b) => b.s - a.s);
+    const top = ranked[0];
+    const spread = ranked.length > 1 ? top.s - ranked[ranked.length - 1].s : 1;
+    return {
+      contentId: top.c.id, tier: tier,
+      confidence: Math.max(0.05, Math.min(0.99, 0.45 + (top.s / 120) * 0.5)),
+      why: top.why.length ? top.why : ['picked from approved general content'],
+      margin: spread
+    };
+  }
+
+  const unseen = approved.filter(c => !seen.has(c.id));
+
+  // PRD §40. After a run of the same subject the candidate pool widens so the
+  // diversity term can actually outrank interest match. Without this the tiers
+  // are a strict cascade and a single-interest user is served that one subject
+  // forever, which is precisely the failure §40 exists to prevent.
+  if (staleTopic) {
+    const widened = best(unseen, 0);
+    if (widened) return widened;
+  }
+
+  return best(unseen.filter(c => interests.has(c.topic)), 0)
+    || best(unseen.filter(c => adjacent.has(c.topic)), 1)
+    || best(unseen, 2)
+    // The emergency pool must still respect "not seen", otherwise it silently
+    // re-serves old content without telling the user it is a revisit.
+    || best(approved.filter(c => c.evergreen && !seen.has(c.id)), 3)
+    // FIX (crack #7): the PRD has no answer for a user who has seen
+    // everything eligible. Rather than break the daily promise, the oldest
+    // completed item returns explicitly flagged as a revisit.
+    || best(approved.slice().sort((a, b) =>
+        (opts.lastSeenAt?.[a.id] || 0) - (opts.lastSeenAt?.[b.id] || 0)).slice(0, 1), 4);
+}
+
+// ---------- daily assignment ----------
+/** PRD §15/§17. Server decides the date; the client's opinion is ignored. */
+function getOrCreateAssignment(db, user, nowMs, requestedDate) {
+  const today = localDate(nowMs, user.tzOffsetMin, user.dayStartHour);
+
+  // FIX (crack #1): a user flying west can move their local date BACKWARDS.
+  // Without this the same person gets a second "fresh" day and a second
+  // streak increment. The effective day never regresses below the last day
+  // the server already opened for them.
+  let effective = today;
+  if (user.lastActiveLocalDate && daysBetween(user.lastActiveLocalDate, today) < 0) {
+    effective = user.lastActiveLocalDate;
+  }
+
+  if (requestedDate && requestedDate !== effective) {
+    if (daysBetween(effective, requestedDate) > 0) {
+      return { error: 'FUTURE_CONTENT_LOCKED', status: 403, date: effective };
+    }
+    const past = db.assignments.find(a => a.userId === user.id && a.localDate === requestedDate);
+    return past ? { assignment: past, readOnly: true } : { error: 'NOT_FOUND', status: 404 };
+  }
+
+  const existing = db.assignments.find(a => a.userId === user.id && a.localDate === effective);
+  if (existing) return { assignment: existing, created: false };
+
+  const mine = db.assignments.filter(a => a.userId === user.id);
+  const seenIds = mine.map(a => a.contentId);
+  const lastSeenAt = {};
+  mine.forEach(a => { lastSeenAt[a.contentId] = parseDate(a.localDate); });
+  const recentTopics = mine.slice()
+    .sort((x, y) => (x.localDate < y.localDate ? 1 : x.localDate > y.localDate ? -1 : 0)) // newest first
+    .map(a => (db.corpus.find(c => c.id === a.contentId) || {}).topic);
+
+  const rec = recommend({
+    corpus: db.corpus, profile: user, seenIds, recentTopics, lastSeenAt,
+    skippedIds: user.skippedIds, streak: user.currentStreak, rand: db.rand
+  });
+  if (!rec) return { error: 'NO_CONTENT', status: 503 };
+
+  const a = {
+    id: 'dl_' + user.id + '_' + effective,
+    userId: user.id, contentId: rec.contentId, localDate: effective,
+    tzOffsetMin: user.tzOffsetMin,        // frozen at assignment time
+    dayStartHour: user.dayStartHour || 0, // frozen at assignment time
+    status: 'assigned', assignedAt: nowMs, startedAt: null, completedAt: null,
+    tier: rec.tier, confidence: rec.confidence, why: rec.why,
+    quizScore: null, xpEarned: 0, revisit: rec.tier === 4
+  };
+  // Simulates the ON CONFLICT DO NOTHING guard behind UNIQUE(user_id, local_date).
+  if (db.assignments.some(x => x.userId === user.id && x.localDate === effective)) {
+    return { assignment: db.assignments.find(x => x.userId === user.id && x.localDate === effective), created: false };
+  }
+  db.assignments.push(a);
+  user.lastActiveLocalDate = effective;
+  return { assignment: a, created: true };
+}
+
+// ---------- completion ----------
+const XP = {
+  complete: 100, quiz: 25, perfectQuiz: 25, reflection: 10, firstTopic: 20,
+  firstTopicCap: 6 // FIX (crack #12): "+20 per first-time topic" x 24 topics
+                   // is farmable by picking every interest. Capped.
+};
+
+/** Grades server-side from the server's copy of the answers.
+ *  FIX (crack #36): correct answers must never reach the client. */
+function gradeQuiz(content, answers) {
+  const qs = content.quiz || [];
+  let correct = 0;
+  const detail = qs.map((q, i) => {
+    const ok = answers && answers[i] === q.correct;
+    if (ok) correct++;
+    return { i, ok: !!ok, correct: q.correct, explain: q.explain };
+  });
+  return { correct, total: qs.length, detail, perfect: qs.length > 0 && correct === qs.length };
+}
+
+/** PRD §23/§49/§51/§98. Idempotent: safe to call twice with the same key. */
+function completeLearning(db, user, nowMs, payload) {
+  const a = db.assignments.find(x => x.userId === user.id && x.localDate === payload.localDate);
+  if (!a) return { error: 'NO_ASSIGNMENT', status: 404 };
+  if (!a.startedAt) return { error: 'NOT_STARTED', status: 409 };
+
+  // ---- idempotency (PRD §98) ----
+  if (a.status === 'completed') {
+    return {
+      idempotent: true, assignment: a, xpAwarded: 0,
+      streak: { current: user.currentStreak, longest: user.longestStreak, changed: false },
+      grade: a.grade, receipt: a.receipt
+    };
+  }
+
+  // ---- late / offline sync window ----
+  // FIX (crack #9): the PRD says server timestamps are authoritative AND that
+  // offline completions are queued for later sync. Those contradict: an honest
+  // offline finisher loses the streak. A client-claimed finish time is honoured
+  // only if the session start was witnessed by the server on that same local
+  // day and the claim is inside a bounded window.
+  const serverDate = localDate(nowMs, a.tzOffsetMin, a.dayStartHour);
+  let acceptedAsOfflineSync = false;
+  if (serverDate !== a.localDate) {
+    const claimed = payload.clientCompletedAt;
+    const graceMs = 12 * 3600000;  // covers 'finished before bed, synced on waking'
+    const dayEnd = parseDate(addDays(a.localDate, 1)) - 12 * 3600000
+      - a.tzOffsetMin * 60000 + (a.dayStartHour || 0) * 3600000;
+    const withinGrace = nowMs - dayEnd <= graceMs;
+    const claimInDay = claimed && localDate(claimed, a.tzOffsetMin, a.dayStartHour) === a.localDate;
+    if (payload.offlineSync && claimed && claimInDay && withinGrace && daysBetween(a.localDate, serverDate) === 1) {
+      acceptedAsOfflineSync = true;
+    } else {
+      return { error: 'DAY_CLOSED', status: 410, date: a.localDate };
+    }
+  }
+
+  const content = db.corpus.find(c => c.id === a.contentId);
+  const grade = gradeQuiz(content, payload.quizAnswers);
+  if (grade.total > 0 && (!payload.quizAnswers || payload.quizAnswers.filter(x => x !== null && x !== undefined).length < grade.total)) {
+    return { error: 'QUIZ_INCOMPLETE', status: 409 };
+  }
+
+  // ---- XP, written as transactions (PRD §72) ----
+  const lines = [];
+  const push = (reason, amount) => {
+    const key = user.id + ':' + a.id + ':' + reason;
+    if (db.xp.some(t => t.key === key)) return;      // replay guard
+    db.xp.push({ key, userId: user.id, amount, reason, ref: a.id, at: nowMs });
+    lines.push({ reason, amount });
+  };
+
+  push('complete_daily', XP.complete);
+  // FIX (crack #8 follow-on): a revisit is content this user has already
+  // completed once, so its quiz is a test they have already been given the
+  // answers to. Paying quiz and perfect-quiz XP again makes the ceiling
+  // permanently farmable the moment the library is exhausted, which §49
+  // forbids. Completing still pays in full, because the daily habit is the
+  // product and the streak must survive an exhausted library.
+  if (grade.total > 0 && !a.revisit) {
+    push('complete_quiz', XP.quiz);
+    if (grade.perfect) push('perfect_quiz', XP.perfectQuiz);
+  }
+  // FIX (crack #11): the PRD awards XP for a "meaningful" reflection. Nothing
+  // can judge meaning cheaply or fairly, and an LLM gate would reject honest
+  // short answers. A low objective floor, and the UI never says "meaningful".
+  if (payload.reflection && payload.reflection.trim().length >= 40 &&
+      new Set(payload.reflection.replace(/\s/g, '')).size >= 8) {
+    push('reflection', XP.reflection);
+  }
+  const priorTopics = new Set(db.assignments
+    .filter(x => x.userId === user.id && x.status === 'completed' && x.id !== a.id)
+    .map(x => (db.corpus.find(c => c.id === x.contentId) || {}).topic));
+  const firstTopicAwards = db.xp.filter(t => t.userId === user.id && t.reason === 'first_topic').length;
+  if (content && !priorTopics.has(content.topic) && firstTopicAwards < XP.firstTopicCap) {
+    push('first_topic', XP.firstTopic);
+  }
+
+  const xpAwarded = lines.reduce((s, l) => s + l.amount, 0);
+  user.xp = db.xp.filter(t => t.userId === user.id).reduce((s, t) => s + t.amount, 0);
+
+  // ---- streak ----
+  const prev = user.lastCompletedLocalDate;
+  const before = user.currentStreak || 0;
+  let gap = prev ? daysBetween(prev, a.localDate) : null;
+
+  // FIX (crack #6): flying EAST skips a calendar date through no fault of the
+  // user. If the timezone moved forward enough to explain exactly one lost
+  // day, that day is bridged rather than punished.
+  let bridged = false;
+  if (gap === 2 && user.prevTzOffsetMin != null &&
+      (user.tzOffsetMin - user.prevTzOffsetMin) >= 8 * 60) { gap = 1; bridged = true; }
+
+  if (gap === 0) { /* unreachable: idempotency catches it */ }
+  else if (gap === 1) user.currentStreak = before + 1;
+  else user.currentStreak = 1;
+  user.longestStreak = Math.max(user.longestStreak || 0, user.currentStreak);
+  user.lastCompletedLocalDate = a.localDate;
+
+  a.status = 'completed';
+  a.completedAt = acceptedAsOfflineSync ? payload.clientCompletedAt : nowMs;
+  a.quizScore = grade.total ? grade.correct / grade.total : null;
+  a.xpEarned = xpAwarded;
+  a.grade = grade;
+  a.reflection = payload.reflection || null;
+
+  // affinity update (PRD §41)
+  if (content) {
+    user.affinity = user.affinity || {};
+    const bump = 1 + (grade.perfect ? 0.5 : 0) + (payload.bookmarked ? 0.5 : 0);
+    user.affinity[content.topic] = (user.affinity[content.topic] || 0) + bump;
+  }
+
+  const unlocked = checkAchievements(db, user);
+  a.receipt = {
+    lines, xpAwarded, streak: user.currentStreak, bridged,
+    offlineSync: acceptedAsOfflineSync, unlocked, level: levelFor(user.xp)
+  };
+  return {
+    assignment: a, xpAwarded, lines, grade, unlocked, bridged,
+    offlineSync: acceptedAsOfflineSync,
+    streak: { current: user.currentStreak, longest: user.longestStreak, changed: true, previous: before },
+    level: levelFor(user.xp), receipt: a.receipt
+  };
+}
+
+/** FIX (crack #33): the PRD keeps current_streak as mutable state with no
+ *  repair path. Completions are the source of truth; this recomputes and is
+ *  run nightly to heal drift. */
+function recomputeStreak(db, user, todayLocal) {
+  const days = db.assignments
+    .filter(a => a.userId === user.id && a.status === 'completed')
+    .map(a => a.localDate).sort();
+  if (!days.length) return { current: 0, longest: 0, last: null };
+  let longest = 1, run = 1;
+  for (let i = 1; i < days.length; i++) {
+    if (daysBetween(days[i - 1], days[i]) === 1) run++; else run = 1;
+    longest = Math.max(longest, run);
+  }
+  const last = days[days.length - 1];
+  let current = 1;
+  for (let i = days.length - 1; i > 0; i--) {
+    if (daysBetween(days[i - 1], days[i]) === 1) current++; else break;
+  }
+  // A streak is only alive if the last completion was today or yesterday.
+  const alive = todayLocal ? daysBetween(last, todayLocal) <= 1 : true;
+  return { current: alive ? current : 0, longest, last };
+}
+
+// ---------- achievements ----------
+const ACHIEVEMENTS = [
+  { id: 'first_thing', name: 'First Thing', desc: 'Finish your first one.', test: s => s.completed >= 1 },
+  { id: 'week_one', name: 'Week One', desc: 'Seven days in a row.', test: s => s.longest >= 7 },
+  { id: 'deep_diver', name: 'Deep Diver', desc: 'Ten pieces in a single subject.', test: s => s.maxTopic >= 10 },
+  { id: 'explorer', name: 'Explorer', desc: 'Five different subjects.', test: s => s.topics >= 5 },
+  { id: 'polymath', name: 'Polymath', desc: 'Ten different subjects.', test: s => s.topics >= 10 },
+  { id: 'critical_thinker', name: 'Critical Thinker', desc: 'Full marks, five times.', test: s => s.perfects >= 5 },
+  { id: 'century', name: 'Century', desc: 'A hundred things kept.', test: s => s.completed >= 100 }
+];
+
+function statsFor(db, user) {
+  const done = db.assignments.filter(a => a.userId === user.id && a.status === 'completed');
+  const byTopic = {};
+  done.forEach(a => {
+    const c = db.corpus.find(x => x.id === a.contentId);
+    if (c) byTopic[c.topic] = (byTopic[c.topic] || 0) + 1;
+  });
+  return {
+    completed: done.length,
+    topics: Object.keys(byTopic).length,
+    maxTopic: Object.values(byTopic).reduce((m, v) => Math.max(m, v), 0),
+    perfects: done.filter(a => a.grade && a.grade.perfect).length,
+    longest: user.longestStreak || 0,
+    byTopic
+  };
+}
+
+function checkAchievements(db, user) {
+  const s = statsFor(db, user);
+  user.achievements = user.achievements || [];
+  const newly = [];
+  ACHIEVEMENTS.forEach(a => {
+    if (!user.achievements.includes(a.id) && a.test(s)) { user.achievements.push(a.id); newly.push(a); }
+  });
+  return newly;
+}
+
+/** FIX (crack #36, client half): what the browser is allowed to receive. */
+function toClientPayload(content) {
+  if (!content) return null;
+  const out = JSON.parse(JSON.stringify(content));
+  (out.quiz || []).forEach(q => { delete q.correct; delete q.explain; });
+  return out;
+}
+
+const CORE = {
+  localDate, addDays, daysBetween, parseDate, levelFor, LEVEL_NAMES, LEVEL_THRESHOLDS,
+  recommend, getOrCreateAssignment, completeLearning, recomputeStreak, gradeQuiz,
+  toClientPayload, checkAchievements, statsFor, ACHIEVEMENTS, ADJACENT, XP
+};
+if (typeof module !== 'undefined') module.exports = CORE;
+if (typeof window !== 'undefined') window.CORE = CORE;
+
+/* =============================================================
+   SEED CORPUS
+   Written from scratch. No source text is reproduced. Citation
+   data is factual reference. `rights` still governs what the
+   pipeline was allowed to do with each item; it is a backend
+   rule and is no longer shown to the reader.
+   ============================================================= */
+const CORPUS = [
+ {
+  "id": "c_tap",
+  "topic": "Psychology",
+  "sub": "Communication",
+  "difficulty": "Beginner",
+  "minutes": 5,
+  "quality": 91,
+  "status": "approved",
+  "evergreen": true,
+  "rights": "metadata_only",
+  "title": "Why you are worse at explaining things than you think",
+  "blurb": "Why the person explaining is always the worst judge of whether it landed.",
+  "source": {
+   "title": "The rocky road from actions to intentions",
+   "authors": "Elizabeth Newton",
+   "venue": "Stanford University (doctoral dissertation)",
+   "year": 1990,
+   "url": "https://searchworks.stanford.edu/view/3162445",
+   "license": "All rights reserved",
+   "access": "Library record"
+  },
+  "cards": [
+   {
+    "t": "hook",
+    "text": "Tap out Happy Birthday on the table with one finger. You can hear the whole thing. They're hearing a woodpecker."
+   },
+   {
+    "t": "predict",
+    "q": "Tappers were asked to guess what share of listeners would name the song. They said 50%. What was the real figure?",
+    "options": [
+     "About 50%",
+     "About 25%",
+     "About 10%",
+     "About 3%"
+    ],
+    "a": 3,
+    "reveal": "Around 2.5%. Out of 120 songs tapped, three were correctly identified."
+   },
+   {
+    "t": "context",
+    "text": "Elizabeth Newton ran this as part of her doctoral work at Stanford. One person tapped a well-known song. Another listened. The tapper predicted how often they would be understood."
+   },
+   {
+    "t": "evidence",
+    "text": "The tapper hears the melody, the arrangement, the words. The listener hears silence broken by taps. The tapper cannot switch that knowledge off in order to imagine the silence."
+   },
+   {
+    "t": "finding",
+    "text": "Once you know something, you lose the ability to imagine not knowing it."
+   },
+   {
+    "t": "matters",
+    "text": "This is why experts write documentation nobody can follow, and why the answer to “was that clear?” is not information. The gap is invisible from the inside, so it has to be measured from the outside."
+   }
+  ],
+  "quiz": [
+   {
+    "q": "What did tappers predict their success rate would be?",
+    "options": [
+     "3%",
+     "10%",
+     "50%",
+     "90%"
+    ],
+    "correct": 2,
+    "explain": "They predicted 50%. The real rate was around 2.5%, a twentyfold overestimate."
+   },
+   {
+    "q": "What is the mechanism behind the gap?",
+    "options": [
+     "Listeners were not paying attention",
+     "Knowing the song makes it impossible to imagine not knowing it",
+     "Tapping rhythm is inherently ambiguous",
+     "The songs were obscure"
+    ],
+    "correct": 1,
+    "explain": "The songs were familiar and listeners tried hard. The problem is that knowledge cannot be un-known on demand."
+   }
+  ],
+  "motif": "rings",
+  "pal": [
+   "#7A4E9E",
+   "#EFE4F7"
+  ]
+ },
+ {
+  "id": "c_test",
+  "topic": "Education",
+  "sub": "Memory",
+  "difficulty": "Balanced",
+  "minutes": 10,
+  "quality": 94,
+  "status": "approved",
+  "evergreen": true,
+  "rights": "metadata_only",
+  "title": "The study method that feels worst works best",
+  "blurb": "The study method that feels like failing is the one that works.",
+  "source": {
+   "title": "Test-enhanced learning: taking memory tests improves long-term retention",
+   "authors": "Henry L. Roediger III, Jeffrey D. Karpicke",
+   "venue": "Psychological Science 17(3)",
+   "year": 2006,
+   "doi": "10.1111/j.1467-9280.2006.01693.x",
+   "url": "https://doi.org/10.1111/j.1467-9280.2006.01693.x",
+   "license": "All rights reserved",
+   "access": "Subscription"
+  },
+  "cards": [
+   {
+    "t": "hook",
+    "text": "Two students, same passage. One reads it four times. One reads it once, shuts the book, and tries to remember it. One of them is wasting their evening."
+   },
+   {
+    "t": "predict",
+    "q": "Tested a week later, which group recalled more?",
+    "options": [
+     "The rereaders",
+     "The recallers",
+     "No difference",
+     "Rereaders, but only slightly"
+    ],
+    "a": 1,
+    "reveal": "The recall group retained substantially more after a week, despite predicting they would do worse."
+   },
+   {
+    "t": "context",
+    "text": "Roediger and Karpicke gave students prose passages and varied what happened next: repeated study, or repeated retrieval without the text in front of them."
+   },
+   {
+    "t": "evidence",
+    "text": "Immediately afterwards, rereading looked better. That is the trap. At five minutes the extra exposure is still fresh. At one week the ranking reverses, and the recall group is well ahead."
+   },
+   {
+    "t": "finding",
+    "text": "Retrieval is not a way of measuring memory. It is a way of building it."
+   },
+   {
+    "t": "matters",
+    "text": "Students consistently rate rereading as more effective, because fluency feels like knowledge. The difficulty of recall is the thing doing the work, which is why the better method feels like the worse one."
+   }
+  ],
+  "quiz": [
+   {
+    "q": "What happens if you test the two groups five minutes after studying?",
+    "options": [
+     "Recall wins by a lot",
+     "Rereading looks better",
+     "Both fail",
+     "Recall wins slightly"
+    ],
+    "correct": 1,
+    "explain": "Immediately after, extra exposure still helps. The advantage of retrieval only appears once time has passed."
+   },
+   {
+    "q": "Why do students prefer the less effective method?",
+    "options": [
+     "It takes less time",
+     "Fluency feels like knowledge",
+     "Teachers recommend it",
+     "It is more enjoyable"
+    ],
+    "correct": 1,
+    "explain": "Rereading is smooth, and smoothness is mistaken for mastery. Retrieval feels effortful, which reads as failure."
+   }
+  ],
+  "motif": "strata",
+  "pal": [
+   "#2F5FA8",
+   "#DFE9F8"
+  ]
+ },
+ {
+  "id": "c_plac",
+  "topic": "Health",
+  "sub": "Clinical research",
+  "difficulty": "Balanced",
+  "minutes": 10,
+  "quality": 89,
+  "status": "approved",
+  "evergreen": false,
+  "rights": "transform_ok",
+  "title": "The placebo that told you it was a placebo",
+  "blurb": "They were told it was sugar. It worked anyway.",
+  "source": {
+   "title": "Placebos without deception: a randomized controlled trial in irritable bowel syndrome",
+   "authors": "Ted J. Kaptchuk and colleagues",
+   "venue": "PLoS ONE 5(12): e15591",
+   "year": 2010,
+   "doi": "10.1371/journal.pone.0015591",
+   "url": "https://doi.org/10.1371/journal.pone.0015591",
+   "license": "CC BY 4.0",
+   "access": "Open access"
+  },
+  "cards": [
+   {
+    "t": "hook",
+    "text": "The bottle said placebo. The doctor said it out loud, no active ingredient, nothing in here. People took them twice a day and got better."
+   },
+   {
+    "t": "predict",
+    "q": "Compared with a no-treatment control, what happened to symptoms?",
+    "options": [
+     "No change, they knew it was inert",
+     "They got worse",
+     "They improved significantly",
+     "Improvement only in the first week"
+    ],
+    "a": 2,
+    "reveal": "The open-label placebo group reported significantly greater symptom relief than the no-treatment group."
+   },
+   {
+    "t": "context",
+    "text": "80 people with irritable bowel syndrome were randomised. One group received open-label placebo, described honestly as inactive. The other received no pills, with the same clinical attention."
+   },
+   {
+    "t": "evidence",
+    "text": "Both groups saw the same clinicians for the same length of time, which isolates the ritual of taking a pill from the attention of being treated."
+   },
+   {
+    "t": "finding",
+    "text": "Deception is not the necessary ingredient. Something about the act of taking treatment carries part of the effect."
+   },
+   {
+    "t": "matters",
+    "text": "It unsettles the assumption that a placebo response requires a fooled patient, and it matters most for conditions measured by how someone reports feeling."
+   }
+  ],
+  "uncertainty": "A small single-site trial with self-reported outcomes and no blinding. Later replications have been mixed, and effect sizes vary by condition. Treat it as an interesting result, not a settled one.",
+  "quiz": [
+   {
+    "q": "What made this trial unusual?",
+    "options": [
+     "The pills contained a low active dose",
+     "Patients were told the pills were inert",
+     "It ran for five years",
+     "It had no control group"
+    ],
+    "correct": 1,
+    "explain": "Nobody was deceived. The bottle was labelled as placebo and the explanation was explicit."
+   },
+   {
+    "q": "Why did the control group still see clinicians?",
+    "options": [
+     "To keep them enrolled",
+     "To separate the effect of the pill ritual from the effect of attention",
+     "Regulatory requirement",
+     "To collect blood samples"
+    ],
+    "correct": 1,
+    "explain": "Matching the clinical contact isolates the variable being tested: the pill-taking itself."
+   }
+  ],
+  "motif": "bloom",
+  "pal": [
+   "#B03A5C",
+   "#FBE1E8"
+  ]
+ },
+ {
+  "id": "c_tard",
+  "topic": "Nature",
+  "sub": "Extremophiles",
+  "difficulty": "Beginner",
+  "minutes": 5,
+  "quality": 88,
+  "status": "approved",
+  "evergreen": true,
+  "rights": "metadata_only",
+  "title": "The animal that survived open space",
+  "blurb": "Vacuum wasn't the problem. Something else was.",
+  "source": {
+   "title": "Tardigrades survive exposure to space in low Earth orbit",
+   "authors": "K. Ingemar Jönsson, Elke Rabbow, Ralph O. Schill, Mats Harms-Ringdahl, Petra Rettberg",
+   "venue": "Current Biology 18(17)",
+   "year": 2008,
+   "doi": "10.1016/j.cub.2008.06.048",
+   "url": "https://doi.org/10.1016/j.cub.2008.06.048",
+   "license": "All rights reserved",
+   "access": "Subscription"
+  },
+  "cards": [
+   {
+    "t": "hook",
+    "text": "It's smaller than a full stop, it lives in wet moss, and in 2007 someone put it in orbit and opened the hatch."
+   },
+   {
+    "t": "predict",
+    "q": "Vacuum, or unfiltered solar ultraviolet. Which one did most of the killing?",
+    "options": [
+     "Vacuum",
+     "Ultraviolet radiation",
+     "Cold",
+     "Both equally"
+    ],
+    "a": 1,
+    "reveal": "Vacuum alone was survivable. Full-spectrum solar UV was the lethal component."
+   },
+   {
+    "t": "context",
+    "text": "Dehydrated tardigrades enter a state called cryptobiosis, where metabolism drops to almost nothing. The FOTON-M3 mission tested whether that state also survives orbit."
+   },
+   {
+    "t": "evidence",
+    "text": "Animals exposed to vacuum but shielded from UV rehydrated and reproduced. Those given the full solar spectrum mostly did not, though a few still recovered."
+   },
+   {
+    "t": "finding",
+    "text": "The problem with space, for a dried-out tardigrade, is not the absence of air. It is the light."
+   },
+   {
+    "t": "matters",
+    "text": "It puts a real number on how much damage a dormant animal can absorb, which shapes how seriously we take contamination risk on missions to other worlds."
+   }
+  ],
+  "quiz": [
+   {
+    "q": "What state were the tardigrades in when launched?",
+    "options": [
+     "Frozen",
+     "Dehydrated and dormant",
+     "Anaesthetised",
+     "Actively feeding"
+    ],
+    "correct": 1,
+    "explain": "Cryptobiosis. Dried out, with metabolism reduced to almost nothing."
+   },
+   {
+    "q": "What was the lethal factor?",
+    "options": [
+     "Vacuum",
+     "Solar ultraviolet",
+     "Launch acceleration",
+     "Temperature"
+    ],
+    "correct": 1,
+    "explain": "Vacuum-only animals recovered. Unfiltered UV was what killed them."
+   }
+  ],
+  "motif": "orbit",
+  "pal": [
+   "#2A7248",
+   "#DFF0E5"
+  ]
+ },
+ {
+  "id": "c_voy",
+  "topic": "Space",
+  "sub": "Heliophysics",
+  "difficulty": "Challenging",
+  "minutes": 10,
+  "quality": 92,
+  "status": "approved",
+  "evergreen": false,
+  "rights": "metadata_only",
+  "title": "How we knew Voyager 1 had left",
+  "blurb": "How to prove you've left the solar system with a broken instrument.",
+  "source": {
+   "title": "In situ observations of interstellar plasma with Voyager 1",
+   "authors": "D. A. Gurnett, W. S. Kurth, L. F. Burlaga, N. F. Ness",
+   "venue": "Science 341(6153)",
+   "year": 2013,
+   "doi": "10.1126/science.1241681",
+   "url": "https://doi.org/10.1126/science.1241681",
+   "license": "All rights reserved",
+   "access": "Subscription"
+  },
+  "cards": [
+   {
+    "t": "hook",
+    "text": "There's no sign at the edge of the solar system. Voyager 1 went through it and nobody could tell for months. The instrument that should have known had been dead since 1980."
+   },
+   {
+    "t": "predict",
+    "q": "Outside the Sun’s bubble, what should happen to plasma density?",
+    "options": [
+     "Drops close to zero",
+     "Rises sharply",
+     "Stays the same",
+     "Oscillates"
+    ],
+    "a": 1,
+    "reveal": "It rises. Interstellar plasma is far denser than the thin, fast wind blowing out of the Sun."
+   },
+   {
+    "t": "context",
+    "text": "The instrument built to measure plasma directly had failed in 1980. What still worked was an antenna that picks up plasma oscillations, and their frequency depends on density."
+   },
+   {
+    "t": "evidence",
+    "text": "A solar outburst reached the spacecraft and rang the surrounding plasma like a struck bell. The pitch of that ringing gave a density roughly forty times higher than anything measured inside the heliosphere."
+   },
+   {
+    "t": "finding",
+    "text": "Voyager 1 crossed into interstellar plasma around August 2012, confirmed by listening rather than sampling."
+   },
+   {
+    "t": "matters",
+    "text": "It is a clean example of inference from an instrument never designed for the job, on a spacecraft launched in 1977 that nobody could go and repair."
+   }
+  ],
+  "quiz": [
+   {
+    "q": "Why could the density not be measured directly?",
+    "options": [
+     "Too far to transmit",
+     "The plasma instrument had failed",
+     "It was outside the sensor range",
+     "Power was switched off"
+    ],
+    "correct": 1,
+    "explain": "The dedicated plasma instrument failed in 1980, decades before the crossing."
+   },
+   {
+    "q": "What did the team use instead?",
+    "options": [
+     "Camera images",
+     "The frequency of plasma oscillations",
+     "Magnetometer only",
+     "Doppler tracking"
+    ],
+    "correct": 1,
+    "explain": "Oscillation frequency scales with density, so the pitch of the ringing revealed the number."
+   }
+  ],
+  "motif": "waves",
+  "pal": [
+   "#3F3E96",
+   "#E2E1F5"
+  ]
+ },
+ {
+  "id": "c_myco",
+  "topic": "Environment",
+  "sub": "Forest ecology",
+  "difficulty": "Challenging",
+  "minutes": 15,
+  "quality": 86,
+  "status": "approved",
+  "evergreen": false,
+  "rights": "metadata_only",
+  "title": "The wood wide web, and the argument about it",
+  "blurb": "A famous result, and the review saying the story ran well ahead of it.",
+  "source": {
+   "title": "Net transfer of carbon between ectomycorrhizal tree species in the field",
+   "authors": "Suzanne W. Simard and colleagues",
+   "venue": "Nature 388",
+   "year": 1997,
+   "doi": "10.1038/41557",
+   "url": "https://doi.org/10.1038/41557",
+   "license": "All rights reserved",
+   "access": "Subscription"
+  },
+  "cards": [
+   {
+    "t": "hook",
+    "text": "You've heard that trees talk underground, and that mother trees feed their young. Only one of those has much evidence behind it."
+   },
+   {
+    "t": "predict",
+    "q": "A 2023 review checked how the original findings were cited. What did it find?",
+    "options": [
+     "Citations were accurate",
+     "Claims strengthened as they were repeated",
+     "The original was retracted",
+     "Nobody had cited it"
+    ],
+    "a": 1,
+    "reveal": "It reported that citations grew more confident than the underlying evidence supported, a pattern the authors call positive citation bias."
+   },
+   {
+    "t": "context",
+    "text": "Simard and colleagues used isotope labelling in a field experiment and detected net carbon transfer between birch and fir through shared fungal associations."
+   },
+   {
+    "t": "evidence",
+    "text": "That result is real. What it does not establish is intent, direction of benefit, or that the amounts matter for a tree’s survival. Later work in the popular telling supplied all three."
+   },
+   {
+    "t": "finding",
+    "text": "Carbon does move between trees through fungi. The claim that mature trees deliberately nurse their offspring through those networks is not well supported in field conditions."
+   },
+   {
+    "t": "matters",
+    "text": "It is a live case study in how a careful result becomes a confident story, and a reminder to check what a paper actually measured before repeating what it apparently means."
+   }
+  ],
+  "uncertainty": "This is an open scientific dispute, not a settled correction. See Karst, Jones and Hoeksema, “Positive citation bias and overinterpreted results lead to misinformation about common mycorrhizal networks in forests”, Nature Ecology & Evolution 7, 2023 (doi:10.1038/s41559-023-01986-1), and the published responses to it.",
+  "quiz": [
+   {
+    "q": "What did the 1997 experiment establish?",
+    "options": [
+     "Trees communicate intentionally",
+     "Net carbon transfer between trees via fungi",
+     "Mother trees feed seedlings",
+     "Fungi are parasitic"
+    ],
+    "correct": 1,
+    "explain": "It measured transfer. Intent and benefit are separate claims requiring separate evidence."
+   },
+   {
+    "q": "What is positive citation bias?",
+    "options": [
+     "Citing only recent work",
+     "Citations becoming more confident than the original evidence",
+     "Citing your own papers",
+     "Ignoring negative results"
+    ],
+    "correct": 1,
+    "explain": "Each retelling drops a caveat, until the claim in circulation outruns what was measured."
+   }
+  ],
+  "motif": "network",
+  "pal": [
+   "#116F66",
+   "#DBEFEC"
+  ]
+ },
+ {
+  "id": "c_dk",
+  "topic": "Psychology",
+  "sub": "Metacognition",
+  "difficulty": "Balanced",
+  "minutes": 10,
+  "quality": 84,
+  "status": "approved",
+  "evergreen": false,
+  "rights": "metadata_only",
+  "title": "The Dunning-Kruger effect is not quite what you were told",
+  "blurb": "Everyone quotes it. Almost nobody quotes it right.",
+  "source": {
+   "title": "Unskilled and unaware of it: how difficulties in recognizing one’s own incompetence lead to inflated self-assessments",
+   "authors": "Justin Kruger, David Dunning",
+   "venue": "Journal of Personality and Social Psychology 77(6)",
+   "year": 1999,
+   "doi": "10.1037/0022-3514.77.6.1121",
+   "url": "https://doi.org/10.1037/0022-3514.77.6.1121",
+   "license": "All rights reserved",
+   "access": "Subscription"
+  },
+  "cards": [
+   {
+    "t": "hook",
+    "text": "The version you've heard says stupid people think they're geniuses. That is not what the study found, and the gap between the two is the interesting bit."
+   },
+   {
+    "t": "predict",
+    "q": "In the original study, how did bottom-quartile performers rate themselves?",
+    "options": [
+     "Far above average",
+     "Slightly above average",
+     "Roughly average",
+     "Below average"
+    ],
+    "a": 2,
+    "reveal": "Around average. They overestimated, but they did not claim excellence."
+   },
+   {
+    "t": "context",
+    "text": "Kruger and Dunning tested students on humour, logic and grammar, then asked them to estimate their own percentile rank."
+   },
+   {
+    "t": "evidence",
+    "text": "Almost everyone clustered their self-estimate near the middle. Low performers were far above their true rank, and top performers slightly underestimated theirs. The gap comes mostly from the flat self-estimates, not from arrogance."
+   },
+   {
+    "t": "finding",
+    "text": "People are poor at ranking themselves, and being poor at a skill also impairs the judgement needed to notice."
+   },
+   {
+    "t": "matters",
+    "text": "The distinction matters because the popular version is used to dismiss people, while the actual finding applies to everyone, including whoever is quoting it."
+   }
+  ],
+  "uncertainty": "Some statisticians argue part of the pattern arises from regression to the mean and from plotting self-estimates against a component of themselves, and that similar-looking charts can be produced from random data. The effect survives in modified form but the size is disputed.",
+  "quiz": [
+   {
+    "q": "How did low performers rate themselves?",
+    "options": [
+     "Near the top",
+     "Near average",
+     "Accurately",
+     "At the bottom"
+    ],
+    "correct": 1,
+    "explain": "Near average. The gap was large because their actual rank was far lower, not because they claimed to be excellent."
+   },
+   {
+    "q": "What did top performers do?",
+    "options": [
+     "Overestimated",
+     "Slightly underestimated",
+     "Rated accurately",
+     "Refused to rate"
+    ],
+    "correct": 1,
+    "explain": "They underrated themselves, partly by assuming tasks they found easy were easy for everyone."
+   }
+  ],
+  "motif": "peaks",
+  "pal": [
+   "#7A4E9E",
+   "#EFE4F7"
+  ]
+ },
+ {
+  "id": "c_marsh",
+  "topic": "Society",
+  "sub": "Developmental psychology",
+  "difficulty": "Balanced",
+  "minutes": 10,
+  "quality": 90,
+  "status": "approved",
+  "evergreen": false,
+  "rights": "metadata_only",
+  "title": "What the marshmallow test was actually measuring",
+  "blurb": "A bigger study changed what the marshmallow was measuring.",
+  "source": {
+   "title": "Revisiting the marshmallow test: a conceptual replication investigating links between early delay of gratification and later outcomes",
+   "authors": "Tyler W. Watts, Greg J. Duncan, Haonan Quan",
+   "venue": "Psychological Science 29(7)",
+   "year": 2018,
+   "doi": "10.1177/0956797618761661",
+   "url": "https://doi.org/10.1177/0956797618761661",
+   "license": "All rights reserved",
+   "access": "Subscription"
+  },
+  "cards": [
+   {
+    "t": "hook",
+    "text": "One marshmallow now, or two if you can wait fifteen minutes. Decades of parenting advice came out of that room. Then someone ran it properly."
+   },
+   {
+    "t": "predict",
+    "q": "After controlling for family background and early cognitive ability, what happened to the predictive power of waiting?",
+    "options": [
+     "Grew stronger",
+     "Stayed the same",
+     "Shrank by more than half",
+     "Reversed"
+    ],
+    "a": 2,
+    "reveal": "It shrank dramatically, and much of the remainder was not statistically robust."
+   },
+   {
+    "t": "context",
+    "text": "The original studies used small samples drawn largely from one university community. Watts, Duncan and Quan used a far larger and more socioeconomically varied cohort."
+   },
+   {
+    "t": "evidence",
+    "text": "Waiting still correlated with later achievement, but most of that association was explained by the child’s home environment and early cognitive ability rather than by willpower itself."
+   },
+   {
+    "t": "finding",
+    "text": "The test appears to measure the circumstances a child grew up in at least as much as any trait inside the child."
+   },
+   {
+    "t": "matters",
+    "text": "A child who has learned that promised second marshmallows do not always arrive is behaving sensibly by eating the first one. That reframes a decades-old lesson about character as a lesson about environment."
+   }
+  ],
+  "quiz": [
+   {
+    "q": "What mainly explained the association with later outcomes?",
+    "options": [
+     "Willpower",
+     "Family background and early cognitive ability",
+     "Age at testing",
+     "Marshmallow preference"
+    ],
+    "correct": 1,
+    "explain": "Once those were controlled for, most of the predictive power disappeared."
+   },
+   {
+    "q": "Why might a child from an unstable environment eat the first marshmallow?",
+    "options": [
+     "They dislike waiting",
+     "Promised rewards have not reliably arrived before",
+     "They are hungrier",
+     "They misunderstand"
+    ],
+    "correct": 1,
+    "explain": "Taking the certain reward is rational when the promised one is unreliable."
+   }
+  ],
+  "motif": "grid",
+  "pal": [
+   "#8E5C1D",
+   "#F7E8D2",
+   "#B4762A"
+  ]
+ },
+ {
+  "id": "c_loss",
+  "topic": "Economics",
+  "sub": "Behavioural economics",
+  "difficulty": "Balanced",
+  "minutes": 10,
+  "quality": 87,
+  "status": "approved",
+  "evergreen": false,
+  "rights": "metadata_only",
+  "title": "Why losing £10 hurts more than finding £10 helps",
+  "blurb": "Why losing a tenner stings more than finding one pleases.",
+  "source": {
+   "title": "Prospect theory: an analysis of decision under risk",
+   "authors": "Daniel Kahneman, Amos Tversky",
+   "venue": "Econometrica 47(2)",
+   "year": 1979,
+   "doi": "10.2307/1914185",
+   "url": "https://doi.org/10.2307/1914185",
+   "license": "All rights reserved",
+   "access": "Subscription"
+  },
+  "cards": [
+   {
+    "t": "hook",
+    "text": "Heads you win £150, tails you lose £100, flip as often as you like. The maths is obviously in your favour. Almost everyone says no, and they aren't being stupid."
+   },
+   {
+    "t": "predict",
+    "q": "Roughly how large does the gain usually need to be before people accept a £100 downside?",
+    "options": [
+     "£110",
+     "£120",
+     "£200 or more",
+     "£1,000"
+    ],
+    "a": 2,
+    "reveal": "Typically around double the potential loss, though the ratio varies a lot between people and settings."
+   },
+   {
+    "t": "context",
+    "text": "Kahneman and Tversky showed that people evaluate outcomes as changes from a reference point rather than as final states of wealth, which standard economic theory assumed."
+   },
+   {
+    "t": "evidence",
+    "text": "The same option accepted when framed as lives saved is refused when framed as lives lost. The underlying numbers are identical, and the reference point does the work."
+   },
+   {
+    "t": "finding",
+    "text": "Value is judged relative to where you already stand, and the curve is steeper going down than going up."
+   },
+   {
+    "t": "matters",
+    "text": "It explains free trials, deposits, why people hold falling investments, and why “don’t lose your streak” is a more powerful message than “build your streak”."
+   }
+  ],
+  "uncertainty": "Gal and Rucker argued in 2018 that much of what is attributed to loss aversion can be explained by inertia and status quo preference, and that the effect is weaker and more context-dependent than commonly claimed.",
+  "quiz": [
+   {
+    "q": "What is a reference point?",
+    "options": [
+     "The average outcome",
+     "The baseline a change is judged against",
+     "The maximum possible gain",
+     "The market price"
+    ],
+    "correct": 1,
+    "explain": "Outcomes are evaluated as movements from where you currently stand, not as absolute end states."
+   },
+   {
+    "q": "Why is framing so effective?",
+    "options": [
+     "People do not read carefully",
+     "It moves the reference point, so the same outcome reads as a gain or a loss",
+     "It changes the odds",
+     "It adds information"
+    ],
+    "correct": 1,
+    "explain": "Identical outcomes are valued differently depending on which baseline they are measured from."
+   }
+  ],
+  "motif": "peaks",
+  "pal": [
+   "#A34A2A",
+   "#F8E3D8"
+  ]
+ },
+ {
+  "id": "c_afold",
+  "topic": "AI",
+  "sub": "Computational biology",
+  "difficulty": "Challenging",
+  "minutes": 15,
+  "quality": 95,
+  "status": "approved",
+  "evergreen": false,
+  "rights": "transform_ok",
+  "title": "A fifty-year-old problem, solved in an afternoon",
+  "blurb": "A fifty-year problem turned into a lookup.",
+  "source": {
+   "title": "Highly accurate protein structure prediction with AlphaFold",
+   "authors": "John Jumper and colleagues",
+   "venue": "Nature 596",
+   "year": 2021,
+   "doi": "10.1038/s41586-021-03819-2",
+   "url": "https://doi.org/10.1038/s41586-021-03819-2",
+   "license": "CC BY 4.0",
+   "access": "Open access"
+  },
+  "cards": [
+   {
+    "t": "hook",
+    "text": "For fifty years, working out the shape of a single protein could be your entire doctorate. Now you type in a name and wait."
+   },
+   {
+    "t": "predict",
+    "q": "Before 2020, how long did determining one structure experimentally typically take?",
+    "options": [
+     "Hours",
+     "Days",
+     "Months to years",
+     "Minutes"
+    ],
+    "a": 2,
+    "reveal": "Months to years of laboratory work, often the core of an entire doctorate."
+   },
+   {
+    "t": "context",
+    "text": "CASP is a biennial blind competition where predicted structures are scored against unpublished experimental ones. It had run for decades without anything approaching experimental accuracy."
+   },
+   {
+    "t": "evidence",
+    "text": "AlphaFold 2 reached accuracy competitive with experiment across most targets. The team then released predicted structures for essentially the entire human proteome, and for hundreds of millions of proteins beyond it."
+   },
+   {
+    "t": "finding",
+    "text": "A problem that resisted fifty years of effort became something you can look up."
+   },
+   {
+    "t": "matters",
+    "text": "Prediction is not the same as understanding. It still shifts the bottleneck in structural biology from obtaining a shape to deciding which question to ask about it."
+   }
+  ],
+  "quiz": [
+   {
+    "q": "What is CASP?",
+    "options": [
+     "A protein database",
+     "A blind structure prediction competition",
+     "A lab technique",
+     "A funding body"
+    ],
+    "correct": 1,
+    "explain": "Predictions are submitted before the experimental structures are published, so the assessment cannot be gamed."
+   },
+   {
+    "q": "What limits the result?",
+    "options": [
+     "It only works on small proteins",
+     "Predicting a shape is not the same as understanding function",
+     "It requires a supercomputer per protein",
+     "Accuracy is below experimental methods"
+    ],
+    "correct": 1,
+    "explain": "Knowing the shape narrows the question. It does not answer what the protein does in a living system."
+   }
+  ],
+  "motif": "spiral",
+  "pal": [
+   "#2865B0",
+   "#DEEAF8"
+  ]
+ },
+ {
+  "id": "c_anti",
+  "topic": "History",
+  "sub": "Ancient technology",
+  "difficulty": "Balanced",
+  "minutes": 10,
+  "quality": 90,
+  "status": "approved",
+  "evergreen": true,
+  "rights": "metadata_only",
+  "title": "The computer that was two thousand years early",
+  "blurb": "Two thousand years early, then gone without a trace.",
+  "source": {
+   "title": "Decoding the ancient Greek astronomical calculator known as the Antikythera Mechanism",
+   "authors": "Tony Freeth and colleagues",
+   "venue": "Nature 444",
+   "year": 2006,
+   "doi": "10.1038/nature05357",
+   "url": "https://doi.org/10.1038/nature05357",
+   "license": "All rights reserved",
+   "access": "Subscription"
+  },
+  "cards": [
+   {
+    "t": "hook",
+    "text": "Sponge divers pulled a lump of corroded bronze off the seabed in 1901. It sat in a museum for half a century before anyone noticed it had gears inside."
+   },
+   {
+    "t": "predict",
+    "q": "What did high-resolution X-ray imaging reveal inside?",
+    "options": [
+     "Decorative filigree",
+     "More than thirty interlocking gears",
+     "A hollow shell",
+     "Coins"
+    ],
+    "a": 1,
+    "reveal": "A gear train of more than thirty bronze wheels, cut by hand, including a differential-style arrangement."
+   },
+   {
+    "t": "context",
+    "text": "The mechanism dates to roughly the second century BCE. Comparable geared complexity does not reappear in the surviving record until medieval European astronomical clocks."
+   },
+   {
+    "t": "evidence",
+    "text": "Imaging revealed inscriptions and tooth counts precise enough to reconstruct the functions: positions of the Sun and Moon, a lunar phase display, eclipse prediction, and a calendar tracking the four-year games cycle."
+   },
+   {
+    "t": "finding",
+    "text": "Ancient Greek craftsmen built a working analogue computer for astronomical prediction, and the capability then vanished from the record."
+   },
+   {
+    "t": "matters",
+    "text": "It is a warning about reading absence of evidence as evidence of absence. One shipwreck moved the known state of an entire technology by more than a thousand years."
+   }
+  ],
+  "quiz": [
+   {
+    "q": "How was the internal structure determined?",
+    "options": [
+     "Careful disassembly",
+     "High-resolution X-ray imaging",
+     "Written Greek records",
+     "Comparison with similar devices"
+    ],
+    "correct": 1,
+    "explain": "The object is too corroded to take apart. Imaging revealed the gears and inscriptions non-destructively."
+   },
+   {
+    "q": "What is the broader lesson?",
+    "options": [
+     "Ancient people had lost technology from Atlantis",
+     "Absence of evidence is weak evidence of absence",
+     "X-rays solve everything",
+     "Shipwrecks are the best sources"
+    ],
+    "correct": 1,
+    "explain": "A single surviving object moved the accepted timeline by over a millennium."
+   }
+  ],
+  "motif": "gears",
+  "pal": [
+   "#7C5F29",
+   "#F3E9D4"
+  ]
+ },
+ {
+  "id": "c_spf",
+  "topic": "Beauty",
+  "sub": "Skin science",
+  "difficulty": "Beginner",
+  "minutes": 5,
+  "quality": 90,
+  "status": "approved",
+  "evergreen": true,
+  "rights": "metadata_only",
+  "title": "The only anti-ageing product with a randomised trial behind it",
+  "blurb": "Billions go on creams. One cheap thing has a control group.",
+  "source": {
+   "title": "Sunscreen and prevention of skin aging: a randomized trial",
+   "authors": "Maria Celia B. Hughes, Gail M. Williams, Peter Baker, Adèle C. Green",
+   "venue": "Annals of Internal Medicine 158(11)",
+   "year": 2013,
+   "doi": "10.7326/0003-4819-158-11-201306040-00002",
+   "url": "https://doi.org/10.7326/0003-4819-158-11-201306040-00002",
+   "license": "All rights reserved",
+   "access": "Subscription"
+  },
+  "cards": [
+   {
+    "t": "hook",
+    "text": "The shelf is full of things that promise younger skin. Almost none of them have ever been run against a control group for years at a time. One has, and it is the cheapest thing on the shelf."
+   },
+   {
+    "t": "predict",
+    "q": "903 adults in Queensland were randomised to daily sunscreen or to using it whenever they felt like it. After four and a half years, how much less photoageing did the daily group show?",
+    "options": [
+     "None, the groups matched",
+     "About 5%",
+     "About 24%",
+     "About 70%"
+    ],
+    "a": 2,
+    "reveal": "About 24% less, measured from the skin's surface texture rather than judged by eye."
+   },
+   {
+    "t": "context",
+    "text": "Nambour, Australia, latitude 26 degrees south. Adults under 55 were randomly assigned to daily broad-spectrum sunscreen or discretionary use, and separately to beta-carotene or placebo, then followed for four and a half years."
+   },
+   {
+    "t": "evidence",
+    "text": "Ageing was not scored by opinion. Silicone impressions were taken from the back of the hand and measured for micro-topography at the start and at the end, which takes the judging eye out of the loop entirely."
+   },
+   {
+    "t": "finding",
+    "text": "Daily sunscreen showed about 24% less photoageing. The beta-carotene arm showed no overall effect."
+   },
+   {
+    "t": "matters",
+    "text": "It turns the most oversold aisle in retail into something testable, and the thing that passed the test costs a fraction of what the creams do. Note what was measured, though: sun-exposed skin on the hands, in one of the sunniest places on earth."
+   }
+  ],
+  "uncertainty": "One site, one climate, one largely fair-skinned population, and an endpoint on the back of the hand rather than the face. The direction of the result is well supported. The exact figure will not transfer cleanly to every skin type or latitude.",
+  "quiz": [
+   {
+    "q": "How was skin ageing measured?",
+    "options": [
+     "A dermatologist's visual rating",
+     "Micro-topography from silicone impressions of the skin",
+     "Participants rating their own skin",
+     "Photographs scored by the public"
+    ],
+    "correct": 1,
+    "explain": "Surface micro-topography taken from skin casts, which removes the judging-by-eye problem."
+   },
+   {
+    "q": "What did the beta-carotene arm show?",
+    "options": [
+     "A large protective effect",
+     "A small protective effect",
+     "No overall effect on skin ageing",
+     "Faster ageing"
+    ],
+    "correct": 2,
+    "explain": "No overall effect was identified. The sunscreen arm carried the result."
+   }
+  ],
+  "motif": "shield",
+  "pal": [
+   "#B3316F",
+   "#FBDFEC"
+  ]
+ },
+ {
+  "id": "c_crm",
+  "topic": "Aeronautics",
+  "sub": "Human factors",
+  "difficulty": "Challenging",
+  "minutes": 15,
+  "quality": 93,
+  "status": "approved",
+  "evergreen": false,
+  "rights": "transform_ok",
+  "title": "The cockpit study that found the problem was not the flying",
+  "blurb": "Same aircraft, same faults, same route. Wildly different crews.",
+  "source": {
+   "title": "A simulator study of the interaction of pilot workload with errors, vigilance, and decisions",
+   "authors": "H. P. Ruffell Smith",
+   "venue": "NASA Technical Memorandum 78482, Ames Research Center",
+   "year": 1979,
+   "url": "https://ntrs.nasa.gov/citations/19790006598",
+   "license": "Public domain (US Government work)",
+   "access": "Open access"
+  },
+  "cards": [
+   {
+    "t": "hook",
+    "text": "A full-mission 747 simulator, a long leg, an engine problem and a hydraulic failure. Every crew flew the identical scenario. The error counts came back nothing like each other."
+   },
+   {
+    "t": "predict",
+    "q": "Errors varied enormously between crews. What did the differences appear to track?",
+    "options": [
+     "Individual handling skill",
+     "Total flying hours",
+     "How the captain used the people and information around him",
+     "How hard the crew's hearts were working"
+    ],
+    "a": 2,
+    "reveal": "Decision time and decision order varied by crew and seemed related to how well captains managed the resources available on the flight deck. The rise in errors was not related to a rise in heart rate."
+   },
+   {
+    "t": "context",
+    "text": "Hugh Patrick Ruffell Smith ran this at NASA Ames. Rather than testing manoeuvres in isolation, he flew crews through a complete civil transport scenario at two levels of workload, recording their actions, the aircraft parameters and their heart rates."
+   },
+   {
+    "t": "evidence",
+    "text": "The number of errors was highly variable between crews, and the mean rose in the higher-workload condition. That rise was not explained by heart rate. It was associated with vigilance times and with how long it had been since the pilot last flew."
+   },
+   {
+    "t": "finding",
+    "text": "The aeroplane was not the hard part. Three people coordinating under load was."
+   },
+   {
+    "t": "matters",
+    "text": "This is the study behind Crew Resource Management. Aviation stopped training three individually competent pilots and started training the flight deck as a system, and operating theatres and control rooms have been borrowing the idea ever since. It also established full-mission simulation as a way of studying work rather than just teaching it."
+   }
+  ],
+  "uncertainty": "A simulator rather than a line flight, and a small number of crews by modern standards. The specific error counts matter far less than the observation that crew coordination, not individual airmanship, was doing the work.",
+  "quiz": [
+   {
+    "q": "What did the study find about heart rate and errors?",
+    "options": [
+     "A higher heart rate predicted more errors",
+     "The increase in errors was not related to a rise in heart rate",
+     "Heart rate fell as errors rose",
+     "Heart rate was not recorded"
+    ],
+    "correct": 1,
+    "explain": "Heart rate was recorded throughout, but the extra errors under higher workload did not track it."
+   },
+   {
+    "q": "What did the work go on to change?",
+    "options": [
+     "Autopilot certification",
+     "Crew training, towards running the flight deck as a team",
+     "Engine maintenance intervals",
+     "Air traffic control phraseology"
+    ],
+    "correct": 1,
+    "explain": "It is the origin point for Crew Resource Management training."
+   }
+  ],
+  "motif": "airfoil",
+  "pal": [
+   "#1F6F8B",
+   "#DCEDF3"
+  ]
+ },
+ {
+  "id": "c_trade",
+  "topic": "Finance",
+  "sub": "Behavioural finance",
+  "difficulty": "Balanced",
+  "minutes": 10,
+  "quality": 92,
+  "status": "approved",
+  "evergreen": false,
+  "rights": "metadata_only",
+  "title": "The households that traded the most did the worst",
+  "blurb": "Six years of real accounts, and one uncomfortable pattern.",
+  "source": {
+   "title": "Trading is hazardous to your wealth: the common stock investment performance of individual investors",
+   "authors": "Brad M. Barber, Terrance Odean",
+   "venue": "The Journal of Finance 55(2)",
+   "year": 2000,
+   "doi": "10.1111/0022-1082.00226",
+   "url": "https://doi.org/10.1111/0022-1082.00226",
+   "license": "All rights reserved",
+   "access": "Subscription"
+  },
+  "cards": [
+   {
+    "t": "hook",
+    "text": "Not a survey about how people think they invest. A discount broker handed over six years of what 66,465 households actually did."
+   },
+   {
+    "t": "predict",
+    "q": "The market returned 17.9% a year over the period. What did the households who traded most earn?",
+    "options": [
+     "19.4%",
+     "17.9%",
+     "16.4%",
+     "11.4%"
+    ],
+    "a": 3,
+    "reveal": "11.4%. The average household earned 16.4%, and the heaviest traders gave up around six and a half points a year against the market."
+   },
+   {
+    "t": "context",
+    "text": "Brad Barber and Terrance Odean took accounts at a large US discount broker from 1991 to 1996 and sorted households by how much of their portfolio they turned over each year."
+   },
+   {
+    "t": "evidence",
+    "text": "The average household turned over about 75% of its holdings annually and earned 16.4%. Gross returns separated the groups far less than net returns did, which points the finger at the cost of the activity rather than at bad stock picking."
+   },
+   {
+    "t": "finding",
+    "text": "The gap was not what they bought. It was how often they bought it."
+   },
+   {
+    "t": "matters",
+    "text": "This is the empirical backbone of low-cost, low-turnover investing. The paper reads overconfidence into the behaviour: people trade because they believe they know something, and the trading is what costs them. Commissions have collapsed since, and the direction of the finding has held up anyway."
+   }
+  ],
+  "uncertainty": "One broker's clients, one six-year window, an unusually strong market and 1990s commission levels that no longer exist. It tells you what the more and less active households earned. It cannot tell you what any of them would have earned by doing nothing.",
+  "quiz": [
+   {
+    "q": "What did the average household earn per year?",
+    "options": [
+     "11.4%",
+     "16.4%",
+     "17.9%",
+     "21.0%"
+    ],
+    "correct": 1,
+    "explain": "16.4% for the average household, against 17.9% for the market."
+   },
+   {
+    "q": "Where does the paper locate the mechanism?",
+    "options": [
+     "Bad luck",
+     "The cost of trading, plus the overconfidence that drives it",
+     "Institutions front-running retail orders",
+     "Tax treatment"
+    ],
+    "correct": 1,
+    "explain": "Gross returns separated the quintiles far less than net returns, which puts the weight on cost rather than on stock selection."
+   }
+  ],
+  "motif": "candles",
+  "pal": [
+   "#33456B",
+   "#E1E5F0"
+  ]
+ },
+ {
+  "id": "c_book",
+  "topic": "Books",
+  "sub": "Reading habits",
+  "difficulty": "Beginner",
+  "minutes": 5,
+  "quality": 87,
+  "status": "approved",
+  "evergreen": true,
+  "rights": "metadata_only",
+  "title": "Book readers outlived the people who read the news",
+  "blurb": "The surprise is not that readers lived longer. It is who did not.",
+  "source": {
+   "title": "A chapter a day: association of book reading with longevity",
+   "authors": "Avni Bavishi, Martin D. Slade, Becca R. Levy",
+   "venue": "Social Science & Medicine 164",
+   "year": 2016,
+   "doi": "10.1016/j.socscimed.2016.07.014",
+   "url": "https://doi.org/10.1016/j.socscimed.2016.07.014",
+   "license": "All rights reserved",
+   "access": "Subscription"
+  },
+  "cards": [
+   {
+    "t": "hook",
+    "text": "Readers living longer is an easy headline. The interesting part is that newspaper and magazine readers did not get anything like the same benefit."
+   },
+   {
+    "t": "predict",
+    "q": "Over twelve years, how did mortality risk compare for book readers against non-book readers, after adjusting for age, wealth, education and health?",
+    "options": [
+     "No difference",
+     "About 5% lower",
+     "About 20% lower",
+     "About 60% lower"
+    ],
+    "a": 2,
+    "reveal": "A hazard ratio of 0.80, so roughly a 20% lower risk of dying across the follow-up period."
+   },
+   {
+    "t": "context",
+    "text": "3,635 people over 50 in the US Health and Retirement Study reported their reading habits, then were followed for up to twelve years. The models adjusted for age, sex, race, education, wealth, marital status, self-rated health, other conditions and depression."
+   },
+   {
+    "t": "evidence",
+    "text": "The advantage grew with how much people read, tertile by tertile. Books beat newspapers and magazines by a wide margin, and the effect ran through a measure of cognition, which is what you would expect if what matters is sustained, effortful attention rather than time spent looking at words."
+   },
+   {
+    "t": "finding",
+    "text": "Something about books specifically, not about reading in general."
+   },
+   {
+    "t": "matters",
+    "text": "Most research treats reading as one habit. This is a rare attempt to separate deep reading from skimming, and the two came apart. Take it as a reason to be curious about the difference, not as a dose you should be hitting."
+   }
+  ],
+  "uncertainty": "Observational, with reading habits reported once at the start. Healthier, wealthier and more curious people read more books, and no statistical adjustment removes all of that. The dose-response pattern makes it more interesting than a bare correlation, but it is not a trial and cannot show cause.",
+  "quiz": [
+   {
+    "q": "How did books compare with newspapers and magazines?",
+    "options": [
+     "The same",
+     "Books carried a significantly stronger survival advantage",
+     "Periodicals did better",
+     "Neither was associated with survival"
+    ],
+    "correct": 1,
+    "explain": "Any level of book reading was associated with a stronger advantage than reading periodicals."
+   },
+   {
+    "q": "What is the study's main limitation?",
+    "options": [
+     "The sample was tiny",
+     "It is observational, so it cannot establish cause",
+     "Follow-up lasted under a year",
+     "It covered a single city"
+    ],
+    "correct": 1,
+    "explain": "It is a cohort study. Adjustment reduces confounding, it does not remove it."
+   }
+  ],
+  "motif": "spines",
+  "pal": [
+   "#8A4B2A",
+   "#F5E4D8"
+  ]
+ },
+ {
+  "id": "c_cut",
+  "topic": "Movies",
+  "sub": "Editing",
+  "difficulty": "Balanced",
+  "minutes": 10,
+  "quality": 89,
+  "status": "approved",
+  "evergreen": false,
+  "rights": "metadata_only",
+  "title": "How much of an audience a director can actually control",
+  "blurb": "Scan people watching films and see how alike their brains behave.",
+  "source": {
+   "title": "Neurocinematics: the neuroscience of film",
+   "authors": "Uri Hasson, Ohad Landesman, Barbara Knappmeyer, Ignacio Vallines, Nava Rubin, David J. Heeger",
+   "venue": "Projections 2(1)",
+   "year": 2008,
+   "doi": "10.3167/proj.2008.020102",
+   "url": "https://doi.org/10.3167/proj.2008.020102",
+   "license": "All rights reserved",
+   "access": "Subscription"
+  },
+  "cards": [
+   {
+    "t": "hook",
+    "text": "Put a room full of people in scanners and show them the same film. If the film is doing its job, their brains should move together. Sometimes that is most of the cortex. Sometimes it is almost none of it."
+   },
+   {
+    "t": "predict",
+    "q": "Four clips were shown. Which produced the most similar brain responses across viewers?",
+    "options": [
+     "Ten unedited minutes in a park",
+     "An episode of Curb Your Enthusiasm",
+     "The Good, the Bad and the Ugly",
+     "An episode directed by Alfred Hitchcock"
+    ],
+    "a": 3,
+    "reveal": "The Hitchcock episode, at over 65% of the cortex. The unedited park footage came in under 5%."
+   },
+   {
+    "t": "context",
+    "text": "Uri Hasson and colleagues measured inter-subject correlation: how similarly different viewers' responses moved over time, region by region, while watching identical footage in an fMRI scanner."
+   },
+   {
+    "t": "evidence",
+    "text": "Hitchcock's Bang! You're Dead passed 65%. Sergio Leone's western reached 45%. The sitcom reached 18%. A single unedited shot of a concert in a park came in under 5%. The films had been chosen to differ in how tightly they were constructed."
+   },
+   {
+    "t": "finding",
+    "text": "Control over an audience is not a figure of speech. It is measurable, and it varies enormously with directing style."
+   },
+   {
+    "t": "matters",
+    "text": "Film theory usually argues about this. Here it can be measured from outside the argument. The authors are careful about what the number means, though: a high score says a film moved everyone the same way, not that it was any good."
+   }
+  ],
+  "uncertainty": "Small scanner samples and four clips. The measure captures how alike people respond, not how much they liked it, and the same film has scored differently across this group's own studies.",
+  "quiz": [
+   {
+    "q": "What does inter-subject correlation measure?",
+    "options": [
+     "How much viewers enjoyed the film",
+     "How similarly viewers' brain responses changed over time",
+     "How closely each viewer paid attention",
+     "How well viewers recalled the plot"
+    ],
+    "correct": 1,
+    "explain": "It compares the time course of the response across viewers, region by region."
+   },
+   {
+    "q": "What did the unedited single-shot footage produce?",
+    "options": [
+     "The highest correlation of the four",
+     "Around 45%",
+     "Around 18%",
+     "Under 5%"
+    ],
+    "correct": 3,
+    "explain": "Unstructured reality left viewers responding very differently from one another."
+   }
+  ],
+  "motif": "frames",
+  "pal": [
+   "#5A4A8C",
+   "#E7E3F4"
+  ]
+ },
+ {
+  "id": "c_debt",
+  "topic": "Sleep",
+  "sub": "Sleep debt",
+  "difficulty": "Balanced",
+  "minutes": 10,
+  "quality": 94,
+  "status": "approved",
+  "evergreen": true,
+  "rights": "metadata_only",
+  "title": "Six hours a night, and you stop being able to tell",
+  "blurb": "The deficit kept growing. The feeling of it did not.",
+  "source": {
+   "title": "The cumulative cost of additional wakefulness: dose-response effects on neurobehavioral functions and sleep physiology from chronic sleep restriction and total sleep deprivation",
+   "authors": "Hans P. A. Van Dongen, Greg Maislin, Janet M. Mullington, David F. Dinges",
+   "venue": "Sleep 26(2)",
+   "year": 2003,
+   "doi": "10.1093/sleep/26.2.117",
+   "url": "https://doi.org/10.1093/sleep/26.2.117",
+   "license": "All rights reserved",
+   "access": "Subscription"
+  },
+  "cards": [
+   {
+    "t": "hook",
+    "text": "The people on six hours a night thought they were basically fine. By the end of the fortnight they were performing like someone who had not slept for two nights."
+   },
+   {
+    "t": "predict",
+    "q": "Across 14 nights at six hours, what happened to how sleepy people said they felt?",
+    "options": [
+     "It climbed in step with the decline in performance",
+     "It rose at first and then levelled off",
+     "It dropped back to normal",
+     "It was never measured"
+    ],
+    "a": 1,
+    "reveal": "It rose early, then flattened, while measured performance kept falling. The gap between how impaired people were and how impaired they felt widened every day."
+   },
+   {
+    "t": "context",
+    "text": "48 healthy adults were randomised to 4, 6 or 8 hours in bed for 14 consecutive nights, alongside a group kept awake for three days straight. Attention was tested with a vigilance task chosen because practice does not improve your score on it."
+   },
+   {
+    "t": "evidence",
+    "text": "Deficits accumulated dose-dependently and did not plateau. Six hours or less produced impairment comparable to up to two nights without any sleep at all. Lapses tracked cumulative wakefulness beyond roughly 15.8 hours, whichever way the sleep had been lost."
+   },
+   {
+    "t": "finding",
+    "text": "You lose the ability to notice the deficit long before you stop accumulating it."
+   },
+   {
+    "t": "matters",
+    "text": "It is why asking yourself whether you are too tired to drive, or to make the call at the end of a long week, is a broken instrument. It also reframes a run of short nights as a debt that keeps compounding rather than a state you get used to."
+   }
+  ],
+  "uncertainty": "48 people in a laboratory, on a fixed schedule, for a fortnight. Vulnerability to sleep loss differs a lot between individuals and is fairly stable within them, so the group average overstates the effect for some people and understates it for others.",
+  "quiz": [
+   {
+    "q": "What happened to measured performance across the 14 restricted nights?",
+    "options": [
+     "It declined then plateaued",
+     "It kept declining, in proportion to the sleep lost",
+     "It recovered after the first week",
+     "Six hours was enough to avoid any effect"
+    ],
+    "correct": 1,
+    "explain": "Deficits accumulated without levelling off, and their size tracked how much sleep had been lost."
+   },
+   {
+    "q": "Why is the self-rating result the important one?",
+    "options": [
+     "It shows people exaggerate how tired they are",
+     "It shows people stop noticing an impairment that is still getting worse",
+     "It shows self-ratings are the best available measure",
+     "It shows caffeine hides the effect"
+    ],
+    "correct": 1,
+    "explain": "Ratings flattened while performance kept falling, so people could no longer judge their own state."
+   }
+  ],
+  "motif": "hypnogram",
+  "pal": [
+   "#3A5A94",
+   "#E2E8F5"
+  ]
+ },
+ {
+  "id": "c_mesel",
+  "topic": "Science",
+  "sub": "Methods",
+  "difficulty": "Challenging",
+  "minutes": 15,
+  "quality": 95,
+  "status": "approved",
+  "evergreen": false,
+  "rights": "transform_ok",
+  "title": "The experiment that killed two theories in one afternoon",
+  "blurb": "Three ideas about how DNA copies itself. One test settled it.",
+  "source": {
+   "title": "The replication of DNA in Escherichia coli",
+   "authors": "Matthew Meselson, Franklin W. Stahl",
+   "venue": "PNAS 44(7)",
+   "year": 1958,
+   "doi": "10.1073/pnas.44.7.671",
+   "url": "https://doi.org/10.1073/pnas.44.7.671",
+   "license": "All rights reserved",
+   "access": "Free to read"
+  },
+  "cards": [
+   {
+    "t": "hook",
+    "text": "Three competing theories of how DNA copies itself. Rather than argue, two researchers grew bacteria on heavy nitrogen, moved them to light nitrogen, and spun the result in a centrifuge. The answer separated out as visible bands."
+   },
+   {
+    "t": "predict",
+    "q": "After exactly one round of replication, where did the DNA sit in the tube?",
+    "options": [
+     "Two bands, one heavy and one light",
+     "A single band exactly halfway between",
+     "One heavy band only",
+     "A smear across the whole tube"
+    ],
+    "a": 1,
+    "reveal": "A single intermediate band. Every molecule was half old and half new, which is what only one of the three theories predicted."
+   },
+   {
+    "t": "context",
+    "text": "Matthew Meselson and Franklin Stahl grew E. coli for generations on a heavy isotope of nitrogen so the DNA itself became measurably denser, then switched the food supply to ordinary nitrogen and sampled at each division."
+   },
+   {
+    "t": "evidence",
+    "text": "Density-gradient centrifugation sorts molecules by weight into visible bands. One generation gave a single intermediate band, ruling out conservative replication. The next generation gave intermediate and light bands in equal measure, ruling out the dispersive version too."
+   },
+   {
+    "t": "finding",
+    "text": "Each new molecule keeps one original strand and builds one new one against it."
+   },
+   {
+    "t": "matters",
+    "text": "It is routinely called the most beautiful experiment in biology, and the reason is design rather than result. The three theories predicted three different pictures in the same tube, so a single photograph could only be consistent with one of them. Most experiments cannot do that."
+   }
+  ],
+  "quiz": [
+   {
+    "q": "What did a single band halfway up the tube rule out?",
+    "options": [
+     "That DNA replicates at all",
+     "Conservative replication, where the original stays intact",
+     "That nitrogen is used in DNA",
+     "Nothing, it was ambiguous"
+    ],
+    "correct": 1,
+    "explain": "Conservative copying would have left the original heavy molecule intact and produced two separate bands, not one intermediate one."
+   },
+   {
+    "q": "What made the design unusually strong?",
+    "options": [
+     "An enormous sample size",
+     "The three rival theories each predicted a visibly different outcome",
+     "It was replicated in twenty labs first",
+     "It used a double-blind protocol"
+    ],
+    "correct": 1,
+    "explain": "One observation could only fit one theory, so a single result was decisive."
+   }
+  ],
+  "motif": "spiral",
+  "pal": [
+   "#1C6B4E",
+   "#DCEFE5"
+  ]
+ },
+ {
+  "id": "c_shan",
+  "topic": "Technology",
+  "sub": "The internet",
+  "difficulty": "Challenging",
+  "minutes": 15,
+  "quality": 96,
+  "status": "approved",
+  "evergreen": false,
+  "rights": "metadata_only",
+  "title": "The paper that decided what information is",
+  "blurb": "Before 1948 nobody could say how much a message contained.",
+  "source": {
+   "title": "A mathematical theory of communication",
+   "authors": "Claude E. Shannon",
+   "venue": "Bell System Technical Journal 27",
+   "year": 1948,
+   "doi": "10.1002/j.1538-7305.1948.tb01338.x",
+   "url": "https://doi.org/10.1002/j.1538-7305.1948.tb01338.x",
+   "license": "All rights reserved",
+   "access": "Free to read"
+  },
+  "cards": [
+   {
+    "t": "hook",
+    "text": "Engineers could already send messages down a wire. What nobody could do was say how much message a wire could carry, or what a message even was, in a way you could put a number on."
+   },
+   {
+    "t": "predict",
+    "q": "Shannon's central move was to define information in terms of what?",
+    "options": [
+     "How true the message is",
+     "How useful the message is to the receiver",
+     "How much uncertainty the message removes",
+     "How many words it contains"
+    ],
+    "a": 2,
+    "reveal": "Uncertainty removed. A message that tells you something you already knew carries no information at all, however long it is."
+   },
+   {
+    "t": "context",
+    "text": "Claude Shannon was working at Bell Labs on the practical problem of noisy telephone lines. He deliberately set meaning aside, on the grounds that the engineering problem is identical whether you are sending a love letter or a stock price."
+   },
+   {
+    "t": "evidence",
+    "text": "Once information is uncertainty removed, it can be counted in bits, sources can be compressed to their entropy and no further, and every channel turns out to have a fixed capacity. Below that capacity you can transmit with arbitrarily few errors even through noise. Above it you cannot."
+   },
+   {
+    "t": "finding",
+    "text": "Meaning is not the engineer's problem. Uncertainty is, and uncertainty is measurable."
+   },
+   {
+    "t": "matters",
+    "text": "Every compressed file, error-corrected disk, mobile call and deep-space transmission descends from this. Stripping meaning out looks like a loss until you notice it is what made the whole thing general enough to apply to all of them at once."
+   }
+  ],
+  "uncertainty": "The theory is mathematics rather than an empirical claim, so it is not the kind of thing that gets overturned. What is genuinely contested is how far the word information should be stretched beyond engineering, into biology, physics or meaning itself.",
+  "quiz": [
+   {
+    "q": "In this framework, what does a wholly predictable message carry?",
+    "options": [
+     "The maximum information",
+     "No information",
+     "Information proportional to its length",
+     "Information only if it is true"
+    ],
+    "correct": 1,
+    "explain": "If it removes no uncertainty, it carries nothing, regardless of length."
+   },
+   {
+    "q": "What does channel capacity tell you?",
+    "options": [
+     "How fast a wire physically is",
+     "The rate below which near error-free transmission is possible even with noise",
+     "How many users can share a line",
+     "How much a message costs to send"
+    ],
+    "correct": 1,
+    "explain": "Below capacity, errors can be driven arbitrarily low. Above it, they cannot."
+   }
+  ],
+  "motif": "waves",
+  "pal": [
+   "#2F5FA8",
+   "#DFE9F8"
+  ]
+ },
+ {
+  "id": "c_tacoma",
+  "topic": "Engineering",
+  "sub": "Structures",
+  "difficulty": "Balanced",
+  "minutes": 10,
+  "quality": 91,
+  "status": "approved",
+  "evergreen": false,
+  "rights": "metadata_only",
+  "title": "The bridge in your physics textbook is the wrong example",
+  "blurb": "Everyone knows why Tacoma Narrows fell. Engineers disagree.",
+  "source": {
+   "title": "Resonance, Tacoma Narrows bridge failure, and undergraduate physics textbooks",
+   "authors": "K. Yusuf Billah, Robert H. Scanlan",
+   "venue": "American Journal of Physics 59(2)",
+   "year": 1991,
+   "doi": "10.1119/1.16590",
+   "url": "https://doi.org/10.1119/1.16590",
+   "license": "All rights reserved",
+   "access": "Subscription"
+  },
+  "cards": [
+   {
+    "t": "hook",
+    "text": "The footage is in every physics course. So is the caption: the wind matched the bridge's natural frequency and resonance tore it apart. Engineers have been saying that is wrong for half a century."
+   },
+   {
+    "t": "predict",
+    "q": "If not forced resonance, what took the bridge down?",
+    "options": [
+     "A manufacturing fault in the cables",
+     "Self-excitation, where the deck's own twisting fed energy back in",
+     "An unusually strong gust",
+     "Ice loading on the roadway"
+    ],
+    "a": 1,
+    "reveal": "Aerodynamically induced self-excitation in a torsional mode. The motion generated the forces that amplified the motion."
+   },
+   {
+    "t": "context",
+    "text": "Billah and Scanlan wrote for physicists rather than engineers, specifically to point out that the textbook account and the engineering account had been diverging for decades without the textbooks noticing."
+   },
+   {
+    "t": "evidence",
+    "text": "Forced resonance requires an external periodic force tuned to the structure's natural frequency. That is not what happened. In self-excitation the system draws energy from a steady wind through its own motion, which is a different phenomenon physically and mathematically, and it does not need a matching frequency at all."
+   },
+   {
+    "t": "finding",
+    "text": "The wind was not pushing in time with the bridge. The bridge was pumping itself."
+   },
+   {
+    "t": "matters",
+    "text": "Worth holding onto twice over. Once because negative damping is the actual mechanism behind a whole family of failures. And once as a case study in how a wrong explanation survives: it is vivid, it is teachable in one line, and the people who know better publish somewhere the textbook authors do not read."
+   }
+  ],
+  "quiz": [
+   {
+    "q": "What does forced resonance require that was absent here?",
+    "options": [
+     "A flexible structure",
+     "An external periodic force matching the natural frequency",
+     "Steel construction",
+     "A suspension design"
+    ],
+    "correct": 1,
+    "explain": "No periodic driving force at the bridge's natural frequency was present. The energy came from a steady wind via the deck's own motion."
+   },
+   {
+    "q": "Why did the wrong explanation last so long?",
+    "options": [
+     "The original data was lost",
+     "It is vivid and simple, and the correction appeared in literature textbook authors did not follow",
+     "Engineers agreed with it until recently",
+     "The footage was faked"
+    ],
+    "correct": 1,
+    "explain": "The paper was written precisely because the engineering understanding had not reached the physics teaching."
+   }
+  ],
+  "motif": "gears",
+  "pal": [
+   "#7C5F29",
+   "#F3E9D4"
+  ]
+ },
+ {
+  "id": "c_gett",
+  "topic": "Philosophy",
+  "sub": "Knowledge",
+  "difficulty": "Balanced",
+  "minutes": 10,
+  "quality": 90,
+  "status": "approved",
+  "evergreen": true,
+  "rights": "metadata_only",
+  "title": "Three pages that broke a definition two thousand years old",
+  "blurb": "Knowledge was justified true belief. Then it briefly wasn't.",
+  "source": {
+   "title": "Is justified true belief knowledge?",
+   "authors": "Edmund L. Gettier",
+   "venue": "Analysis 23(6)",
+   "year": 1963,
+   "doi": "10.1093/analys/23.6.121",
+   "url": "https://doi.org/10.1093/analys/23.6.121",
+   "license": "All rights reserved",
+   "access": "Subscription"
+  },
+  "cards": [
+   {
+    "t": "hook",
+    "text": "Since Plato, knowing something meant three things: you believe it, it is true, and you have good reason. Edmund Gettier published three pages showing you can have all three and still not know."
+   },
+   {
+    "t": "predict",
+    "q": "How do the counterexamples work?",
+    "options": [
+     "The belief turns out false",
+     "The justification is secretly bad",
+     "The belief is true, but true for a reason unrelated to the justification",
+     "The believer is lying"
+    ],
+    "a": 2,
+    "reveal": "Your reasoning is sound, your belief is true, and the two have nothing to do with each other. You are right by luck."
+   },
+   {
+    "t": "context",
+    "text": "Gettier constructs cases where someone reasons carefully from solid evidence to a conclusion that happens to be true for a completely different reason than the one they had in mind. The paper is barely three pages and contains no theory of its own."
+   },
+   {
+    "t": "evidence",
+    "text": "The structure is always the same. Take a justified belief that is false. Derive something from it that happens to be true anyway. The derived belief is now justified, true and believed. Calling it knowledge feels clearly wrong, which means the three conditions were never sufficient."
+   },
+   {
+    "t": "finding",
+    "text": "Being right for the wrong reason is not knowing."
+   },
+   {
+    "t": "matters",
+    "text": "Sixty years of attempts to patch the definition have not produced an agreed fourth condition, which is itself the interesting result. It also generalises well past philosophy: a model, a forecast or a diagnosis can be correct and well argued and still be correct by accident, and you cannot tell from the outcome alone."
+   }
+  ],
+  "uncertainty": "There is no settled resolution. Proposed fixes each face their own counterexamples, and a minority position holds that the cases show something about the concept of knowledge rather than a fault in the definition.",
+  "quiz": [
+   {
+    "q": "What do the cases show about justified true belief?",
+    "options": [
+     "It is never achievable",
+     "The three conditions are not sufficient for knowledge",
+     "Justification is unnecessary",
+     "Truth is subjective"
+    ],
+    "correct": 1,
+    "explain": "All three can hold while the belief is true only by luck, so something further is required."
+   },
+   {
+    "q": "What is the state of the debate?",
+    "options": [
+     "Solved in the 1970s",
+     "No agreed fourth condition has emerged",
+     "Gettier retracted the paper",
+     "It applies only to mathematics"
+    ],
+    "correct": 1,
+    "explain": "Decades of proposed conditions have each attracted counterexamples of their own."
+   }
+  ],
+  "motif": "rings",
+  "pal": [
+   "#5F4B8B",
+   "#E9E4F3"
+  ]
+ },
+ {
+  "id": "c_weird",
+  "topic": "Culture",
+  "sub": "Cross-cultural research",
+  "difficulty": "Balanced",
+  "minutes": 10,
+  "quality": 93,
+  "status": "approved",
+  "evergreen": true,
+  "rights": "metadata_only",
+  "title": "Most of what we know about people is about a few of them",
+  "blurb": "Behavioural science studied a slice of humanity and called it human nature.",
+  "source": {
+   "title": "The weirdest people in the world?",
+   "authors": "Joseph Henrich, Steven J. Heine, Ara Norenzayan",
+   "venue": "Behavioral and Brain Sciences 33(2-3)",
+   "year": 2010,
+   "doi": "10.1017/S0140525X0999152X",
+   "url": "https://doi.org/10.1017/S0140525X0999152X",
+   "license": "All rights reserved",
+   "access": "Subscription"
+  },
+  "cards": [
+   {
+    "t": "hook",
+    "text": "The acronym is WEIRD: Western, Educated, Industrialised, Rich and Democratic. It describes the people in almost all of the experiments, and almost none of the people on earth."
+   },
+   {
+    "t": "predict",
+    "q": "The paper's harder claim is not just that samples are narrow. What is it?",
+    "options": [
+     "That the research is fraudulent",
+     "That WEIRD populations are frequent outliers, so the narrow sample is also the least representative one",
+     "That the effects are too small to matter",
+     "That replication rates are low"
+    ],
+    "a": 1,
+    "reveal": "Across visual perception, fairness, cooperation, spatial reasoning and moral judgement, WEIRD subjects sit at the extreme end of the range rather than the middle."
+   },
+   {
+    "t": "context",
+    "text": "Henrich, Heine and Norenzayan compared results from comparative studies across populations, then asked where the standard undergraduate sample falls within the range of human variation."
+   },
+   {
+    "t": "evidence",
+    "text": "The Muller-Lyer illusion, which most Western adults fall for strongly, barely moves some other populations. Offers in economic games vary widely by society. On several measures the American undergraduate is not near the human average but at one edge of it, which is the opposite of a convenient sample."
+   },
+   {
+    "t": "finding",
+    "text": "The most studied people are among the least typical."
+   },
+   {
+    "t": "matters",
+    "text": "It changes what a finding is allowed to claim. A result from one population is a result about that population until shown otherwise, and it reframes a great deal of confident writing about human nature as writing about a particular kind of society. The field has moved on this, though slowly."
+   }
+  ],
+  "uncertainty": "The critique is stronger for some domains than others. Basic perceptual and physiological findings often do generalise well, and some responses argue the paper overstates how outlying WEIRD samples are outside a handful of well-chosen measures.",
+  "quiz": [
+   {
+    "q": "What does WEIRD stand for?",
+    "options": [
+     "Wealthy, Employed, Independent, Rural, Diverse",
+     "Western, Educated, Industrialised, Rich, Democratic",
+     "Widely Established In Research Design",
+     "Western European Individual Response Data"
+    ],
+    "correct": 1,
+    "explain": "It names the population that supplies most experimental subjects."
+   },
+   {
+    "q": "What is the paper's central claim?",
+    "options": [
+     "Experiments should have larger samples",
+     "The most studied population is frequently an outlier, not a typical case",
+     "Cross-cultural work is impossible",
+     "Statistics are misapplied"
+    ],
+    "correct": 1,
+    "explain": "The problem is not only narrowness but that the narrow group sits at the edge of human variation."
+   }
+  ],
+  "motif": "grid",
+  "pal": [
+   "#8E5C1D",
+   "#F7E8D2"
+  ]
+ },
+ {
+  "id": "c_look",
+  "topic": "Arts",
+  "sub": "Museums",
+  "difficulty": "Beginner",
+  "minutes": 5,
+  "quality": 85,
+  "status": "approved",
+  "evergreen": true,
+  "rights": "metadata_only",
+  "title": "How long people actually look at a masterpiece",
+  "blurb": "Someone stood in the Met with a stopwatch and counted.",
+  "source": {
+   "title": "Spending time on art",
+   "authors": "Jeffrey K. Smith, Lisa F. Smith",
+   "venue": "Empirical Studies of the Arts 19(2)",
+   "year": 2001,
+   "doi": "10.2190/5MQM-59JH-X21R-JN5J",
+   "url": "https://doi.org/10.2190/5MQM-59JH-X21R-JN5J",
+   "license": "All rights reserved",
+   "access": "Subscription"
+  },
+  "cards": [
+   {
+    "t": "hook",
+    "text": "Museum staff had long assumed visitors do not look for very long. Nobody had actually timed it. So somebody did, at the Metropolitan Museum of Art, in front of six of its best-known paintings."
+   },
+   {
+    "t": "predict",
+    "q": "What was the median time a visitor spent in front of a masterpiece?",
+    "options": [
+     "About 3 minutes",
+     "About 1 minute",
+     "17 seconds",
+     "2 seconds"
+    ],
+    "a": 2,
+    "reveal": "17 seconds, with a mean of 27.2. The mean is dragged up by a small number of long stops."
+   },
+   {
+    "t": "context",
+    "text": "150 visitors were observed at naturally occurring stops in front of six masterpieces. Nobody was told they were being timed, which matters, because knowing would almost certainly lengthen the stop."
+   },
+   {
+    "t": "evidence",
+    "text": "Median 17.0 seconds, mean 27.2. Viewing time was unrelated to age or gender, but rose with group size, which suggests the social act of looking together holds people in place longer than the painting does."
+   },
+   {
+    "t": "finding",
+    "text": "Seventeen seconds, and part of that is reading the label."
+   },
+   {
+    "t": "matters",
+    "text": "It is the empirical basis for the slow-looking movement in museum education. It also lands somewhere uncomfortable for anything built on short daily engagement: the gap between the time a thing deserves and the time it gets is not a modern attention problem, it was already there in 2001."
+   }
+  ],
+  "uncertainty": "150 observations at one museum, with age estimated by eye and stops judged by an observer. A repeat by the same team fifteen years later found the duration essentially unchanged, which is reassuring for the figure even though the design stayed observational.",
+  "quiz": [
+   {
+    "q": "Why is the median lower than the mean here?",
+    "options": [
+     "A recording error",
+     "A few unusually long stops pull the mean up",
+     "The median excludes groups",
+     "They measured different paintings"
+    ],
+    "correct": 1,
+    "explain": "Median 17.0 against mean 27.2 is the signature of a right-skewed distribution."
+   },
+   {
+    "q": "What was viewing time related to?",
+    "options": [
+     "Age",
+     "Gender",
+     "Group size",
+     "Time of day"
+    ],
+    "correct": 2,
+    "explain": "Larger groups spent longer. Age and gender showed no relationship."
+   }
+  ],
+  "motif": "bloom",
+  "pal": [
+   "#A03E63",
+   "#FADFE7"
+  ]
+ },
+ {
+  "id": "c_fitts",
+  "topic": "Design",
+  "sub": "Interaction",
+  "difficulty": "Balanced",
+  "minutes": 10,
+  "quality": 92,
+  "status": "approved",
+  "evergreen": true,
+  "rights": "metadata_only",
+  "title": "Why the close button is in the corner",
+  "blurb": "A 1954 equation about arm movement still lays out your screen.",
+  "source": {
+   "title": "The information capacity of the human motor system in controlling the amplitude of movement",
+   "authors": "Paul M. Fitts",
+   "venue": "Journal of Experimental Psychology 47(6)",
+   "year": 1954,
+   "doi": "10.1037/h0055392",
+   "url": "https://doi.org/10.1037/h0055392",
+   "license": "All rights reserved",
+   "access": "Subscription"
+  },
+  "cards": [
+   {
+    "t": "hook",
+    "text": "Paul Fitts was studying people tapping metal plates with a stylus, two decades before anyone had a mouse. The relationship he found is why your screen looks the way it does."
+   },
+   {
+    "t": "predict",
+    "q": "Time to hit a target depends on distance and size. In what way?",
+    "options": [
+     "Linearly with distance",
+     "With the square of the distance",
+     "Logarithmically with the ratio of distance to target width",
+     "Only with target size"
+    ],
+    "a": 2,
+    "reveal": "Logarithmically with the ratio. Doubling the distance costs far less than halving the target does."
+   },
+   {
+    "t": "context",
+    "text": "Fitts framed aimed movement as an information channel with a measurable capacity, which is why the paper sits in a psychology journal and reads like engineering."
+   },
+   {
+    "t": "evidence",
+    "text": "Because the cost is driven by the ratio, a target's effective size matters more than its distance, and a target you cannot overshoot behaves as though it were infinitely large. That is the screen edge. A corner is bounded on two sides at once."
+   },
+   {
+    "t": "finding",
+    "text": "A target at the edge of the screen is effectively infinite in size."
+   },
+   {
+    "t": "matters",
+    "text": "It explains menu bars pinned to the top edge, corner buttons, why a fiddly 20-pixel control in open space is genuinely worse than a large one further away, and why minimum tap-target sizes exist in accessibility guidance at all. Seventy years on it is still the most load-bearing equation in interface design."
+   }
+  ],
+  "quiz": [
+   {
+    "q": "What makes a screen edge special?",
+    "options": [
+     "It renders faster",
+     "You cannot overshoot it, so the target behaves as if infinitely large",
+     "It is closer to the hand",
+     "Nothing, it is convention"
+    ],
+    "correct": 1,
+    "explain": "The pointer stops at the edge, so the effective target width is unbounded in that direction."
+   },
+   {
+    "q": "Which change helps a slow-to-hit control more?",
+    "options": [
+     "Moving it slightly closer",
+     "Making it meaningfully bigger",
+     "Changing its colour",
+     "Adding a keyboard shortcut only"
+    ],
+    "correct": 1,
+    "explain": "The cost depends on the ratio of distance to width, and it is logarithmic, so size does more work than proximity."
+   }
+  ],
+  "motif": "peaks",
+  "pal": [
+   "#2E6E7E",
+   "#DDEDF1"
+  ]
+ },
+ {
+  "id": "c_hawth",
+  "topic": "Business",
+  "sub": "Management research",
+  "difficulty": "Balanced",
+  "minutes": 10,
+  "quality": 88,
+  "status": "approved",
+  "evergreen": false,
+  "rights": "metadata_only",
+  "title": "The most cited effect in management may not have happened",
+  "blurb": "The original data was thought destroyed. Then someone found it.",
+  "source": {
+   "title": "Was there really a Hawthorne effect at the Hawthorne plant? An analysis of the original illumination experiments",
+   "authors": "Steven D. Levitt, John A. List",
+   "venue": "American Economic Journal: Applied Economics 3(1)",
+   "year": 2011,
+   "doi": "10.1257/app.3.1.224",
+   "url": "https://doi.org/10.1257/app.3.1.224",
+   "license": "All rights reserved",
+   "access": "Subscription"
+  },
+  "cards": [
+   {
+    "t": "hook",
+    "text": "Every management course teaches it. Workers at the Hawthorne plant got more productive whenever the lighting changed, brighter or dimmer, because they were being watched. The data behind that story was believed lost for eighty years."
+   },
+   {
+    "t": "predict",
+    "q": "Levitt and List located the original illumination data. What did it show?",
+    "options": [
+     "It confirmed the standard account",
+     "The famous data patterns were not there",
+     "The effect was larger than reported",
+     "The records were unreadable"
+    ],
+    "a": 1,
+    "reveal": "The widely repeated descriptions of remarkable patterns turned out to be fictional. More subtle possible effects remained, but not the story everyone tells."
+   },
+   {
+    "t": "context",
+    "text": "The illumination experiment ran in the 1920s and was never formally analysed. Levitt and List tracked down surviving records and put modern statistical methods to data that had only ever been summarised in prose."
+   },
+   {
+    "t": "evidence",
+    "text": "The dramatic pattern, productivity rising with every change in either direction, is not in the numbers. The authors do find hints of subtler effects, and propose testing for them by looking at whether people respond more to experimenter-induced changes than to natural variation."
+   },
+   {
+    "t": "finding",
+    "text": "A foundational finding of management science was mostly repetition."
+   },
+   {
+    "t": "matters",
+    "text": "The Hawthorne effect is still a real methodological worry and control groups still earn their keep. What collapsed is the evidence for the specific story, and it survived for decades on retelling rather than on data. Worth applying to whichever framework your own industry treats as settled."
+   }
+  ],
+  "uncertainty": "This is a reanalysis of partial records recovered long after the fact, and the authors do not claim no Hawthorne-type effect exists anywhere. The narrower claim, that the canonical description of this particular experiment is not supported by its own data, is the well-supported one.",
+  "quiz": [
+   {
+    "q": "What happened to the original illumination data?",
+    "options": [
+     "It was never collected",
+     "It was thought destroyed and later recovered",
+     "It was published in full in 1930",
+     "It was falsified at the time"
+    ],
+    "correct": 1,
+    "explain": "It was never formally analysed and was believed lost until the authors located surviving records."
+   },
+   {
+    "q": "What should you conclude?",
+    "options": [
+     "Control groups are unnecessary",
+     "Observation never changes behaviour",
+     "The canonical story is unsupported, though observation effects remain a real concern",
+     "Management research is worthless"
+    ],
+    "correct": 2,
+    "explain": "The specific dramatic account failed. The general methodological caution stands."
+   }
+  ],
+  "motif": "candles",
+  "pal": [
+   "#8A4A6B",
+   "#F6E2EC"
+  ]
+ }
+];
+
+/* =============================================================
+   ILLUSTRATION ENGINE
+   Ten motifs, drawn as SVG in each topic's palette. They are not
+   decoration: the motif is chosen to say something about the piece
+   (a network for the fungal study, gears for the Antikythera
+   mechanism, a plasma wave for Voyager), and the colour tells you
+   at a glance which subject you are in.
+   Deterministic from the item id, so a piece always looks the same.
+   ============================================================= */
+function rng(seed){let s=0;for(const ch of seed)s=(s*31+ch.charCodeAt(0))>>>0;
+  return()=>{s=(s*1664525+1013904223)>>>0;return s/4294967296;};}
+
+function motif(kind,pal,seed,w,hgt){
+  const r=rng(seed),a=pal[0],b=pal[1],p=[];
+  const R=(lo,hi)=>lo+r()*(hi-lo);
+  const W=w||400,H=hgt||300;
+  if(kind==='rings'){                       // sound leaving a source
+    const cx=W*.22,cy=H*.5;
+    for(let i=1;i<=7;i++)p.push(`<circle cx="${cx}" cy="${cy}" r="${i*W*.105}" fill="none" stroke="${a}" stroke-width="${2.4-i*.22}" opacity="${.62-i*.06}"/>`);
+    p.push(`<circle cx="${cx}" cy="${cy}" r="7" fill="${a}"/>`);
+  } else if(kind==='strata'){               // layers laid down over time
+    for(let i=0;i<9;i++){const y=H*.16+i*H*.085;
+      p.push(`<path d="M0 ${y} C ${W*.3} ${y+R(-13,13)}, ${W*.65} ${y+R(-13,13)}, ${W} ${y+R(-7,7)}" fill="none" stroke="${a}" stroke-width="${i%3===0?2.4:1.1}" opacity="${.2+i*.055}"/>`);}
+  } else if(kind==='bloom'){                // something opening out
+    const cx=W*.5,cy=H*.54;
+    for(let i=0;i<14;i++){const ang=i*(Math.PI*2/14),len=H*.34*(.55+r()*.45);
+      p.push(`<ellipse cx="${cx+Math.cos(ang)*len*.5}" cy="${cy+Math.sin(ang)*len*.5}" rx="${len*.45}" ry="${len*.15}" fill="${a}" opacity=".16" transform="rotate(${ang*180/Math.PI} ${cx+Math.cos(ang)*len*.5} ${cy+Math.sin(ang)*len*.5})"/>`);}
+    p.push(`<circle cx="${cx}" cy="${cy}" r="${H*.08}" fill="${a}" opacity=".5"/>`);
+  } else if(kind==='orbit'){                // a small body, a long way out
+    p.push(`<circle cx="${W*.5}" cy="${H*.5}" r="${H*.09}" fill="${a}" opacity=".55"/>`);
+    for(let i=0;i<4;i++){const rx=H*(.2+i*.16),ry=H*(.1+i*.07),rot=R(-38,38);
+      p.push(`<ellipse cx="${W*.5}" cy="${H*.5}" rx="${rx*1.55}" ry="${ry}" fill="none" stroke="${a}" stroke-width="1.3" opacity="${.5-i*.08}" transform="rotate(${rot} ${W*.5} ${H*.5})"/>`);}
+    for(let i=0;i<16;i++)p.push(`<circle cx="${R(0,W)}" cy="${R(0,H)}" r="${R(.7,1.9)}" fill="${a}" opacity="${R(.2,.55)}"/>`);
+  } else if(kind==='waves'){                // a signal you read by its pitch
+    for(let k=0;k<4;k++){let d=`M0 ${H*.5}`;const amp=H*(.06+k*.06),f=(k+1)*.9;
+      for(let x=0;x<=W;x+=6)d+=` L${x} ${H*.5+Math.sin(x/W*Math.PI*2*f)*amp*(x/W*.85+.15)}`;
+      p.push(`<path d="${d}" fill="none" stroke="${a}" stroke-width="${2.2-k*.35}" opacity="${.6-k*.11}"/>`);}
+  } else if(kind==='network'){              // things connected underground
+    const n=[];for(let i=0;i<11;i++)n.push([R(W*.1,W*.9),R(H*.16,H*.86)]);
+    n.forEach((q,i)=>n.forEach((z,j)=>{if(j>i&&Math.hypot(q[0]-z[0],q[1]-z[1])<W*.3)
+      p.push(`<line x1="${q[0]}" y1="${q[1]}" x2="${z[0]}" y2="${z[1]}" stroke="${a}" stroke-width="1" opacity=".3"/>`);}));
+    n.forEach(q=>p.push(`<circle cx="${q[0]}" cy="${q[1]}" r="${R(3,7.5)}" fill="${a}" opacity=".62"/>`));
+  } else if(kind==='peaks'){                // a curve that is steeper one way
+    let d=`M0 ${H*.86}`;const pts=[];
+    for(let i=0;i<=9;i++)pts.push([i*W/9,H*.86-Math.pow(Math.sin(i/9*Math.PI),1.7)*H*.6*(.6+r()*.5)]);
+    pts.forEach(q=>d+=` L${q[0]} ${q[1]}`);
+    p.push(`<path d="${d} L${W} ${H} L0 ${H} Z" fill="${a}" opacity=".14"/>`);
+    p.push(`<path d="${d}" fill="none" stroke="${a}" stroke-width="2.2" opacity=".65"/>`);
+    pts.forEach(q=>p.push(`<circle cx="${q[0]}" cy="${q[1]}" r="3" fill="${a}" opacity=".7"/>`));
+  } else if(kind==='grid'){                 // a population, not one child
+    for(let y=0;y<6;y++)for(let x=0;x<10;x++){const on=r()>.42;
+      p.push(`<rect x="${W*.06+x*W*.093}" y="${H*.17+y*H*.12}" width="${W*.05}" height="${W*.05}" rx="2" fill="${a}" opacity="${on?.5:.14}"/>`);}
+  } else if(kind==='spiral'){               // a chain folding into a shape
+    let d='';const cx=W*.5,cy=H*.5;
+    for(let t=0;t<58;t+=.5){const rad=t*H*.0075,ang=t*.42;
+      d+=(t?' L':'M')+(cx+Math.cos(ang)*rad*1.7)+' '+(cy+Math.sin(ang)*rad);}
+    p.push(`<path d="${d}" fill="none" stroke="${a}" stroke-width="2.4" opacity=".6" stroke-linecap="round"/>`);
+    p.push(`<path d="${d}" fill="none" stroke="${a}" stroke-width="7" opacity=".13" stroke-linecap="round"/>`);
+  } else if(kind==='gears'){                // interlocking teeth
+    const gear=(cx,cy,rad,teeth,op)=>{let g='';
+      for(let i=0;i<teeth;i++){const A=i*Math.PI*2/teeth;
+        g+=`<rect x="${cx+Math.cos(A)*rad-rad*.11}" y="${cy+Math.sin(A)*rad-rad*.11}" width="${rad*.22}" height="${rad*.22}" fill="${a}" opacity="${op}" transform="rotate(${A*180/Math.PI} ${cx+Math.cos(A)*rad} ${cy+Math.sin(A)*rad})"/>`;}
+      return g+`<circle cx="${cx}" cy="${cy}" r="${rad}" fill="none" stroke="${a}" stroke-width="2" opacity="${op}"/><circle cx="${cx}" cy="${cy}" r="${rad*.28}" fill="none" stroke="${a}" stroke-width="1.4" opacity="${op}"/>`;};
+    p.push(gear(W*.34,H*.46,H*.25,12,.55),gear(W*.68,H*.64,H*.17,9,.42),gear(W*.74,H*.26,H*.12,7,.3));
+  } else if(kind==='shield'){               // cover held over a surface, day after day
+    for(let i=0;i<7;i++){const y=H*(.30+i*.055);
+      p.push(`<path d="M${W*.08} ${y} Q ${W*.5} ${y-H*.14}, ${W*.92} ${y}" fill="none" stroke="${a}" stroke-width="${2.6-i*.28}" opacity="${.58-i*.06}"/>`);}
+    for(let i=0;i<11;i++){const x=W*.12+i*W*.076;
+      p.push(`<line x1="${x}" y1="${H*.06}" x2="${x-W*.03}" y2="${H*.24}" stroke="${a}" stroke-width="1.1" opacity=".3"/>`);}
+    p.push(`<rect x="${W*.08}" y="${H*.72}" width="${W*.84}" height="${H*.1}" rx="4" fill="${a}" opacity=".2"/>`);
+  } else if(kind==='airfoil'){              // a wing, and the air bending around it
+    const cx=W*.46,cy=H*.56;
+    for(let i=0;i<6;i++){const off=H*(.1+i*.085);
+      p.push(`<path d="M0 ${cy-off} C ${W*.3} ${cy-off-H*.06}, ${W*.62} ${cy-off-H*.09}, ${W} ${cy-off*.72}" fill="none" stroke="${a}" stroke-width="${1.7-i*.16}" opacity="${.5-i*.06}"/>`);}
+    for(let i=0;i<3;i++){const off=H*(.11+i*.1);
+      p.push(`<path d="M0 ${cy+off} C ${W*.34} ${cy+off+H*.02}, ${W*.66} ${cy+off+H*.03}, ${W} ${cy+off}" fill="none" stroke="${a}" stroke-width="1.1" opacity="${.3-i*.07}"/>`);}
+    p.push(`<path d="M${cx-W*.26} ${cy} C ${cx-W*.16} ${cy-H*.15}, ${cx+W*.08} ${cy-H*.11}, ${cx+W*.3} ${cy-H*.005} C ${cx+W*.06} ${cy+H*.05}, ${cx-W*.12} ${cy+H*.05}, ${cx-W*.26} ${cy} Z" fill="${a}" opacity=".62"/>`);
+  } else if(kind==='candles'){              // a market, read one bar at a time
+    let y=H*.34;
+    for(let i=0;i<13;i++){const x=W*.09+i*W*.066,body=H*(.05+r()*.13);
+      y+=R(-H*.035,H*.05);
+      y=Math.max(H*.16,Math.min(H*.62,y));
+      p.push(`<line x1="${x}" y1="${y-body*.85}" x2="${x}" y2="${y+body*1.5}" stroke="${a}" stroke-width="1.1" opacity=".45"/>`);
+      p.push(`<rect x="${x-W*.017}" y="${y}" width="${W*.034}" height="${body}" rx="1.5" fill="${a}" opacity="${r()>.45?.66:.22}"/>`);}
+    p.push(`<path d="M${W*.06} ${H*.3} L ${W*.94} ${H*.68}" fill="none" stroke="${a}" stroke-width="2" opacity=".33" stroke-dasharray="7 6"/>`);
+  } else if(kind==='spines'){               // a shelf, filled a chapter at a time
+    for(let i=0;i<14;i++){const x=W*.07+i*W*.062,hh=H*(.3+r()*.34),w=W*(.028+r()*.02);
+      p.push(`<rect x="${x}" y="${H*.74-hh}" width="${w}" height="${hh}" rx="2" fill="${a}" opacity="${.24+r()*.42}"/>`);
+      p.push(`<line x1="${x+1.5}" y1="${H*.74-hh+8}" x2="${x+w-1.5}" y2="${H*.74-hh+8}" stroke="${b}" stroke-width="1.4" opacity=".7"/>`);}
+    p.push(`<rect x="${W*.04}" y="${H*.74}" width="${W*.92}" height="${H*.035}" rx="2" fill="${a}" opacity=".5"/>`);
+  } else if(kind==='frames'){               // cuts, and what they do to a viewer
+    const top=H*.24,bh=H*.5;
+    p.push(`<rect x="0" y="${top}" width="${W}" height="${bh}" fill="${a}" opacity=".13"/>`);
+    for(let i=0;i<5;i++){const x=W*.045+i*W*.192;
+      p.push(`<rect x="${x}" y="${top+bh*.19}" width="${W*.155}" height="${bh*.62}" rx="3" fill="none" stroke="${a}" stroke-width="1.6" opacity="${.34+i*.11}"/>`);}
+    for(let i=0;i<12;i++){const x=W*.03+i*W*.081;
+      p.push(`<rect x="${x}" y="${top+bh*.04}" width="${W*.032}" height="${bh*.08}" rx="1.5" fill="${a}" opacity=".45"/>`);
+      p.push(`<rect x="${x}" y="${top+bh*.88}" width="${W*.032}" height="${bh*.08}" rx="1.5" fill="${a}" opacity=".45"/>`);}
+  } else if(kind==='hypnogram'){            // a night, drawn as the stages you pass through
+    const lanes=4,top=H*.2,gap=H*.15;
+    for(let i=0;i<lanes;i++)p.push(`<line x1="${W*.06}" y1="${top+i*gap}" x2="${W*.94}" y2="${top+i*gap}" stroke="${a}" stroke-width="1" opacity=".18"/>`);
+    let d=`M${W*.06} ${top}`,lv=0,x=W*.06;
+    for(let i=0;i<15;i++){const nx=x+W*.059;
+      lv=Math.max(0,Math.min(lanes-1,lv+(r()>.5?1:-1)));
+      d+=` L${nx} ${top+lv*gap}`;
+      if(i<14)d+=` L${nx} ${top+Math.max(0,Math.min(lanes-1,lv))*gap}`;
+      x=nx;}
+    p.push(`<path d="${d}" fill="none" stroke="${a}" stroke-width="2.2" opacity=".6" stroke-linejoin="round"/>`);
+    p.push(`<path d="M${W*.84} ${H*.1} a ${H*.055} ${H*.055} 0 1 0 ${H*.052} ${H*.052} a ${H*.045} ${H*.045} 0 1 1 -${H*.052} -${H*.052} Z" fill="${a}" opacity=".45"/>`);
+  }
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+    <rect width="${W}" height="${H}" fill="${b}"/>${p.join('')}</svg>`;
+}
+
+/* ============ persistence ============ */
+const KEY='onething:v1'; let MEM=null; let STORAGE_OK=true;
+async function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); STORAGE_OK=true; }
+  catch(e){ MEM=JSON.stringify(S); STORAGE_OK=false; } }
+async function load(){
+  try{
+    const v=localStorage.getItem(KEY); STORAGE_OK=true;
+    if(v) return JSON.parse(v);
+  }catch(e){ STORAGE_OK=false; if(MEM) return JSON.parse(MEM); }
+  return null;
+}
+async function wipe(){ try{ localStorage.removeItem(KEY); }catch(e){} MEM=null; }
+
+const ERRMSG={
+  FUTURE_CONTENT_LOCKED:"Tomorrow's isn't ready. It lands at midnight, your time.",
+  QUIZ_INCOMPLETE:'Just the questions left.',
+  NOT_STARTED:'Open it before you finish it.',
+  DAY_CLOSED:"That day's closed. Still worth reading, it just can't count now.",
+  NO_ASSIGNMENT:'Nothing was set for that day.',
+  NOT_FOUND:'Nothing was set for that day.',
+  NO_CONTENT:"Nothing's loading. Give it a second and try again."
+};
+const errText=c=>ERRMSG[c]||'That did not work. Try again in a moment.';
+
+/* ============ state ============ */
+// Every name here must have an ADJACENT entry in the server core, or the
+// interest tier quietly stops working for anyone who picks it.
+const TOPICS=['Science','Technology','AI','Engineering','Aeronautics','Space','Nature','Environment','Health','Sleep','Beauty','Psychology','Philosophy','Society','History','Culture','Arts','Books','Movies','Design','Education','Business','Economics','Finance'];
+const SUBS={Technology:['Artificial intelligence','Robotics','Cybersecurity','Software','Hardware','The internet'],Psychology:['Memory','Decision making','Emotion','Development','Metacognition'],Science:['Physics','Biology','Chemistry','Neuroscience','Methods'],Space:['Astrophysics','Missions','Planets','Cosmology'],Aeronautics:['Flight','Aircraft design','Air safety','Human factors','Rocketry'],Health:['Nutrition','Clinical research','Public health','Exercise'],Sleep:['Circadian rhythm','Sleep debt','Dreams','Insomnia','Naps'],Beauty:['Skin science','Cosmetic chemistry','Hair','Fragrance','The industry'],Finance:['Markets','Personal finance','Banking','Risk','Behavioural finance'],Books:['Fiction','Non-fiction','Publishing','Reading habits','Libraries'],Movies:['Filmmaking','Editing','Sound','Film history','The business'],History:['Ancient world','Modern era','Invention','Ideas']};
+// FIX: zones are identified by NAME, not by offset. Lagos and London are both
+// +1 in August, as are Calabar and Birmingham; Toronto and New York are both
+// -4. Keying the picker on the offset made every chip sharing an offset read
+// as selected at once, and made the console name the wrong city.
+// `zone` is the label the user chose; `tzOffsetMin` is the only thing the
+// server core ever sees.
+const ZONES=[['Lagos',60],['Calabar',60],['London',60],['Birmingham',60],
+  ['New York',-240],['Toronto',-240],['Los Angeles',-420],['Kathmandu',345]];
+const zoneName=()=>S.user.zone||'Wherever you are';
+
+function blank(){
+  return {v:1,onboarded:false,step:0,tab:'today',clockOffset:0,
+    user:{id:'u1',interests:[],subs:[],duration:10,difficulty:'Balanced',
+      tzOffsetMin:-new Date().getTimezoneOffset(),prevTzOffsetMin:null,zone:null,dayStartHour:0,
+      currentStreak:0,longestStreak:0,xp:0,affinity:{},achievements:[],
+      lastCompletedLocalDate:null,lastActiveLocalDate:null,skippedIds:[]},
+    assignments:[],xp:[],bookmarks:[],highlights:[],seenIntro:false};
+}
+let S=blank(), L={}, TOAST=null, SHEET=null;
+const DB=()=>({corpus:CORPUS,assignments:S.assignments,xp:S.xp,rand:Math.random});
+const now=()=>Date.now()+S.clockOffset;
+const today=()=>CORE.localDate(now(),S.user.tzOffsetMin,S.user.dayStartHour);
+const content=id=>CORPUS.find(c=>c.id===id);
+
+const h=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const $=s=>document.querySelector(s);
+function toast(msg){ TOAST=msg; render(); clearTimeout(toast._t); toast._t=setTimeout(()=>{TOAST=null;render();},2800); }
+
+/* ============ SHARE ============ */
+function appUrl(){ return location.origin+location.pathname; }
+function appShare(){
+  return {title:'One Thing', url:appUrl(),
+    text:"One real idea a day. Five minutes. Then it gets out of your way."};
+}
+function storyShare(c){
+  return {title:'One Thing', url:appUrl(),
+    text:`"${c.title}" · one real idea a day, on One Thing.`};
+}
+function streakShare(rec){
+  return {title:'One Thing', url:appUrl(),
+    text:`Day ${rec.streak} on One Thing. One real idea a day, kept.`};
+}
+async function doShare(payload){
+  try{
+    if(navigator.share){ await navigator.share(payload); return; }
+    throw 0;
+  }catch(e){
+    if(e&&e.name==='AbortError') return;
+    try{ await navigator.clipboard.writeText(`${payload.text} ${payload.url}`); toast('Link copied.'); }
+    catch(e2){ toast("Couldn't share from here."); }
+  }
+}
+function log(msg,cls){ const el=$('#log'); if(!el)return; const d=document.createElement('div'); d.className=cls||''; d.textContent=msg; el.appendChild(d); el.scrollTop=el.scrollHeight; }
+function sentences(t){ return t.match(/[^.!?]+[.!?]*/g)||[t]; }
+function hlKey(cid,ci,si){ return cid+'|'+ci+'|'+si; }
+const tone=c=>`--tone:${c.pal[0]};--tint:${c.pal[1]}`;
+const artFor=(c,w,hh)=>`<div class="art" style="${tone(c)}">${motif(c.motif,c.pal,c.id,w,hh)}</div>`;
+
+function dotCal(days){
+  const t=today(); let out='';
+  for(let i=days-1;i>=0;i--){
+    const d=CORE.addDays(t,-i);
+    const a=S.assignments.find(x=>x.localDate===d);
+    let cls='dot';
+    if(a&&a.status==='completed') cls+=' on';
+    else if(a) cls+=' miss';
+    if(i===0) cls+=' today';
+    out+=`<span class="${cls}" title="${d}"></span>`;
+  }
+  const n=S.assignments.filter(a=>a.status==='completed').length;
+  return `<div class="dots" role="img" aria-label="Your last ${days} days. ${n} finished.">${out}</div>`;
+}
+
+/* ============ ONBOARDING ============ */
+function vwOnboard(){
+  const u=S.user, st=S.step;
+  const wrap=(inner,cta,enabled,alt)=>`
+    <div class="row" style="margin-bottom:26px">
+      <span class="eyebrow">One Thing</span>
+      <span class="small tnum">${st} of 4</span>
+    </div>${inner}
+    <div style="margin-top:30px">
+      <button class="btn primary" data-a="next" ${enabled?'':'disabled'}>${cta}</button>
+      ${alt||''}
+    </div>`;
+
+  if(st===0) return `
+    <div style="min-height:58vh;display:flex;flex-direction:column;justify-content:center">
+      <span class="eyebrow">One Thing</span>
+      <h1 style="margin:18px 0 0;font-size:39px">You read for two hours yesterday.<br>Name one thing you kept.</h1>
+      <p class="read" style="color:var(--mute);margin:20px 0 0;font-size:18px">Not your fault. That's just what a feed does.</p>
+      <p class="small" style="margin:12px 0 0;font-size:14px;letter-spacing:.02em">One real idea a day. Five minutes. We get out of your way.</p>
+    </div>
+    <button class="btn primary" data-a="next">Show me today's</button>
+    <p class="small" style="text-align:center;margin-top:14px">No feed. Nothing to catch up on.</p>`;
+
+  if(st===1){
+    const n=u.interests.length;
+    return wrap(`
+      <h2>What makes you look twice?</h2>
+      <p class="small" style="margin:10px 0 20px">Pick three or more. Any fewer and you'll start seeing tomorrow coming.</p>
+      <div class="chips">${TOPICS.map(t=>`<button class="chip" data-topic="${t}" aria-pressed="${u.interests.includes(t)}">${t}</button>`).join('')}</div>
+      <p class="small tnum" style="margin-top:16px">${n===0?'Nothing picked yet':n<3?(3-n)+' more to go':n+" picked. That'll keep it interesting."}</p>`,
+      'Continue', n>=3);
+  }
+
+  if(st===2){
+    const avail=u.interests.filter(t=>SUBS[t]);
+    if(!avail.length){ S.step=3; return vwOnboard(); }
+    return wrap(`
+      <h2>Anywhere you'd go deeper?</h2>
+      <p class="small" style="margin:10px 0 20px">Optional. It sharpens your first week. After that we go by what you actually finish, not what you ticked.</p>
+      ${avail.map(t=>`<div style="margin-bottom:18px"><span class="eyebrow">${t}</span>
+        <div class="chips" style="margin-top:9px">${SUBS[t].map(s=>`<button class="chip sm" data-sub="${h(s)}" aria-pressed="${u.subs.includes(s)}">${h(s)}</button>`).join('')}</div></div>`).join('')}`,
+      'Continue', true, `<button class="btn ghost" data-a="next" style="margin-top:9px">Nothing jumps out</button>`);
+  }
+
+  if(st===3) return wrap(`
+    <h2>How long have you got?</h2>
+    <p class="small" style="margin:10px 0 20px">We'll match the piece to your time. There's no clock running on you.</p>
+    ${[[5,'Five minutes','The length of a coffee queue'],[10,'Ten minutes','Where most days land'],[15,'Fifteen minutes','When you want the method too']].map(([m,t,x])=>`
+      <button class="sel" data-dur="${m}" data-s="${u.duration===m?'pick':''}"><strong>${t}</strong><br><span class="small">${x}</span></button>`).join('')}`,
+    'Continue', true);
+
+  return wrap(`
+    <h2>How deep should we go?</h2>
+    <p class="small" style="margin:10px 0 20px">Get a few questions wrong and we'll ease off. Nothing here is locked in.</p>
+    ${[['Beginner','From scratch','Assume I know nothing about it'],['Balanced','Straight to it','Assume I&#39;m curious and paying attention'],['Challenging','Show your working','I want the evidence, not just the answer']].map(([d,t,x])=>`
+      <button class="sel" data-diff="${d}" data-s="${u.difficulty===d?'pick':''}"><strong>${t}</strong><br><span class="small">${x}</span></button>`).join('')}`,
+    'Start my streak', true);
+}
+
+/* ============ TODAY ============ */
+function vwToday(){
+  const r=CORE.getOrCreateAssignment(DB(),S.user,now());
+  if(r.error) return `<div class="note warn">${h(errText(r.error))}</div>`;
+  const a=r.assignment, c=content(a.contentId);
+  const hr=new Date(now()+S.user.tzOffsetMin*60000).getUTCHours();
+  const greet=hr<12?'Good morning':hr<18?'Good afternoon':'Good evening';
+  const done=a.status==='completed';
+  const k=S.user.currentStreak||0, kept=S.assignments.filter(x=>x.status==='completed').length;
+  const streakLine=k>1?`${k} days running`:k===1?'Day one on the board':kept?'Streak gone. Today restarts it.':'Nothing on the board yet';
+
+  return `
+    ${STORAGE_OK?'':`<div class="note warn" style="margin-bottom:18px"><strong>Nothing is saving.</strong> Storage is blocked here, so this won't survive a reload. On the real thing the server holds it, not your browser.</div>`}
+    <div class="row"><span class="eyebrow">${greet}</span>
+      <button class="btn tiny ghost" data-a="tab:profile">Settings</button></div>
+    <p class="small" style="margin:14px 0 22px">${h(streakLine)}${kept?` · ${kept} kept`:''}</p>
+
+    ${done?`
+      <div class="today-card">
+        <div class="today-art" style="${tone(c)}">${motif(c.motif,c.pal,c.id,400,150)}</div>
+        <div style="padding:26px 22px;text-align:center">
+          <span class="eyebrow tone" style="${tone(c)}">That's you done</span>
+          <h2 style="margin:14px 0 12px">${h(c.title)}</h2>
+          <p class="small">Tomorrow's lands at midnight. There's nothing else here for you today, which is the point.</p>
+          <button class="btn ghost" data-a="review" style="margin-top:20px">Read it again</button>
+        </div>
+      </div>`:`
+      <div class="stack">
+        <div class="today-card">
+          <div class="today-art" style="${tone(c)}">${motif(c.motif,c.pal,c.id,400,150)}</div>
+          <div style="padding:22px">
+            <span class="eyebrow tone" style="${tone(c)}">${h(c.topic)}</span>
+            <h2 style="margin:12px 0 12px">${h(c.title)}</h2>
+            <p class="read" style="font-size:16px;color:var(--mute);margin:0">${h(c.blurb)}</p>
+          </div>
+        </div>
+      </div>
+      <button class="btn primary" style="margin-top:22px" data-a="start">${k>0?'Keep the streak alive':'Start your streak'}</button>
+      ${a.revisit?`<div class="note warn" style="margin-top:16px">You've been through everything in your subjects. Worth a second look while we bring more in.</div>`:''}
+      <details style="margin-top:14px">
+        <summary class="small">Why this one?</summary>
+        <div class="note plain" style="margin-top:8px">
+          ${a.why.map(w=>'· '+h(w)).join('<br>')}
+        </div>
+      </details>
+      <p class="small" style="text-align:center;margin:44px 0 6px;opacity:.45;letter-spacing:.12em;text-transform:uppercase;font-size:10px">One thing. Every day.</p>`}`;
+}
+
+/* ============ THE STORY DECK ============ */
+const LABEL={context:'The setup',evidence:'What they did',finding:'What they found',matters:'Why you would care'};
+
+function vwLearn(){
+  const a=S.assignments.find(x=>x.id===L.aid), c=content(a.contentId);
+  const total=c.cards.length+c.quiz.length+1;
+  const step=L.idx<c.cards.length?L.idx:(L.idx===c.cards.length?c.cards.length+(L.qi||0):total-1);
+  const segs=Array.from({length:total},(_,n)=>`<i class="${n<=step?'done':''}"></i>`).join('');
+  const head=`<div class="deckbar">
+      <button class="btn tiny ghost" data-a="exit" aria-label="Close">Close</button>
+      <div style="display:flex;gap:8px">
+        <button class="btn tiny ghost" data-a="share" aria-label="Share this story">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 3.9M15.4 6.6L8.6 10.5"/></svg>
+        </button>
+        <button class="btn tiny ghost" data-a="bookmark">${S.bookmarks.includes(c.id)?'Saved':'Save'}</button>
+      </div>
+    </div>`;
+
+  let body='', canGo=true, center=true;
+
+  if(L.idx<c.cards.length){
+    const card=c.cards[L.idx];
+    if(card.t==='predict'){
+      const picked=L.pred!=null; canGo=picked; center=false;
+      body=`<div class="lcard">
+        <span class="eyebrow tone">Have a guess</span>
+        <h2 style="margin:14px 0 20px;font-size:23px">${h(card.q)}</h2>
+        ${card.options.map((o,n)=>{let st=''; if(picked) st=n===card.a?'right':(n===L.pred?'wrong':'');
+          return `<button class="sel" data-pred="${n}" data-s="${st}" ${picked?'disabled':''}>${h(o)}</button>`;}).join('')}
+        ${picked?`<div class="lcard" style="margin-top:20px">
+          <span class="eyebrow tone">${L.pred===card.a?'You got it':'Hardly anyone gets this one'}</span>
+          <p class="read" style="margin-top:10px">${h(card.reveal)}</p></div>`:''}
+      </div>`;
+    } else if(card.t==='hook'){
+      body=`<div class="lcard"><p class="hook" style="margin:0">${h(card.text)}</p></div>`;
+    } else if(card.t==='finding'){
+      body=`<div class="lcard"><span class="eyebrow tone">What they found</span>
+        <p class="finding" style="margin:16px 0 0">${hlText(card.text,c.id,L.idx)}</p></div>`;
+    } else {
+      center=false;
+      body=`<div class="lcard"><span class="eyebrow tone">${h(LABEL[card.t]||'')}</span>
+        <p class="read" style="margin:16px 0 0">${hlText(card.text,c.id,L.idx)}</p>
+        ${card.t==='matters'&&c.uncertainty?`<div class="note warn" style="margin-top:22px">
+          <strong>Where it's still argued</strong><br>${h(c.uncertainty)}</div>`:''}
+        <p class="small" style="margin-top:24px;opacity:.55">Tap a line to keep it.</p>
+      </div>`;
+    }
+  } else if(L.idx===c.cards.length){
+    const q=L.qi||0, cur=c.quiz[q], ans=L.qa[q], graded=L.qgrade&&L.qgrade[q];
+    canGo=!!graded; center=false;
+    body=`<div class="lcard">
+      <span class="eyebrow tone">Quick check · ${q+1} of ${c.quiz.length}</span>
+      <h2 style="margin:14px 0 20px;font-size:22px">${h(cur.q)}</h2>
+      ${cur.options.map((o,n)=>{let st=''; if(graded) st=n===graded.correct?'right':(n===ans?'wrong':''); else if(ans===n) st='pick';
+        return `<button class="sel" data-ans="${n}" data-s="${st}" ${graded?'disabled':''}>${h(o)}</button>`;}).join('')}
+      ${graded?`<div class="lcard note ${graded.ok?'':'warn'}" style="margin-top:18px">
+        <strong>${graded.ok?"That's it.":'Not this time.'}</strong> ${h(graded.explain)}</div>`
+        :`<button class="btn" style="margin-top:18px" data-a="grade" ${ans==null?'disabled':''}>Check</button>`}
+    </div>`;
+  } else {
+    center=false;
+    const s=c.source;
+    body=`<div class="lcard">
+      <span class="eyebrow tone">The paper</span>
+      <h3 style="margin:16px 0 12px;font-size:20px">${h(s.title)}</h3>
+      <p class="small" style="margin:0">${h(s.authors)}, ${s.year}</p>
+      <a class="btn ghost" style="margin-top:20px;text-decoration:none;background:rgba(255,255,255,.7)"
+        href="${h(s.url)}" target="_blank" rel="noopener">Read the story</a>
+      <button class="btn primary" style="margin-top:10px" data-a="finish">Finish</button>
+    </div>`;
+    canGo=false;
+  }
+
+  const zones=canGo?`<div class="tapzone back" data-a="prevcard" aria-hidden="true"></div>
+    <div class="tapzone fwd" data-a="nextcard" aria-hidden="true"></div>`:
+    `<div class="tapzone back" data-a="prevcard" aria-hidden="true"></div>`;
+  const fab=(L.idx<=c.cards.length)?`<button class="nextfab" data-a="nextcard" ${canGo?'':'disabled'} aria-label="Next">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button>`:'';
+
+  return `<div id="deck" style="${tone(c)}">
+    <div class="storyart">${motif(c.motif,c.pal,c.id,420,880)}</div>
+    ${zones}
+    <div class="segs">${segs}</div>
+    ${head}
+    <div class="storybody ${center?'':'top'}">${body}</div>
+    ${fab}
+  </div>`;
+}
+
+function hlText(text,cid,ci){
+  return sentences(text).map((s,si)=>{
+    const on=S.highlights.some(x=>x.k===hlKey(cid,ci,si));
+    return `<span class="hlable ${on?'hl':''}" data-hl="${hlKey(cid,ci,si)}" data-t="${h(s.trim())}">${h(s)}</span>`;
+  }).join('');
+}
+
+/* ============ DONE ============ */
+const XPLABEL={complete_daily:"Finished today's",complete_quiz:'Answered the check',
+  perfect_quiz:'Got them all',reflection:'Wrote it down',first_topic:'First time in '};
+function vwDone(){
+  const rec=L.receipt, a=S.assignments.find(x=>x.id===L.aid), c=content(a.contentId);
+  const lv=CORE.levelFor(S.user.xp);
+  const startAt=L.celebrated?rec.streak:0;
+  return `
+    <div style="text-align:center;padding-top:16px">
+      <span class="eyebrow tone" style="${tone(c)}">That's today done</span>
+      <div class="bignum tnum" id="donestreak" style="margin:18px 0 6px;color:var(--green)">${startAt}</div>
+      <span class="eyebrow">day${rec.streak===1?'':'s'} running</span>
+      <p class="read" style="margin:18px 0 0;color:var(--mute);font-size:16px">
+        ${rec.streak===1?'One down. Come back tomorrow and it becomes a habit.':
+          rec.streak<7?'Keep going. The first week is the one that decides it.':
+          'You have the habit now. Protect it.'}</p>
+      <button class="btn ghost tiny" style="margin:16px auto 0;width:auto" data-a="share">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 3.9M15.4 6.6L8.6 10.5"/></svg>
+        Share your streak</button>
+    </div>
+    ${rec.bridged?`<div class="note" style="margin-top:20px">You crossed a timezone and lost a calendar day to it. We bridged the streak rather than breaking it.</div>`:''}
+    ${rec.offlineSync?`<div class="note" style="margin-top:20px">Finished offline last night. Counted for that day.</div>`:''}
+    <hr class="rule">
+    ${rec.lines.map(l=>`<div class="xpline"><span>${h(l.reason==='first_topic'?XPLABEL.first_topic+c.topic:(XPLABEL[l.reason]||l.reason))}</span><span class="tnum">+${l.amount}</span></div>`).join('')}
+    <div class="xpline" style="border:0;font-weight:700;padding-top:12px"><span>Total</span><span class="tnum">+${rec.xpAwarded} XP</span></div>
+    <div style="margin:20px 0 8px" class="row"><span class="small">${h(lv.name)}</span>
+      <span class="small tnum">${lv.ceiling-S.user.xp} to go</span></div>
+    <div class="meter"><i style="width:${Math.round(lv.progress*100)}%"></i></div>
+    ${rec.unlocked.length?`<div style="margin-top:24px"><span class="eyebrow">New badge</span>
+      ${rec.unlocked.map(u=>`<div class="note" style="margin-top:10px"><strong>${h(u.name)}</strong><br>${h(u.desc)}</div>`).join('')}</div>`:''}
+    <hr class="rule">
+    ${a.reflection?`<div class="note plain">${h(a.reflection)}</div>`
+      :`<label class="eyebrow" for="refl">What stuck?</label>
+        <textarea id="refl" rows="3" placeholder="One line is plenty. Skip it if nothing did."
+          style="width:100%;margin-top:10px;padding:14px;border:1.5px solid var(--line);border-radius:13px;font:inherit;font-family:var(--read);resize:vertical"></textarea>
+        <button class="btn ghost" style="margin-top:10px" data-a="reflect">Save it</button>`}
+    <button class="btn" style="margin-top:24px" data-a="tab:today">Done for today</button>`;
+}
+
+/* ============ LIBRARY ============ */
+function vwLibrary(){
+  const tab=S.libTab||'history';
+  const done=S.assignments.filter(a=>a.status==='completed');
+  const missed=S.assignments.filter(a=>a.status!=='completed'&&a.localDate<today());
+  const all=[...done,...missed].sort((a,b)=>b.localDate.localeCompare(a.localDate));
+  const t=(k,l,n)=>`<button class="chip sm" data-lib="${k}" aria-pressed="${tab===k}">${l}${n?' '+n:''}</button>`;
+  let body='';
+  if(tab==='history'){
+    body = all.length? all.map(a=>{const c=content(a.contentId);return `
+      <button class="today-card" style="width:100%;text-align:left;margin-bottom:11px;display:flex;gap:14px;align-items:center;padding:14px" data-open="${a.localDate}">
+        <div class="art thumb" style="${tone(c)}">${motif(c.motif,c.pal,c.id,60,60)}</div>
+        <div style="flex:1;min-width:0">
+          <span class="eyebrow tone" style="${tone(c)}">${h(c.topic)}</span>
+          <h3 style="margin:6px 0 5px;font-size:16px">${h(c.title)}</h3>
+          <p class="small" style="margin:0">${a.status==='completed'
+            ?`${a.grade?a.grade.correct+' of '+a.grade.total+' right':''} · ${a.localDate}`
+            :`Missed this one. Still worth a read, it just can't count.`}</p>
+        </div>
+      </button>`}).join('')
+      : `<div class="note plain">Nothing here yet. Tonight's will be the first.</div>`;
+  } else if(tab==='saved'){
+    body = S.bookmarks.length? S.bookmarks.map(id=>{const c=content(id);return `
+      <div class="today-card" style="margin-bottom:11px;display:flex;gap:14px;align-items:center;padding:14px">
+        <div class="art thumb" style="${tone(c)}">${motif(c.motif,c.pal,c.id,60,60)}</div>
+        <div style="flex:1;min-width:0">
+          <h3 style="margin:0 0 7px;font-size:16px">${h(c.title)}</h3>
+          <div class="row"><a class="small" href="${h(c.source.url)}" target="_blank" rel="noopener">Read the story</a>
+            <button class="btn tiny ghost" data-unsave="${id}">Remove</button></div>
+        </div>
+      </div>`}).join('')
+      : `<div class="note plain">Nothing saved. Hit Save while you're reading and it turns up here.</div>`;
+  } else {
+    body = S.highlights.length? S.highlights.slice().reverse().map(x=>{const c=content(x.cid);return `
+      <div class="today-card" style="margin-bottom:11px;padding:17px">
+        <p class="read" style="margin:0 0 10px;font-size:16px"><span class="hl">${h(x.t)}</span></p>
+        <div class="row"><span class="small">${h(c?c.title:'')}</span>
+          <button class="btn tiny ghost" data-unhl="${h(x.k)}">Remove</button></div>
+      </div>`}).join('')
+      : `<div class="note plain">No lines kept yet. Tap any sentence while you read and it stays here.</div>`;
+  }
+  return `<h1>Everything you've kept</h1>
+    <div class="chips" style="margin:20px 0 22px">${t('history','Read',all.length)}${t('saved','Saved',S.bookmarks.length)}${t('highlights','Lines',S.highlights.length)}</div>
+    ${body}`;
+}
+
+/* ============ PROGRESS ============ */
+function vwProgress(){
+  const st=CORE.statsFor(DB(),S.user), lv=CORE.levelFor(S.user.xp);
+  const entries=Object.entries(st.byTopic).sort((a,b)=>b[1]-a[1]);
+  const max=entries.length?entries[0][1]:1;
+  const palOf=t=>(CORPUS.find(c=>c.topic===t)||{pal:['#65685F','#eee']}).pal;
+  return `<h1>Progress</h1>
+    <div class="row" style="margin:26px 0 6px;align-items:flex-end">
+      <div><div class="bignum tnum">${st.completed}</div><span class="eyebrow">things kept</span></div>
+      <div style="text-align:right"><div class="bignum tnum" style="color:var(--green)">${S.user.currentStreak||0}</div><span class="eyebrow">days running</span></div>
+    </div>
+    <p class="small tnum" style="margin:16px 0 22px">Best run so far: ${S.user.longestStreak||0} day${S.user.longestStreak===1?'':'s'}</p>
+    ${dotCal(28)}
+    <p class="small" style="margin:11px 0 0">The last four weeks. Filled means finished.</p>
+    <hr class="rule">
+    <div class="row"><span class="eyebrow">${h(lv.name)}</span><span class="small tnum">${S.user.xp} XP</span></div>
+    <div class="meter" style="margin-top:10px"><i style="width:${Math.round(lv.progress*100)}%"></i></div>
+    <p class="small" style="margin-top:9px">${lv.ceiling-S.user.xp} XP until the next one.</p>
+    <hr class="rule">
+    <span class="eyebrow">Where your curiosity goes</span>
+    <div style="margin-top:16px">${entries.length?entries.map(([t,n])=>{const p=palOf(t);return `
+      <div style="margin-bottom:14px"><div class="row" style="margin-bottom:5px">
+        <span style="font-size:14.5px">${h(t)}</span><span class="small tnum">${n}</span></div>
+        <div class="topicbar" style="width:${Math.max(7,(n/max)*100)}%;background:${p[0]}"></div></div>`}).join('')
+      :`<p class="small">Nothing to show until you finish your first one.</p>`}</div>
+    <hr class="rule">
+    <span class="eyebrow">Badges</span>
+    <div style="margin-top:14px">${CORE.ACHIEVEMENTS.map(a=>{const on=S.user.achievements.includes(a.id);return `
+      <div class="row" style="padding:12px 0;border-bottom:1px dashed var(--line);opacity:${on?1:.4}">
+        <div><strong style="font-size:14.5px">${h(a.name)}</strong><br><span class="small">${h(a.desc)}</span></div>
+        <span style="color:var(--green);font-weight:700">${on?'✓':''}</span></div>`}).join('')}</div>`;
+}
+
+/* ============ PROFILE ============ */
+function vwProfile(){
+  const u=S.user;
+  return `<h1>You</h1>
+    <div style="margin-top:24px"><span class="eyebrow">What you're into</span>
+      <div class="chips" style="margin-top:12px">${TOPICS.map(t=>`<button class="chip sm" data-topic="${t}" aria-pressed="${u.interests.includes(t)}">${t}</button>`).join('')}</div>
+      <p class="small" style="margin-top:11px">Changes land tomorrow. Today's is already promised to you.</p></div>
+    <hr class="rule">
+    <span class="eyebrow">How deep</span>
+    <div class="chips" style="margin-top:12px">${['Beginner','Balanced','Challenging'].map(d=>`<button class="chip sm" data-diff="${d}" aria-pressed="${u.difficulty===d}">${d}</button>`).join('')}</div>
+    <div style="margin-top:22px"><span class="eyebrow">How long</span>
+      <div class="chips" style="margin-top:12px">${[5,10,15].map(m=>`<button class="chip sm" data-dur="${m}" aria-pressed="${u.duration===m}">${m} min</button>`).join('')}</div></div>
+    <hr class="rule">
+    <span class="eyebrow">Where you are</span>
+    <div class="chips" style="margin-top:12px">${ZONES.map(([n,o])=>`<button class="chip sm" data-tz="${h(n)}" aria-pressed="${u.zone===n}">${h(n)}</button>`).join('')}</div>
+    <div class="row" style="margin-top:20px">
+      <div style="flex:1"><strong style="font-size:14.5px">Night owl</strong><br>
+        <span class="small">Finish at 1am and it counts for the night before, not the day after.</span></div>
+      <button class="chip sm" data-a="dayboundary" aria-pressed="${u.dayStartHour===4}">${u.dayStartHour===4?'On':'Off'}</button></div>
+    <p class="small tnum" style="margin-top:14px">Right now that makes it ${today()} for you.</p>
+    <hr class="rule">
+    <span class="eyebrow">Your streak</span>
+    <div class="row" style="margin-top:12px;align-items:flex-end">
+      <div><div class="bignum tnum" style="font-size:40px;color:var(--green)">${u.currentStreak||0}</div><span class="small">day${u.currentStreak===1?'':'s'} running</span></div>
+      <div style="text-align:right"><span class="small">Best run</span><br><span class="tnum" style="font-weight:700;font-size:18px">${u.longestStreak||0}</span></div>
+    </div>
+    <p class="small" style="margin-top:10px">${(u.currentStreak||0)>0?"Come back before midnight or it resets to zero.":"Finish today's to start one."}</p>
+    <button class="btn ghost" style="margin-top:12px" data-a="share:app">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 3.9M15.4 6.6L8.6 10.5"/></svg>
+      Share One Thing</button>
+    <hr class="rule">
+    <span class="eyebrow">Your stuff</span>
+    <p class="small" style="margin:10px 0 12px">Everything we hold: your settings, what you've read, your streak, your saves and your lines.</p>
+    <button class="btn ghost" data-a="export">Download all of it</button>
+    <button class="btn ghost" style="margin-top:9px;color:var(--brick);border-color:var(--brick)" data-a="delete">Delete my account</button>`;
+}
+
+/* ============ ROUTER ============ */
+function streakChip(){
+  const k=S.user.currentStreak||0;
+  const a=S.assignments.find(x=>x.localDate===today());
+  const doneToday=a&&a.status==='completed';
+  const risk=k>0&&!doneToday;
+  const label=k===0?'Start your streak today'
+    :doneToday?`day${k===1?'':'s'} running · today's locked in`
+    :`day${k===1?'':'s'} running · don't lose it today`;
+  return {risk, html:`
+    <svg class="flame" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2.5c-1.4 3.6-5 5.4-5 9.7a5 5 0 0010 0c0-1.9-.7-3.1-1.7-4.1.3 1.9-.8 2.7-1.6 2.1.7-2.1-.3-4.5-1.7-7.7z"/>
+    </svg>
+    <span class="n">${k}</span>
+    <span>${label}</span>`};
+}
+
+/* ============ REWARD FX ============ */
+const REDUCED_MOTION=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function fireConfetti(xPct,yPct,label){
+  const host=$('#device'); if(!host) return;
+  if(REDUCED_MOTION){
+    if(label){ toast(label); }
+    return;
+  }
+  const rect=host.getBoundingClientRect();
+  const x=rect.width*xPct, y=rect.height*yPct;
+  const colors=['#0C6B47','#128A5C','#9B4A32','#E0EFE7','#F3E9D4','#7A4E9E'];
+  const n=24;
+  for(let i=0;i<n;i++){
+    const el=document.createElement('i'); el.className='confetti-piece';
+    const ang=Math.random()*Math.PI*2, dist=60+Math.random()*95;
+    el.style.left=x+'px'; el.style.top=y+'px';
+    el.style.setProperty('--dx',(Math.cos(ang)*dist)+'px');
+    el.style.setProperty('--dy',(Math.sin(ang)*dist-46)+'px');
+    el.style.setProperty('--rot',(Math.random()*520-260)+'deg');
+    el.style.setProperty('--dur',(850+Math.random()*550)+'ms');
+    el.style.background=colors[i%colors.length];
+    el.style.borderRadius=Math.random()>.5?'50%':'2px';
+    host.appendChild(el);
+    setTimeout(()=>el.remove(),1600);
+  }
+  if(label){
+    const pop=document.createElement('div'); pop.className='xppop';
+    pop.style.left=x+'px'; pop.style.top=y+'px'; pop.textContent=label;
+    host.appendChild(pop);
+    setTimeout(()=>pop.remove(),1300);
+  }
+}
+function fireConfettiFromEl(el,label){
+  const host=$('#device');
+  if(!el||!host) return fireConfetti(.5,.42,label);
+  const br=el.getBoundingClientRect(), hr=host.getBoundingClientRect();
+  fireConfetti((br.left+br.width/2-hr.left)/hr.width,(br.top+br.height/2-hr.top)/hr.height,label);
+}
+function animateCount(sel,to,dur){
+  const el=$(sel); if(!el) return;
+  if(REDUCED_MOTION){ el.textContent=to; return; }
+  const start=performance.now();
+  function step(t){
+    const p=Math.min(1,(t-start)/dur), eased=1-Math.pow(1-p,3);
+    el.textContent=Math.round(eased*to);
+    if(p<1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+function render(){
+  const tabs=$('#tabs'), view=$('#view'), screen=$('#screen'), sb=$('#streakbar'), cons=$('#console');
+  if(!S.onboarded){ tabs.hidden=true; view.className='pad'; view.innerHTML=vwOnboard(); }
+  else if(S.tab==='learn'){ tabs.hidden=true; view.className=''; view.innerHTML=vwLearn(); }
+  else if(S.tab==='done'){ tabs.hidden=true; view.className='pad'; view.innerHTML=vwDone(); }
+  else {
+    tabs.hidden=false;
+    const map={today:vwToday,library:vwLibrary,progress:vwProgress,profile:vwProfile};
+    view.className='pad'; view.innerHTML=(map[S.tab]||vwToday)();
+    const ICONS={today:'M4 6h16M4 12h16M4 18h9',library:'M5 4v16l7-4 7 4V4z',progress:'M4 19V9m6 10V5m6 14v-7',profile:'M12 12a4 4 0 100-8 4 4 0 000 8zM4 21a8 8 0 0116 0'};
+    const NAME={today:'Today',library:'Library',progress:'Progress',profile:'You'};
+    tabs.innerHTML=['today','library','progress','profile'].map(t=>`
+      <button data-tab="${t}" ${S.tab===t?'aria-current="page"':''}>
+        <svg class="glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="${ICONS[t]}"/></svg>
+        ${NAME[t]}</button>`).join('');
+  }
+  if(sb){
+    if(S.onboarded&&S.tab!=='learn'&&S.tab!=='done'){
+      const chip=streakChip();
+      sb.hidden=false; sb.className=chip.risk?'risk':''; sb.innerHTML=chip.html;
+    } else { sb.hidden=true; }
+  }
+  if(cons) cons.hidden=!(S.onboarded&&S.tab==='today');
+  $('#device').querySelectorAll(':scope > .toast, :scope > .sheet').forEach(el=>el.remove());
+  if(TOAST) $('#device').insertAdjacentHTML('beforeend',`<div class="toast" role="status">${h(TOAST)}</div>`);
+  if(SHEET) $('#device').insertAdjacentHTML('beforeend',SHEET);
+  if(!S.keepScroll) screen.scrollTop=0; S.keepScroll=false;
+  renderConsole();
+}
+
+/* ============ EVENTS ============ */
+document.addEventListener('keydown',e=>{
+  if(S.tab!=='learn') return;
+  if(e.key==='ArrowRight'||e.key===' ') { const b=document.querySelector('.nextfab:not([disabled])'); if(b){e.preventDefault();b.click();} }
+  if(e.key==='ArrowLeft') act('prevcard');
+  if(e.key==='Escape') act('exit');
+});
+
+document.addEventListener('click',async e=>{
+  const el=e.target.closest('[data-a],[data-tab],[data-topic],[data-sub],[data-dur],[data-diff],[data-pred],[data-ans],[data-lib],[data-open],[data-unsave],[data-unhl],[data-hl],[data-tz],[data-c]');
+  if(!el) return;
+  const d=el.dataset, u=S.user;
+
+  if(d.hl){ const k=d.hl, i=S.highlights.findIndex(x=>x.k===k);
+    if(i>=0) S.highlights.splice(i,1); else S.highlights.push({k,t:d.t,cid:k.split('|')[0]});
+    S.keepScroll=true; save(); return render(); }
+  if(d.tab){ S.tab=d.tab; save(); return render(); }
+  if(d.topic){ const i=u.interests.indexOf(d.topic); i>=0?u.interests.splice(i,1):u.interests.push(d.topic); S.keepScroll=true; save(); return render(); }
+  if(d.sub){ const i=u.subs.indexOf(d.sub); i>=0?u.subs.splice(i,1):u.subs.push(d.sub); S.keepScroll=true; save(); return render(); }
+  if(d.dur){ u.duration=+d.dur; S.keepScroll=true; save(); return render(); }
+  if(d.diff){ u.difficulty=d.diff; S.keepScroll=true; save(); return render(); }
+  if(d.lib){ S.libTab=d.lib; save(); return render(); }
+  if(d.tz){ const z=ZONES.find(z=>z[0]===d.tz); if(!z) return;
+    u.prevTzOffsetMin=u.tzOffsetMin; u.tzOffsetMin=z[1]; u.zone=z[0];
+    save(); toast('Set. That makes it '+today()+' in '+z[0]+'.'); return; }
+  if(d.unsave){ S.bookmarks=S.bookmarks.filter(x=>x!==d.unsave); save(); return render(); }
+  if(d.unhl){ S.highlights=S.highlights.filter(x=>x.k!==d.unhl); save(); return render(); }
+  if(d.open){ const a=S.assignments.find(x=>x.localDate===d.open); if(a) openRead(a); return; }
+  if(d.pred!=null){ L.pred=+d.pred; S.keepScroll=true; save(); return render(); }
+  if(d.ans!=null){ L.qa[L.qi||0]=+d.ans; S.keepScroll=true; save(); return render(); }
+  if(d.c) return consoleAction(d.c);
+  if(d.a) return act(d.a);
+});
+
+async function act(a){
+  const u=S.user;
+  if(a==='noop') return;
+  if(a==='next'){ S.step++; if(S.step>4){ S.onboarded=true; S.tab='today'; } save(); return render(); }
+  if(a==='dayboundary'){ u.dayStartHour=u.dayStartHour===4?0:4; save();
+    toast(u.dayStartHour===4?'Your day now ends at 4am.':'Your day ends at midnight again.'); return render(); }
+  if(a==='start'||a==='review') return startLearning();
+  if(a==='exit'){ S.tab='today'; save(); return render(); }
+  if(a==='bookmark'){ const c=content(S.assignments.find(x=>x.id===L.aid).contentId);
+    const i=S.bookmarks.indexOf(c.id); i>=0?S.bookmarks.splice(i,1):S.bookmarks.push(c.id);
+    S.keepScroll=true; save(); return render(); }
+  if(a==='share'){
+    let c=null;
+    if(SHEET&&L.sheetContentId) c=content(L.sheetContentId);
+    else if((S.tab==='learn'||S.tab==='done')&&L.aid){
+      const asn=S.assignments.find(x=>x.id===L.aid); c=asn&&content(asn.contentId);
+    }
+    return doShare(S.tab==='done'&&L.receipt?streakShare(L.receipt):c?storyShare(c):appShare());
+  }
+  if(a==='share:app') return doShare(appShare());
+  if(a==='nextcard') return advance(1);
+  if(a==='prevcard') return advance(-1);
+  if(a==='grade') return gradeOne();
+  if(a==='finish') return finish();
+  if(a==='reflect') return saveReflection();
+  if(a&&a.startsWith('tab:')){ S.tab=a.slice(4); save(); return render(); }
+  if(a==='export') return exportData();
+  if(a==='delete') return confirmDelete();
+  if(a==='delete-yes'){ await wipe(); S=blank(); SHEET=null; save(); return render(); }
+  if(a==='sheet-close'){ SHEET=null; return render(); }
+}
+
+/* ============ deck navigation ============ */
+// Swipe, because a story deck that only responds to taps feels half-built.
+(function(){
+  let x0=null,y0=null;
+  document.addEventListener('touchstart',e=>{ if(S.tab!=='learn')return;
+    x0=e.touches[0].clientX; y0=e.touches[0].clientY; },{passive:true});
+  document.addEventListener('touchend',e=>{
+    if(S.tab!=='learn'||x0==null) return;
+    const dx=e.changedTouches[0].clientX-x0, dy=e.changedTouches[0].clientY-y0;
+    if(Math.abs(dx)>52&&Math.abs(dx)>Math.abs(dy)*1.6) advance(dx<0?1:-1);
+    x0=y0=null;
+  },{passive:true});
+})();
+
+function advance(dir){
+  const a=S.assignments.find(x=>x.id===L.aid), c=content(a.contentId);
+  if(dir>0){
+    if(L.idx<c.cards.length){
+      if(c.cards[L.idx].t==='predict'&&L.pred==null) return;
+      L.idx++; L.pred=null;
+    } else if(L.idx===c.cards.length){
+      if(!(L.qgrade&&L.qgrade[L.qi||0])) return;
+      if((L.qi||0)+1<c.quiz.length) L.qi=(L.qi||0)+1; else L.idx++;
+    }
+  } else {
+    if(L.idx>c.cards.length){ L.idx=c.cards.length; L.qi=c.quiz.length-1; }
+    else if(L.idx===c.cards.length&&(L.qi||0)>0) L.qi=L.qi-1;
+    else if(L.idx>0){ L.idx--; L.pred=null; }
+    else return;
+  }
+  save(); render();
+}
+function startLearning(){
+  const r=CORE.getOrCreateAssignment(DB(),S.user,now());
+  if(r.error){ toast(errText(r.error)); return; }
+  const a=r.assignment;
+  if(!a.startedAt) a.startedAt=now();
+  L={aid:a.id,idx:0,pred:null,qa:[],qi:0,qgrade:{}};
+  S.tab='learn'; save(); render();
+}
+function gradeOne(){
+  const a=S.assignments.find(x=>x.id===L.aid), c=content(a.contentId);
+  const q=L.qi||0;
+  L.qgrade[q]=CORE.gradeQuiz(c,L.qa).detail[q];   // graded server-side
+  S.keepScroll=true; save(); render();
+  if(L.qgrade[q].ok){
+    const per=Math.round(CORE.XP.quiz/c.quiz.length);
+    const isLast=q===c.quiz.length-1;
+    const perfect=isLast&&c.quiz.every((_,i)=>L.qgrade[i]&&L.qgrade[i].ok);
+    const label=perfect?`+${per+CORE.XP.perfectQuiz} · Perfect!`:`+${per}`;
+    requestAnimationFrame(()=>fireConfettiFromEl(document.querySelector('.sel[data-s="right"]'),label));
+  }
+}
+function finish(){
+  const a=S.assignments.find(x=>x.id===L.aid);
+  if(a.status==='completed'){ S.tab='today'; save(); return render(); }
+  const res=CORE.completeLearning(DB(),S.user,now(),{
+    localDate:a.localDate,quizAnswers:L.qa,bookmarked:S.bookmarks.includes(a.contentId)});
+  if(res.error){ toast(errText(res.error)); S.keepScroll=true; save(); return render(); }
+  L.receipt=res.receipt; L.celebrated=false; S.tab='done'; save(); render();
+  requestAnimationFrame(()=>{
+    fireConfetti(.5,.24,`+${res.receipt.xpAwarded} XP`);
+    animateCount('#donestreak',res.receipt.streak,700);
+    L.celebrated=true;
+  });
+}
+function saveReflection(){
+  const v=$('#refl')?$('#refl').value:'';
+  const a=S.assignments.find(x=>x.id===L.aid);
+  const key=S.user.id+':'+a.id+':reflection';
+  if(!S.xp.some(t=>t.key===key)&&v.trim().length>=40&&new Set(v.replace(/\s/g,'')).size>=8){
+    S.xp.push({key,userId:S.user.id,amount:CORE.XP.reflection,reason:'reflection',ref:a.id,at:now()});
+    S.user.xp=S.xp.reduce((s,t)=>s+t.amount,0);
+    L.receipt.lines.push({reason:'reflection',amount:CORE.XP.reflection});
+    L.receipt.xpAwarded+=CORE.XP.reflection;
+    toast('Kept. +10 XP');
+  } else if(v.trim().length<40){ toast('Give it one more line and it earns 10 XP.'); }
+  a.reflection=v; save(); render();
+}
+function openRead(a){
+  const c=content(a.contentId);
+  L.sheetContentId=c.id;
+  SHEET=`<div class="sheet" data-a="sheet-close"><div data-a="noop" style="${tone(c)}">
+    <div class="row"><span class="eyebrow tone">${h(c.topic)}</span>
+      <div style="display:flex;gap:8px">
+        <button class="btn tiny ghost" data-a="share" aria-label="Share this story">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 3.9M15.4 6.6L8.6 10.5"/></svg>
+        </button>
+        <button class="btn tiny ghost" data-a="sheet-close">Close</button>
+      </div></div>
+    <h2 style="margin:16px 0 14px">${h(c.title)}</h2>
+    ${a.status!=='completed'?`<div class="note warn">You missed this day. Read it by all means, it just can't bring the streak back.</div>`:''}
+    ${c.cards.filter(x=>x.t!=='predict').map(x=>`<p class="read">${h(x.text)}</p>`).join('')}
+    <hr class="rule"><p class="small">${h(c.source.authors)}, ${c.source.year}</p>
+    <a class="btn ghost" style="margin-top:12px;text-decoration:none" href="${h(c.source.url)}" target="_blank" rel="noopener">Read the story</a>
+  </div></div>`;
+  render();
+}
+function exportData(){
+  const blob=new Blob([JSON.stringify({exported:new Date(now()).toISOString(),user:S.user,
+    history:S.assignments,xp:S.xp,bookmarks:S.bookmarks,highlights:S.highlights},null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob), a=document.createElement('a');
+  a.href=url; a.download='one-thing.json'; a.click(); URL.revokeObjectURL(url);
+  toast("Downloaded. It's all yours.");
+}
+function confirmDelete(){
+  SHEET=`<div class="sheet" data-a="sheet-close"><div data-a="noop">
+    <h2>Delete everything?</h2>
+    <p class="read" style="margin:14px 0 20px">Your streak, everything you've read, your saves and your lines. We can't get any of it back afterwards.</p>
+    <button class="btn" style="background:var(--brick)" data-a="delete-yes">Yes, delete it all</button>
+    <button class="btn ghost" style="margin-top:9px" data-a="sheet-close">Keep my account</button></div></div>`;
+  render();
+}
+
+/* ============================================================
+   STRESS CONSOLE
+   Every button here attacks a rule the PRD asserts. The point is
+   to make the invariants observable rather than merely claimed.
+   ============================================================ */
+const CBTNS=[
+  ['skip1','Next day'],['skip2','Skip 2 days'],
+  ['auto7','Auto-play 7 days'],['exhaust','Exhaust library'],
+  ['tomorrow','Open tomorrow'],['replay','Replay completion'],
+  ['west','Fly to Los Angeles'],['east','Fly to Kathmandu'],
+  ['offline','Offline finish, late sync'],['recompute','Recompute streak'],
+  ['payload','Inspect client payload'],['midnight','Jump to 23:55'],
+  ['reset','Reset everything',1]
+];
+function renderConsole(){
+  const box=$('#cstate'); if(!box) return;
+  const lv=CORE.levelFor(S.user.xp), st=CORE.statsFor(DB(),S.user);
+
+  box.innerHTML=`
+    <div class="row"><span class="small">Local day</span><strong class="tnum">${today()}</strong></div>
+    <div class="row"><span class="small">Zone</span><strong class="tnum">${h(zoneName())} ${S.user.tzOffsetMin>=0?'+':''}${(S.user.tzOffsetMin/60).toFixed(2).replace('.00','')}h</strong></div>
+    <div class="row"><span class="small">Day ends</span><strong>${S.user.dayStartHour===4?'4am':'midnight'}</strong></div>
+    <div class="row"><span class="small">Streak</span><strong class="tnum">${S.user.currentStreak||0} (max ${S.user.longestStreak||0})</strong></div>
+    <div class="row"><span class="small">XP / level</span><strong class="tnum">${S.user.xp} · L${lv.level} ${lv.name}</strong></div>
+    <div class="row"><span class="small">Seen</span><strong class="tnum">${new Set(S.assignments.map(a=>a.contentId)).size}/${CORPUS.length}</strong></div>
+    <div class="row"><span class="small">XP rows</span><strong class="tnum">${S.xp.length}</strong></div>`;
+  const b=$('#cbtns');
+  if(b&&!b.childElementCount) b.innerHTML=CBTNS.map(([k,l,hot])=>`<button class="cbtn ${hot?'hot':''}" data-c="${k}">${l}</button>`).join('');
+}
+
+function localEpoch(dateStr,hh,mm){
+  return CORE.parseDate(dateStr)-12*3600000-S.user.tzOffsetMin*60000+(S.user.dayStartHour||0)*3600000+hh*3600000+mm*60000;
+}
+function autoPlay(){
+  const r=CORE.getOrCreateAssignment(DB(),S.user,now());
+  if(r.error) return {error:r.error};
+  if(r.assignment.status==='completed') return {already:true};
+  r.assignment.startedAt=now();
+  const c=content(r.assignment.contentId);
+  return CORE.completeLearning(DB(),S.user,now(),{localDate:r.assignment.localDate,
+    quizAnswers:c.quiz.map(q=>q.correct)});
+}
+
+async function consoleAction(k){
+  const u=S.user;
+  if(k==='reset'){ await wipe(); S=blank(); $('#log').innerHTML=''; log('State cleared.','dim'); save(); return render(); }
+
+  if(k==='skip1'||k==='skip2'){
+    const n=k==='skip1'?1:2, before=u.currentStreak||0, d0=today();
+    S.clockOffset+=n*86400000;
+    log(`Clock ${d0} -> ${today()} (+${n}d)`,'dim');
+    if(n===2) log(`  streak still ${before} until the next completion decides it`,'dim');
+    save(); return render();
+  }
+  if(k==='midnight'){
+    const target=localEpoch(today(),23,55);
+    S.clockOffset=target-Date.now();
+    log('Clock set to 23:55 local. 5 minutes of day left.','dim'); save(); return render();
+  }
+  if(k==='auto7'){
+    for(let i=0;i<7;i++){ const r=autoPlay(); if(r.error){log('  '+r.error,'no');break;} S.clockOffset+=86400000; }
+    log(`Played 7 days. Streak ${u.currentStreak}, XP ${u.xp}.`,'ok'); save(); return render();
+  }
+  if(k==='exhaust'){
+    let n=0,rev=0;
+    for(let i=0;i<CORPUS.length+3;i++){
+      const r=CORE.getOrCreateAssignment(DB(),S.user,now());
+      if(r.error){ log('BROKE the daily promise: '+r.error,'no'); break; }
+      if(r.assignment.revisit) rev++;
+      const p=autoPlay(); if(!p.error) n++;
+      S.clockOffset+=86400000;
+    }
+    log(`Ran ${n} days past a ${CORPUS.length}-item library.`,'ok');
+    log(rev?`  ${rev} served as flagged revisits, none silently repeated`:'  no exhaustion reached','ok');
+    save(); return render();
+  }
+  if(k==='tomorrow'){
+    const t=CORE.addDays(today(),1);
+    const r=CORE.getOrCreateAssignment(DB(),S.user,now(),t);
+    if(r.error==='FUTURE_CONTENT_LOCKED') log(`GET /daily?date=${t} -> ${r.status} ${r.error}`,'ok');
+    else log('LEAK: tomorrow was served -> '+JSON.stringify(r).slice(0,90),'no');
+    const far=CORE.getOrCreateAssignment(DB(),S.user,now(),'2031-01-01');
+    log(`GET /daily?date=2031-01-01 -> ${far.status} ${far.error}`, far.status===403?'ok':'no');
+    return;
+  }
+  if(k==='replay'){
+    const a=S.assignments.find(x=>x.localDate===today());
+    if(!a||a.status!=='completed'){ log('Finish today first, then replay it.','dim'); return; }
+    const xp0=u.xp, s0=u.currentStreak, rows0=S.xp.length;
+    for(let i=0;i<5;i++) CORE.completeLearning(DB(),S.user,now(),{localDate:a.localDate,quizAnswers:[0,0,0]});
+    const ok=xp0===u.xp&&s0===u.currentStreak&&rows0===S.xp.length;
+    log(`5 replayed completions -> XP ${xp0}->${u.xp}, streak ${s0}->${u.currentStreak}, rows ${rows0}->${S.xp.length}`, ok?'ok':'no');
+    log(ok?'  idempotent, nothing double-paid':'  ABUSE POSSIBLE','ok');
+    save(); return render();
+  }
+  if(k==='west'||k==='east'){
+    const to=k==='west'?['Los Angeles',-420]:['Kathmandu',345];
+    const d0=today(), from=zoneName();
+    u.prevTzOffsetMin=u.tzOffsetMin; u.tzOffsetMin=to[1]; u.zone=to[0];
+    const shift=(u.tzOffsetMin-u.prevTzOffsetMin)/60;
+    log(`Flew ${from} -> ${to[0]} (${shift>=0?'+':''}${shift}h): local day ${d0} -> ${today()}`,'dim');
+    const r=CORE.getOrCreateAssignment(DB(),S.user,now());
+    if(k==='west'){
+      const ok=r.assignment.localDate>=d0;
+      log(`  server day held at ${r.assignment.localDate}`, ok?'ok':'no');
+      log(ok?'  no second day bought by flying west':'  DUPLICATE DAY','ok');
+    } else {
+      // Say plainly whether the bridge is armed. It only forgives a skipped
+      // date when the move is 8h or more forward, and Lagos -> Kathmandu is
+      // 4.75h, so from here it is honestly NOT armed. Claiming otherwise was
+      // the old copy's bug.
+      const armed=shift>=8;
+      log(`  new day ${r.assignment.localDate}`,'ok');
+      log(armed?`  +${shift}h forward: a single skipped date would be bridged, not punished`
+               :`  +${shift}h forward: under the 8h threshold, so a skipped date still resets`,
+        armed?'ok':'dim');
+    }
+    save(); return render();
+  }
+  if(k==='offline'){
+    const r=CORE.getOrCreateAssignment(DB(),S.user,now());
+    if(r.error){ log(r.error,'no'); return; }
+    const d=r.assignment.localDate;
+    r.assignment.startedAt=localEpoch(d,23,40);
+    const claimed=localEpoch(d,23,52);
+    S.clockOffset=localEpoch(CORE.addDays(d,1),7,30)-Date.now();
+    const c=content(r.assignment.contentId);
+    const res=CORE.completeLearning(DB(),S.user,now(),{localDate:d,quizAnswers:c.quiz.map(q=>q.correct),
+      offlineSync:true,clientCompletedAt:claimed});
+    if(res.error) log(`Offline sync refused: ${res.error}`,'no');
+    else log(`Finished 23:52 offline on ${d}, synced 07:30 next day -> counted, streak ${res.streak.current}`,'ok');
+    const bad=CORE.getOrCreateAssignment(DB(),S.user,now());
+    if(!bad.error&&!bad.assignment.startedAt) bad.assignment.startedAt=now();
+    const cheat=CORE.completeLearning(DB(),S.user,now(),{localDate:CORE.addDays(d,-4),quizAnswers:[0,0]});
+    log(`  backdating 4 days -> ${cheat.error||'ACCEPTED'}`, cheat.error?'ok':'no');
+    save(); return render();
+  }
+  if(k==='recompute'){
+    const cached=u.currentStreak;
+    u.currentStreak=999;
+    const re=CORE.recomputeStreak(DB(),u,today());
+    u.currentStreak=re.current; u.longestStreak=re.longest;
+    log(`Corrupted streak to 999, recomputed from completion log -> ${re.current} (was ${cached})`,
+      re.current===cached?'ok':'no');
+    log('  completions are the source of truth, the counter is a cache','dim');
+    save(); return render();
+  }
+  if(k==='payload'){
+    const r=CORE.getOrCreateAssignment(DB(),S.user,now());
+    const p=CORE.toClientPayload(content(r.assignment.contentId));
+    const s=JSON.stringify(p);
+    const leak=/"correct"|"explain"/.test(s);
+    log(`Client payload ${s.length} bytes, ${p.quiz.length} questions`,'dim');
+    log(leak?'  ANSWERS LEAKED to the client':'  no answer or explanation field present', leak?'no':'ok');
+    log(`  quiz[0] keys: ${Object.keys(p.quiz[0]).join(', ')}`,'dim');
+    return;
+  }
+}
+
+/* ============ boot ============ */
+(async function(){
+  const saved=await load();
+  if(saved&&saved.v===1) S=Object.assign(blank(),saved,{user:Object.assign(blank().user,saved.user)});
+  render();
+  log('One Thing prototype ready.','dim');
+  log('Server core: '+Object.keys(CORE).length+' exported functions.','dim');
+})();
+
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('/sw.js').catch(()=>{});
+  });
+}
+</script>
+</body>
+</html>
