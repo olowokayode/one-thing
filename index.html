@@ -137,8 +137,9 @@ h3{font-size:18px;letter-spacing:-.01em}
 .deckbar{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;flex:none;position:relative;z-index:4}
 .deckbar .btn{background:rgba(255,255,255,.66);border:0;color:var(--ink);backdrop-filter:blur(6px)}
 .storyart{position:absolute;inset:0;z-index:0;opacity:.5}
-.storybody{position:relative;z-index:3;flex:1;overflow-y:auto;padding:8px 26px 26px;
+.storybody{position:relative;z-index:3;flex:1;overflow:hidden;padding:8px 26px 80px 26px;
   display:flex;flex-direction:column;justify-content:center;pointer-events:none}
+.storybody .lcard{overflow-y:auto;-webkit-overflow-scrolling:touch;max-height:calc(100% - 0px)}
 .storybody button,.storybody a,.storybody textarea,.storybody .hlable{pointer-events:auto}
 .storybody button[disabled]{pointer-events:none}
 .storybody.top{justify-content:flex-start;padding-top:12px}
@@ -153,7 +154,7 @@ h3{font-size:18px;letter-spacing:-.01em}
 .hook{font-family:var(--display);font-size:29px;font-weight:600;line-height:1.16;letter-spacing:-.022em;
   font-variation-settings:'SOFT' 40,'opsz' 90}
 .finding{font-family:var(--display);font-size:32px;font-weight:600;line-height:1.12;letter-spacing:-.025em;color:var(--tone)}
-.nextfab{position:absolute;right:20px;bottom:24px;z-index:5;width:54px;height:54px;border-radius:50%;
+.nextfab{position:absolute;right:20px;bottom:calc(24px + env(safe-area-inset-bottom));z-index:5;width:54px;height:54px;border-radius:50%;
   background:var(--ink);color:var(--card);display:flex;align-items:center;justify-content:center;
   box-shadow:0 8px 22px -6px rgba(22,24,29,.45)}
 .nextfab[disabled]{opacity:.25}
@@ -359,7 +360,7 @@ function recommend(opts) {
   const staleTopic = run >= 2 ? recentTopics[0] : null;
 
   const wantRank = DIFF_RANK[profile.difficulty] || 2;
-  const approved = corpus.filter(c => c.status === 'approved');
+  const approved = corpus.filter(c => c.status === 'approved' && (c.year == null || c.year >= 2000));
 
   function score(c) {
     const why = [];
