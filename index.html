@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#EDEBE5">
-<title>One Thing · one real idea a day</title>
-<meta name="description" content="You read for two hours yesterday. Name one thing you kept. One Thing gives you one real idea a day, five minutes, then gets out of your way.">
+<title>One Thing — Learn one fascinating idea every day in 5 minutes</title>
+<meta name="description" content="One Thing picks the most fascinating research finding you've never come across and makes you understand it in five minutes. One idea a day. No feed. No noise.">
 
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
@@ -13,17 +13,18 @@
 <link rel="manifest" href="/manifest.webmanifest">
 
 <meta property="og:type" content="website">
-<meta property="og:title" content="One Thing · one real idea a day">
-<meta property="og:description" content="You read for two hours yesterday. Name one thing you kept. One real idea a day, five minutes, then we get out of your way.">
+<meta property="og:title" content="One Thing — One fascinating idea, every day">
+<meta property="og:description" content="We pick the most fascinating research finding you've never come across and make you understand it in five minutes. No feed. No guilt. Just one thing worth knowing.">
 <meta property="og:image" content="/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="One Thing · one real idea a day">
-<meta name="twitter:description" content="You read for two hours yesterday. Name one thing you kept.">
+<meta name="twitter:title" content="One Thing — One fascinating idea a day">
+<meta name="twitter:description" content="The most fascinating thing you've never come across — understood in five minutes. One idea a day, then we leave you alone.">
 <meta name="twitter:image" content="/og-image.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Archivo:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500;600;700&display=swap">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500;600;700&display=swap">
 
 <style>
 
@@ -32,9 +33,46 @@
   --green:#0C6B47; --green-mid:#128A5C; --green-soft:#E0EFE7;
   --brick:#9B4A32; --mute:#65685F;
   --tone:#0C6B47; --tint:#E0EFE7;           /* per-topic, set inline */
-  --display:'Fraunces',Georgia,serif; --read:'Source Serif 4',Georgia,serif;
-  --ui:'Archivo',system-ui,-apple-system,sans-serif;
+  --display:'Playfair Display',Georgia,serif; --read:'Lora',Georgia,serif;
+  --ui:'DM Sans',system-ui,-apple-system,sans-serif;
 }
+
+/* ── THEMES ──────────────────────────────────────────────────── */
+@media(prefers-color-scheme:dark){
+  :root:not([data-theme]):not([data-theme="light"]){
+    --ink:#F0EDE8; --ground:#111110; --card:#1C1C1A; --line:#2C2C2A;
+    --green:#34C77B; --green-mid:#30B870; --green-soft:#0D2B1E;
+    --brick:#E07055; --mute:#8E8E93;
+  }
+}
+[data-theme="dark"],#device[data-theme="dark"]{
+  --ink:#F0EDE8; --ground:#111110; --card:#1C1C1A; --line:#2C2C2A;
+  --green:#34C77B; --green-mid:#30B870; --green-soft:#0D2B1E;
+  --brick:#E07055; --mute:#8E8E93;
+}
+[data-theme="light"],#device[data-theme="light"]{
+  --ink:#16181D; --ground:#EDEBE5; --card:#FFFDFA; --line:#DAD6CC;
+  --green:#0C6B47; --green-mid:#128A5C; --green-soft:#E0EFE7;
+  --brick:#9B4A32; --mute:#65685F;
+}
+[data-theme="dyslexic"],#device[data-theme="dyslexic"]{
+  --ink:#16181D; --ground:#FDF6E3; --card:#FFFDF7; --line:#E8DFC8;
+  --green:#0C6B47; --green-mid:#128A5C; --green-soft:#E0EFE7;
+  --brick:#9B4A32; --mute:#65685F;
+  --read:'OpenDyslexic','Lora',Georgia,serif;
+}
+[data-theme="adhd"],#device[data-theme="adhd"]{
+  --ink:#16181D; --ground:#F5F0FF; --card:#FEFCFF; --line:#DDD6F0;
+  --green:#0C6B47; --green-mid:#128A5C; --green-soft:#E0EFE7;
+  --brick:#9B4A32; --mute:#65685F;
+}
+[data-theme="dyslexic"] .read,
+[data-theme="dyslexic"] .lcard p{letter-spacing:.04em;word-spacing:.1em;line-height:1.9}
+[data-theme="dyslexic"] .lcard{font-size:17px}
+[data-theme="adhd"] .lcard p{margin-bottom:1.4em}
+[data-theme="adhd"] .finding{font-size:26px}
+[data-theme="adhd"] .hook{font-size:25px;line-height:1.25}
+
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;height:100%}
 body{background:var(--ground);color:var(--ink);font-family:var(--ui);font-size:16px;line-height:1.5;overflow:hidden}
@@ -49,17 +87,18 @@ button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
     box-shadow:0 40px 80px -30px rgba(22,24,29,.3),0 2px 0 rgba(255,255,255,.6) inset}
 }
 #console{display:none;flex-direction:column;width:360px;max-height:896px;height:100%}
-@media(min-width:900px){#console{display:flex}}
 #console[hidden]{display:none!important}
 
-#streakbar{display:flex;align-items:center;gap:10px;width:100%;padding:12px 22px;flex:none;
+#streakbar{display:flex;align-items:center;gap:10px;width:100%;padding:10px 22px;flex:none;
   border-bottom:1px solid var(--line);background:var(--green-soft);color:var(--ink);
-  font-family:var(--ui);font-size:13.5px;font-weight:600;text-align:left}
+  font-family:var(--ui);font-size:13px;font-weight:600;text-align:left;line-height:1.2}
 #streakbar[hidden]{display:none!important}
 #streakbar.risk{background:rgba(155,74,50,.09);color:var(--brick)}
 #streakbar .flame{width:19px;height:19px;flex:none;color:var(--green-mid)}
-#streakbar.risk .flame{color:var(--brick);animation:flamepulse 1.7s ease-in-out infinite}
-#streakbar .n{font-family:var(--display);font-size:19px;font-weight:700;flex:none;color:inherit}
+#streakbar .flame{color:var(--green-mid);transition:color .3s}
+#streakbar.active .flame{animation:flicker 2.4s ease-in-out infinite}
+#streakbar.risk .flame{color:var(--brick);animation:flamepulse 1.1s ease-in-out infinite}
+#streakbar .n{font-family:var(--display);font-size:28px;font-weight:800;flex:none;color:inherit;line-height:1}
 @keyframes flamepulse{0%,100%{transform:scale(1)}50%{transform:scale(1.14)}}
 
 .confetti-piece{position:absolute;width:7px;height:12px;top:0;left:0;pointer-events:none;z-index:95;
@@ -78,23 +117,27 @@ button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
   100%{opacity:0;transform:translate(-50%,-170%) scale(1)}
 }
 
-#screen{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;position:relative}
+#screen{flex:1;overflow:hidden;position:relative;display:flex;flex-direction:column}
 .pad{padding:26px 24px 28px}
+#view{flex:1;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;-webkit-overflow-scrolling:touch}
+#view.pad{padding:26px 24px 28px}
+#view:has(#deck){overflow:hidden}
 nav#tabs{display:flex;border-top:1px solid var(--line);background:var(--card);flex:none}
 nav#tabs[hidden]{display:none}
 nav#tabs button{flex:1;padding:11px 4px calc(11px + env(safe-area-inset-bottom));font-size:10.5px;
   letter-spacing:.1em;text-transform:uppercase;font-weight:600;color:var(--mute);
-  display:flex;flex-direction:column;align-items:center;gap:6px;min-height:56px}
-nav#tabs button[aria-current="page"]{color:var(--ink)}
+  display:flex;flex-direction:column;align-items:center;gap:6px;min-height:56px;
+  transition:transform .18s cubic-bezier(.34,1.56,.64,1)}
+nav#tabs button[aria-current="page"]{color:var(--ink);transform:scale(1.06)}
 nav#tabs button[aria-current="page"] .glyph{color:var(--green)}
 .glyph{width:20px;height:20px;display:block}
 
 .eyebrow{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--mute)}
 .eyebrow.tone{color:var(--tone)}
-h1,h2,h3{font-family:var(--display);font-weight:600;margin:0;letter-spacing:-.022em;line-height:1.09}
-h1{font-size:34px;font-variation-settings:'SOFT' 32,'opsz' 72}
-h2{font-size:26px}
-h3{font-size:18px;letter-spacing:-.01em}
+h1,h2,h3{font-family:var(--display);font-weight:800;margin:0;letter-spacing:-.02em;line-height:1.1}
+h1{font-size:34px}
+h2{font-size:26px;font-weight:700}
+h3{font-size:18px;font-weight:700;letter-spacing:-.01em}
 .read{font-family:var(--read);font-size:17.5px;line-height:1.62}
 .small{font-size:13px;color:var(--mute)}
 .tnum{font-variant-numeric:tabular-nums}
@@ -126,37 +169,50 @@ h3{font-size:18px;letter-spacing:-.01em}
 .art{position:relative;overflow:hidden;background:var(--tint)}
 .art svg{position:absolute;inset:0;width:100%;height:100%;display:block}
 .today-card{border:1.5px solid var(--line);border-radius:22px;overflow:hidden;background:var(--card)}
+.today-card.shimmer{background:linear-gradient(120deg,var(--card) 30%,rgba(255,255,255,.9) 50%,var(--card) 70%);background-size:400% 100%;animation:shimmer 2.8s ease-in-out infinite}
 .today-art{height:150px}
 .stack{position:relative}
 
 /* ---------- story deck ---------- */
-#deck{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--tint)}
+/* ── TIKTOK DECK ─────────────────────────────────────────── */
+#deck{position:absolute;inset:0;overflow-y:scroll;overflow-x:hidden;
+  scroll-snap-type:y mandatory;-webkit-overflow-scrolling:touch;
+  background:transparent;overscroll-behavior:contain}
+#deck::-webkit-scrollbar{display:none}
+.deck-slide{height:100%;width:100%;flex:none;scroll-snap-align:start;
+  display:flex;flex-direction:column;position:relative;
+  background:var(--tint);overflow:hidden}
+.deck-slide.entering{animation:slideup .35s cubic-bezier(.22,1,.36,1) both}
 .segs{display:flex;gap:4px;padding:14px 16px 0;flex:none;position:relative;z-index:4}
-.segs i{flex:1;height:3px;border-radius:99px;background:rgba(22,24,29,.16);overflow:hidden}
+.segs i{flex:1;height:3px;border-radius:99px;background:rgba(22,24,29,.16);overflow:hidden;transition:background .3s cubic-bezier(.34,1.2,.64,1)}
 .segs i.done{background:var(--tone)}
 .deckbar{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;flex:none;position:relative;z-index:4}
 .deckbar .btn{background:rgba(255,255,255,.66);border:0;color:var(--ink);backdrop-filter:blur(6px)}
 .storyart{position:absolute;inset:0;z-index:0;opacity:.5}
-.storybody{position:relative;z-index:3;flex:1;overflow-y:auto;padding:8px 26px 26px;
-  display:flex;flex-direction:column;justify-content:center;pointer-events:none}
+.storybody{position:relative;z-index:3;flex:1;display:flex;flex-direction:column;
+  justify-content:center;padding:12px 24px 24px;pointer-events:none}
+.storybody.top{justify-content:flex-start;padding-top:8px}
 .storybody button,.storybody a,.storybody textarea,.storybody .hlable{pointer-events:auto}
 .storybody button[disabled]{pointer-events:none}
-.storybody.top{justify-content:flex-start;padding-top:12px}
-.tapzone{position:absolute;top:56px;bottom:0;z-index:2;width:32%}
-.tapzone.fwd{right:0;width:66%}
-.tapzone.back{left:0}
-.lcard{animation:rise .4s cubic-bezier(.16,1,.3,1) both;background:rgba(255,253,250,.88);
+/* tapzones removed — TikTok swipe replaces them */
+.lcard{animation:slideup .32s cubic-bezier(.22,1,.36,1) both;background:rgba(255,253,250,.88);
   backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:20px;
   padding:22px 20px;box-shadow:0 10px 34px -16px rgba(22,24,29,.28)}
 .lcard .lcard{box-shadow:none;background:rgba(255,253,250,.6)}
-@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
-.hook{font-family:var(--display);font-size:29px;font-weight:600;line-height:1.16;letter-spacing:-.022em;
-  font-variation-settings:'SOFT' 40,'opsz' 90}
-.finding{font-family:var(--display);font-size:32px;font-weight:600;line-height:1.12;letter-spacing:-.025em;color:var(--tone)}
-.nextfab{position:absolute;right:20px;bottom:24px;z-index:5;width:54px;height:54px;border-radius:50%;
-  background:var(--ink);color:var(--card);display:flex;align-items:center;justify-content:center;
-  box-shadow:0 8px 22px -6px rgba(22,24,29,.45)}
-.nextfab[disabled]{opacity:.25}
+@keyframes rise{from{opacity:0;transform:translateY(48px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes slideup{from{opacity:0;transform:translateY(60px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slidedown{from{opacity:0;transform:translateY(-40px)}to{opacity:1;transform:translateY(0)}}
+@keyframes cardflip{0%{transform:rotateX(0deg)}50%{transform:rotateX(90deg)}100%{transform:rotateX(0deg)}}
+@keyframes greenwash{0%{background:var(--green-soft)}60%{background:rgba(12,107,71,.18)}100%{background:transparent}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+@keyframes shimmer{0%{background-position:200% center}100%{background-position:-200% center}}
+@keyframes flicker{0%,100%{transform:scale(1) rotate(0deg)}25%{transform:scale(1.08) rotate(-1deg)}50%{transform:scale(1.05) rotate(1deg)}75%{transform:scale(1.1) rotate(-0.5deg)}}
+@keyframes streakpop{0%{transform:scale(1)}40%{transform:scale(1.32)}70%{transform:scale(.92)}100%{transform:scale(1)}}
+@keyframes countup{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes levelup{0%{opacity:0;transform:scale(.8) translateY(30px)}60%{transform:scale(1.04) translateY(-4px)}100%{opacity:1;transform:scale(1) translateY(0)}}
+.hook{font-family:var(--display);font-size:28px;font-weight:700;line-height:1.18;letter-spacing:-.018em}
+.finding{font-family:var(--display);font-size:30px;font-weight:800;line-height:1.12;letter-spacing:-.02em;color:var(--tone)}
+/* fab buttons removed — swipe navigation replaces them */
 
 .sel{width:100%;text-align:left;border:1.5px solid rgba(22,24,29,.16);background:rgba(255,255,255,.72);
   border-radius:14px;padding:15px 16px;font-size:15.5px;font-family:var(--read);margin-bottom:9px;
@@ -165,16 +221,46 @@ h3{font-size:18px;letter-spacing:-.01em}
 .sel[data-s="pick"]{border-color:var(--ink);background:var(--ink);color:var(--card)}
 .sel[data-s="right"]{border-color:var(--green);background:var(--green);color:#fff;font-weight:600}
 .sel[data-s="wrong"]{border-color:var(--brick);background:rgba(155,74,50,.09);color:var(--brick)}
+.sel.shake{animation:shake .28s ease}
+.sel.wash{animation:greenwash .65s ease forwards}
+.quiz-result{animation:slideup .28s cubic-bezier(.22,1,.36,1) both}
 .hl{background:rgba(18,138,92,.2);box-shadow:0 1.5px 0 rgba(12,107,71,.45);border-radius:2px}
 .hlable{cursor:pointer}
+.sticky-note{display:block;background:#FFF9C4;border-radius:3px 12px 12px 3px;
+  padding:12px 16px;font-family:var(--read);font-size:14px;line-height:1.6;
+  box-shadow:2px 4px 10px -2px rgba(22,24,29,.15);border-left:3px solid #E8C500;color:var(--ink)}
+.sticky-wrap{display:flex;flex-direction:column;gap:12px;margin-top:12px}
 
 .rule{height:1px;background:var(--line);border:0;margin:22px 0}
+
+/* ── ONBOARDING ─────────────────────────────────────────────── */
+.ob-screen{min-height:100%;display:flex;flex-direction:column;position:relative;overflow:hidden}
+.ob-bg{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.ob-content{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;padding:28px 26px 0}
+.ob-footer{position:relative;z-index:1;padding:20px 26px calc(20px + env(safe-area-inset-bottom))}
+.ob-progress{height:3px;border-radius:99px;background:var(--line);margin-bottom:32px;overflow:hidden}
+.ob-progress i{display:block;height:100%;border-radius:99px;background:var(--green);
+  transition:width .4s cubic-bezier(.34,1.2,.64,1)}
+.ob-eyebrow{font-family:var(--ui);font-size:11px;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--mute);margin-bottom:20px}
+.ob-num{font-family:var(--display);font-size:clamp(80px,22vw,110px);font-weight:800;
+  line-height:1;color:var(--ink);opacity:.05;position:absolute;top:-10px;right:-8px;
+  pointer-events:none;letter-spacing:-.04em;user-select:none}
+.ob-headline{font-family:var(--display);font-weight:800;letter-spacing:-.025em;
+  line-height:1.08;margin:0 0 20px}
+.ob-body{font-family:var(--read);font-size:16px;line-height:1.7;color:var(--mute);margin:0 0 32px}
+.ob-chip-grid{display:flex;flex-wrap:wrap;gap:9px}
+.ob-chip-grid button{opacity:0;animation:slideup .3s cubic-bezier(.22,1,.36,1) both}
+.ob-glyph{width:32px;height:32px;margin-bottom:10px;display:block;color:var(--green)}
+.auth-screen{background:var(--green-soft);min-height:100%;display:flex;flex-direction:column;
+  padding:48px 26px 32px;position:relative;overflow:hidden}
+.auth-screen .ob-bg{opacity:.4}
 .row{display:flex;justify-content:space-between;align-items:center;gap:12px}
 .note{background:var(--green-soft);border-left:2.5px solid var(--green);padding:13px 15px;
   border-radius:0 10px 10px 0;font-size:13.5px;line-height:1.5}
 .note.warn{background:rgba(155,74,50,.07);border-left-color:var(--brick)}
 .note.plain{background:rgba(22,24,29,.045);border-left-color:rgba(22,24,29,.2)}
-.bignum{font-family:var(--display);font-size:58px;font-weight:600;line-height:.9;font-variation-settings:'SOFT' 40}
+.bignum{font-family:var(--display);font-size:58px;font-weight:800;line-height:.9}
 .xpline{display:flex;justify-content:space-between;font-size:14.5px;padding:8px 0;border-bottom:1px dashed var(--line)}
 .meter{height:7px;background:rgba(22,24,29,.1);border-radius:99px;overflow:hidden}
 .meter i{display:block;height:100%;background:var(--green);border-radius:99px;transition:width .9s cubic-bezier(.16,1,.3,1)}
@@ -206,6 +292,7 @@ details[open] summary:after{transform:rotate(-135deg);margin:3px 0 0}
 #log .ok{color:var(--green)} #log .no{color:var(--brick)} #log .dim{color:var(--mute)}
 @media(prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;transition-duration:.001ms!important}}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 </head>
 <body>
 <div id="stage">
@@ -359,7 +446,7 @@ function recommend(opts) {
   const staleTopic = run >= 2 ? recentTopics[0] : null;
 
   const wantRank = DIFF_RANK[profile.difficulty] || 2;
-  const approved = corpus.filter(c => c.status === 'approved');
+  const approved = corpus.filter(c => c.status === 'approved' && (c.year == null || c.year >= 2000));
 
   function score(c) {
     const why = [];
@@ -737,7 +824,7 @@ const CORPUS = [
   "difficulty": "Beginner",
   "minutes": 5,
   "quality": 91,
-  "status": "approved",
+  "status": "draft",
   "evergreen": true,
   "rights": "metadata_only",
   "title": "Why you are worse at explaining things than you think",
@@ -754,19 +841,7 @@ const CORPUS = [
   "cards": [
    {
     "t": "hook",
-    "text": "Tap out Happy Birthday on the table with one finger. You can hear the whole thing. They're hearing a woodpecker."
-   },
-   {
-    "t": "predict",
-    "q": "Tappers were asked to guess what share of listeners would name the song. They said 50%. What was the real figure?",
-    "options": [
-     "About 50%",
-     "About 25%",
-     "About 10%",
-     "About 3%"
-    ],
-    "a": 3,
-    "reveal": "Around 2.5%. Out of 120 songs tapped, three were correctly identified."
+    "text": "You know something. That's the problem. Today you'll learn why knowing too much makes you a worse communicator — and what to do about it."
    },
    {
     "t": "context",
@@ -840,19 +915,7 @@ const CORPUS = [
   "cards": [
    {
     "t": "hook",
-    "text": "Two students, same passage. One reads it four times. One reads it once, shuts the book, and tries to remember it. One of them is wasting their evening."
-   },
-   {
-    "t": "predict",
-    "q": "Tested a week later, which group recalled more?",
-    "options": [
-     "The rereaders",
-     "The recallers",
-     "No difference",
-     "Rereaders, but only slightly"
-    ],
-    "a": 1,
-    "reveal": "The recall group retained substantially more after a week, despite predicting they would do worse."
+    "text": "Everything you know about studying is probably wrong. In five minutes, you'll have the one method that actually works — and understand exactly why."
    },
    {
     "t": "context",
@@ -926,19 +989,7 @@ const CORPUS = [
   "cards": [
    {
     "t": "hook",
-    "text": "The bottle said placebo. The doctor said it out loud, no active ingredient, nothing in here. People took them twice a day and got better."
-   },
-   {
-    "t": "predict",
-    "q": "Compared with a no-treatment control, what happened to symptoms?",
-    "options": [
-     "No change, they knew it was inert",
-     "They got worse",
-     "They improved significantly",
-     "Improvement only in the first week"
-    ],
-    "a": 2,
-    "reveal": "The open-label placebo group reported significantly greater symptom relief than the no-treatment group."
+    "text": "Your brain can heal your body. Even when it knows it's being tricked. Today you'll learn the most surprising result in modern medicine."
    },
    {
     "t": "context",
@@ -1013,19 +1064,7 @@ const CORPUS = [
   "cards": [
    {
     "t": "hook",
-    "text": "It's smaller than a full stop, it lives in wet moss, and in 2007 someone put it in orbit and opened the hatch."
-   },
-   {
-    "t": "predict",
-    "q": "Vacuum, or unfiltered solar ultraviolet. Which one did most of the killing?",
-    "options": [
-     "Vacuum",
-     "Ultraviolet radiation",
-     "Cold",
-     "Both equally"
-    ],
-    "a": 1,
-    "reveal": "Vacuum alone was survivable. Full-spectrum solar UV was the lethal component."
+    "text": "This creature survived open space. No oxygen. No pressure. Temperatures from near absolute zero to 150°C. Today you'll find out how — and why it changes what we know about life."
    },
    {
     "t": "context",
@@ -1099,19 +1138,7 @@ const CORPUS = [
   "cards": [
    {
     "t": "hook",
-    "text": "There's no sign at the edge of the solar system. Voyager 1 went through it and nobody could tell for months. The instrument that should have known had been dead since 1980."
-   },
-   {
-    "t": "predict",
-    "q": "Outside the Sun’s bubble, what should happen to plasma density?",
-    "options": [
-     "Drops close to zero",
-     "Rises sharply",
-     "Stays the same",
-     "Oscillates"
-    ],
-    "a": 1,
-    "reveal": "It rises. Interstellar plasma is far denser than the thin, fast wind blowing out of the Sun."
+    "text": "In 2012, a spacecraft built in the 1970s crossed into interstellar space. Nobody saw it happen. Today you'll learn how scientists figured it out anyway."
    },
    {
     "t": "context",
@@ -1167,7 +1194,7 @@ const CORPUS = [
   "difficulty": "Challenging",
   "minutes": 15,
   "quality": 86,
-  "status": "approved",
+  "status": "draft",
   "evergreen": false,
   "rights": "metadata_only",
   "title": "The wood wide web, and the argument about it",
@@ -1185,19 +1212,7 @@ const CORPUS = [
   "cards": [
    {
     "t": "hook",
-    "text": "You've heard that trees talk underground, and that mother trees feed their young. Only one of those has much evidence behind it."
-   },
-   {
-    "t": "predict",
-    "q": "A 2023 review checked how the original findings were cited. What did it find?",
-    "options": [
-     "Citations were accurate",
-     "Claims strengthened as they were repeated",
-     "The original was retracted",
-     "Nobody had cited it"
-    ],
-    "a": 1,
-    "reveal": "It reported that citations grew more confident than the underlying evidence supported, a pattern the authors call positive citation bias."
+    "text": "Trees are talking to each other right now, through a network under your feet. Today you'll learn what we actually know — and what's still being argued."
    },
    {
     "t": "context",
@@ -1254,7 +1269,7 @@ const CORPUS = [
   "difficulty": "Balanced",
   "minutes": 10,
   "quality": 84,
-  "status": "approved",
+  "status": "draft",
   "evergreen": false,
   "rights": "metadata_only",
   "title": "The Dunning-Kruger effect is not quite what you were told",
@@ -1272,19 +1287,7 @@ const CORPUS = [
   "cards": [
    {
     "t": "hook",
-    "text": "The version you've heard says stupid people think they're geniuses. That is not what the study found, and the gap between the two is the interesting bit."
-   },
-   {
-    "t": "predict",
-    "q": "In the original study, how did bottom-quartile performers rate themselves?",
-    "options": [
-     "Far above average",
-     "Slightly above average",
-     "Roughly average",
-     "Below average"
-    ],
-    "a": 2,
-    "reveal": "Around average. They overestimated, but they did not claim excellence."
+    "text": "The people who know the least are the most confident. The people who know the most doubt themselves. Today you'll learn why — and how to use it."
    },
    {
     "t": "context",
@@ -1359,19 +1362,7 @@ const CORPUS = [
   "cards": [
    {
     "t": "hook",
-    "text": "One marshmallow now, or two if you can wait fifteen minutes. Decades of parenting advice came out of that room. Then someone ran it properly."
-   },
-   {
-    "t": "predict",
-    "q": "After controlling for family background and early cognitive ability, what happened to the predictive power of waiting?",
-    "options": [
-     "Grew stronger",
-     "Stayed the same",
-     "Shrank by more than half",
-     "Reversed"
-    ],
-    "a": 2,
-    "reveal": "It shrank dramatically, and much of the remainder was not statistically robust."
+    "text": "The marshmallow test became the most famous experiment in psychology. Then someone ran it properly. Today you'll learn what it was actually measuring all along."
    },
    {
     "t": "context",
@@ -1428,7 +1419,7 @@ const CORPUS = [
   "difficulty": "Balanced",
   "minutes": 10,
   "quality": 87,
-  "status": "approved",
+  "status": "draft",
   "evergreen": false,
   "rights": "metadata_only",
   "title": "Why losing £10 hurts more than finding £10 helps",
@@ -1446,19 +1437,7 @@ const CORPUS = [
   "cards": [
    {
     "t": "hook",
-    "text": "Heads you win £150, tails you lose £100, flip as often as you like. The maths is obviously in your favour. Almost everyone says no, and they aren't being stupid."
-   },
-   {
-    "t": "predict",
-    "q": "Roughly how large does the gain usually need to be before people accept a £100 downside?",
-    "options": [
-     "£110",
-     "£120",
-     "£200 or more",
-     "£1,000"
-    ],
-    "a": 2,
-    "reveal": "Typically around double the potential loss, though the ratio varies a lot between people and settings."
+    "text": "Losing £10 hurts more than finding £10 feels good. Today you'll learn the psychological discovery behind that feeling — and why it shapes almost every decision you make."
    },
    {
     "t": "context",
@@ -1533,19 +1512,7 @@ const CORPUS = [
   "cards": [
    {
     "t": "hook",
-    "text": "For fifty years, working out the shape of a single protein could be your entire doctorate. Now you type in a name and wait."
-   },
-   {
-    "t": "predict",
-    "q": "Before 2020, how long did determining one structure experimentally typically take?",
-    "options": [
-     "Hours",
-     "Days",
-     "Months to years",
-     "Minutes"
-    ],
-    "a": 2,
-    "reveal": "Months to years of laboratory work, often the core of an entire doctorate."
+    "text": "For fifty years, working out the shape of a single protein could be your entire career. Then one afternoon, a computer solved it. Today you'll learn what that actually means."
    },
    {
     "t": "context",
@@ -1619,19 +1586,7 @@ const CORPUS = [
   "cards": [
    {
     "t": "hook",
-    "text": "Sponge divers pulled a lump of corroded bronze off the seabed in 1901. It sat in a museum for half a century before anyone noticed it had gears inside."
-   },
-   {
-    "t": "predict",
-    "q": "What did high-resolution X-ray imaging reveal inside?",
-    "options": [
-     "Decorative filigree",
-     "More than thirty interlocking gears",
-     "A hollow shell",
-     "Coins"
-    ],
-    "a": 1,
-    "reveal": "A gear train of more than thirty bronze wheels, cut by hand, including a differential-style arrangement."
+    "text": "Two thousand years before computers existed, someone built one. It predicted eclipses. It tracked the planets. Today you'll learn about the most extraordinary object ever recovered from the ancient world."
    },
    {
     "t": "context",
@@ -1705,19 +1660,7 @@ const CORPUS = [
   "cards": [
    {
     "t": "hook",
-    "text": "The shelf is full of things that promise younger skin. Almost none of them have ever been run against a control group for years at a time. One has, and it is the cheapest thing on the shelf."
-   },
-   {
-    "t": "predict",
-    "q": "903 adults in Queensland were randomised to daily sunscreen or to using it whenever they felt like it. After four and a half years, how much less photoageing did the daily group show?",
-    "options": [
-     "None, the groups matched",
-     "About 5%",
-     "About 24%",
-     "About 70%"
-    ],
-    "a": 2,
-    "reveal": "About 24% less, measured from the skin's surface texture rather than judged by eye."
+    "text": "One sunscreen ingredient has been through a proper randomised trial. Just one. Today you'll learn what four and a half years of data actually showed — and what's sitting on your shelf."
    },
    {
     "t": "context",
@@ -1774,7 +1717,7 @@ const CORPUS = [
   "difficulty": "Challenging",
   "minutes": 15,
   "quality": 93,
-  "status": "approved",
+  "status": "draft",
   "evergreen": false,
   "rights": "transform_ok",
   "title": "The cockpit study that found the problem was not the flying",
@@ -1791,19 +1734,7 @@ const CORPUS = [
   "cards": [
    {
     "t": "hook",
-    "text": "A full-mission 747 simulator, a long leg, an engine problem and a hydraulic failure. Every crew flew the identical scenario. The error counts came back nothing like each other."
-   },
-   {
-    "t": "predict",
-    "q": "Errors varied enormously between crews. What did the differences appear to track?",
-    "options": [
-     "Individual handling skill",
-     "Total flying hours",
-     "How the captain used the people and information around him",
-     "How hard the crew's hearts were working"
-    ],
-    "a": 2,
-    "reveal": "Decision time and decision order varied by crew and seemed related to how well captains managed the resources available on the flight deck. The rise in errors was not related to a rise in heart rate."
+    "text": "Most plane crashes aren't caused by mechanical failure. They're caused by how people talk to each other in the cockpit. Today you'll learn the study that changed aviation forever."
    },
    {
     "t": "context",
@@ -1878,19 +1809,7 @@ const CORPUS = [
   "cards": [
    {
     "t": "hook",
-    "text": "Not a survey about how people think they invest. A discount broker handed over six years of what 66,465 households actually did."
-   },
-   {
-    "t": "predict",
-    "q": "The market returned 17.9% a year over the period. What did the households who traded most earn?",
-    "options": [
-     "19.4%",
-     "17.9%",
-     "16.4%",
-     "11.4%"
-    ],
-    "a": 3,
-    "reveal": "11.4%. The average household earned 16.4%, and the heaviest traders gave up around six and a half points a year against the market."
+    "text": "The more you trade your stocks, the worse your returns. Today you'll learn what six years of real data from 66,000 households revealed — and what it means for your money."
    },
    {
     "t": "context",
@@ -1965,19 +1884,7 @@ const CORPUS = [
   "cards": [
    {
     "t": "hook",
-    "text": "Readers living longer is an easy headline. The interesting part is that newspaper and magazine readers did not get anything like the same benefit."
-   },
-   {
-    "t": "predict",
-    "q": "Over twelve years, how did mortality risk compare for book readers against non-book readers, after adjusting for age, wealth, education and health?",
-    "options": [
-     "No difference",
-     "About 5% lower",
-     "About 20% lower",
-     "About 60% lower"
-    ],
-    "a": 2,
-    "reveal": "A hazard ratio of 0.80, so roughly a 20% lower risk of dying across the follow-up period."
+    "text": "Book readers outlived the people who read newspapers and magazines. Today you'll learn what a twelve-year study found — and why the type of reading matters more than the amount."
    },
    {
     "t": "context",
@@ -2052,19 +1959,7 @@ const CORPUS = [
   "cards": [
    {
     "t": "hook",
-    "text": "Put a room full of people in scanners and show them the same film. If the film is doing its job, their brains should move together. Sometimes that is most of the cortex. Sometimes it is almost none of it."
-   },
-   {
-    "t": "predict",
-    "q": "Four clips were shown. Which produced the most similar brain responses across viewers?",
-    "options": [
-     "Ten unedited minutes in a park",
-     "An episode of Curb Your Enthusiasm",
-     "The Good, the Bad and the Ugly",
-     "An episode directed by Alfred Hitchcock"
-    ],
-    "a": 3,
-    "reveal": "The Hitchcock episode, at over 65% of the cortex. The unedited park footage came in under 5%."
+    "text": "Film editors shape what you feel, moment by moment. But how much control do they actually have? Today you'll learn what brain scans of movie audiences revealed."
    },
    {
     "t": "context",
@@ -2139,19 +2034,7 @@ const CORPUS = [
   "cards": [
    {
     "t": "hook",
-    "text": "The people on six hours a night thought they were basically fine. By the end of the fortnight they were performing like someone who had not slept for two nights."
-   },
-   {
-    "t": "predict",
-    "q": "Across 14 nights at six hours, what happened to how sleepy people said they felt?",
-    "options": [
-     "It climbed in step with the decline in performance",
-     "It rose at first and then levelled off",
-     "It dropped back to normal",
-     "It was never measured"
-    ],
-    "a": 1,
-    "reveal": "It rose early, then flattened, while measured performance kept falling. The gap between how impaired people were and how impaired they felt widened every day."
+    "text": "Six hours of sleep feels fine. It isn't. Today you'll learn what ten days of mild sleep restriction actually does to your brain — and why you can't feel it happening."
    },
    {
     "t": "context",
@@ -2208,7 +2091,7 @@ const CORPUS = [
   "difficulty": "Challenging",
   "minutes": 15,
   "quality": 95,
-  "status": "approved",
+  "status": "draft",
   "evergreen": false,
   "rights": "transform_ok",
   "title": "The experiment that killed two theories in one afternoon",
@@ -2226,19 +2109,7 @@ const CORPUS = [
   "cards": [
    {
     "t": "hook",
-    "text": "Three competing theories of how DNA copies itself. Rather than argue, two researchers grew bacteria on heavy nitrogen, moved them to light nitrogen, and spun the result in a centrifuge. The answer separated out as visible bands."
-   },
-   {
-    "t": "predict",
-    "q": "After exactly one round of replication, where did the DNA sit in the tube?",
-    "options": [
-     "Two bands, one heavy and one light",
-     "A single band exactly halfway between",
-     "One heavy band only",
-     "A smear across the whole tube"
-    ],
-    "a": 1,
-    "reveal": "A single intermediate band. Every molecule was half old and half new, which is what only one of the three theories predicted."
+    "text": "In 1958, one elegant experiment killed two competing theories of DNA in a single afternoon. Today you'll learn how — and why it's still considered one of the most beautiful experiments in science."
    },
    {
     "t": "context",
@@ -2294,7 +2165,7 @@ const CORPUS = [
   "difficulty": "Challenging",
   "minutes": 15,
   "quality": 96,
-  "status": "approved",
+  "status": "draft",
   "evergreen": false,
   "rights": "metadata_only",
   "title": "The paper that decided what information is",
@@ -2312,19 +2183,7 @@ const CORPUS = [
   "cards": [
    {
     "t": "hook",
-    "text": "Engineers could already send messages down a wire. What nobody could do was say how much message a wire could carry, or what a message even was, in a way you could put a number on."
-   },
-   {
-    "t": "predict",
-    "q": "Shannon's central move was to define information in terms of what?",
-    "options": [
-     "How true the message is",
-     "How useful the message is to the receiver",
-     "How much uncertainty the message removes",
-     "How many words it contains"
-    ],
-    "a": 2,
-    "reveal": "Uncertainty removed. A message that tells you something you already knew carries no information at all, however long it is."
+    "text": "In 1948, one paper invented the concept of information itself. Everything digital — every message, every file, every signal — traces back to it. Today you'll learn what Shannon actually proved."
    },
    {
     "t": "context",
@@ -2381,7 +2240,7 @@ const CORPUS = [
   "difficulty": "Balanced",
   "minutes": 10,
   "quality": 91,
-  "status": "approved",
+  "status": "draft",
   "evergreen": false,
   "rights": "metadata_only",
   "title": "The bridge in your physics textbook is the wrong example",
@@ -2399,19 +2258,7 @@ const CORPUS = [
   "cards": [
    {
     "t": "hook",
-    "text": "The footage is in every physics course. So is the caption: the wind matched the bridge's natural frequency and resonance tore it apart. Engineers have been saying that is wrong for half a century."
-   },
-   {
-    "t": "predict",
-    "q": "If not forced resonance, what took the bridge down?",
-    "options": [
-     "A manufacturing fault in the cables",
-     "Self-excitation, where the deck's own twisting fed energy back in",
-     "An unusually strong gust",
-     "Ice loading on the roadway"
-    ],
-    "a": 1,
-    "reveal": "Aerodynamically induced self-excitation in a torsional mode. The motion generated the forces that amplified the motion."
+    "text": "The bridge in your physics textbook collapsed for the wrong reason. The explanation that's been taught for decades is incorrect. Today you'll learn what actually happened."
    },
    {
     "t": "context",
@@ -2467,7 +2314,7 @@ const CORPUS = [
   "difficulty": "Balanced",
   "minutes": 10,
   "quality": 90,
-  "status": "approved",
+  "status": "draft",
   "evergreen": true,
   "rights": "metadata_only",
   "title": "Three pages that broke a definition two thousand years old",
@@ -2485,19 +2332,7 @@ const CORPUS = [
   "cards": [
    {
     "t": "hook",
-    "text": "Since Plato, knowing something meant three things: you believe it, it is true, and you have good reason. Edmund Gettier published three pages showing you can have all three and still not know."
-   },
-   {
-    "t": "predict",
-    "q": "How do the counterexamples work?",
-    "options": [
-     "The belief turns out false",
-     "The justification is secretly bad",
-     "The belief is true, but true for a reason unrelated to the justification",
-     "The believer is lying"
-    ],
-    "a": 2,
-    "reveal": "Your reasoning is sound, your belief is true, and the two have nothing to do with each other. You are right by luck."
+    "text": "For two thousand years, philosophers believed they knew what knowledge was. In 1963, a three-page paper broke it. Today you'll learn the problem that still hasn't been solved."
    },
    {
     "t": "context",
@@ -2572,19 +2407,7 @@ const CORPUS = [
   "cards": [
    {
     "t": "hook",
-    "text": "The acronym is WEIRD: Western, Educated, Industrialised, Rich and Democratic. It describes the people in almost all of the experiments, and almost none of the people on earth."
-   },
-   {
-    "t": "predict",
-    "q": "The paper's harder claim is not just that samples are narrow. What is it?",
-    "options": [
-     "That the research is fraudulent",
-     "That WEIRD populations are frequent outliers, so the narrow sample is also the least representative one",
-     "That the effects are too small to matter",
-     "That replication rates are low"
-    ],
-    "a": 1,
-    "reveal": "Across visual perception, fairness, cooperation, spatial reasoning and moral judgement, WEIRD subjects sit at the extreme end of the range rather than the middle."
+    "text": "Almost everything psychology thought it knew about humans was based on studying one type of person. Today you'll learn how that changed what we know — and what we have to unlearn."
    },
    {
     "t": "context",
@@ -2659,19 +2482,7 @@ const CORPUS = [
   "cards": [
    {
     "t": "hook",
-    "text": "Museum staff had long assumed visitors do not look for very long. Nobody had actually timed it. So somebody did, at the Metropolitan Museum of Art, in front of six of its best-known paintings."
-   },
-   {
-    "t": "predict",
-    "q": "What was the median time a visitor spent in front of a masterpiece?",
-    "options": [
-     "About 3 minutes",
-     "About 1 minute",
-     "17 seconds",
-     "2 seconds"
-    ],
-    "a": 2,
-    "reveal": "17 seconds, with a mean of 27.2. The mean is dragged up by a small number of long stops."
+    "text": "People spend an average of 27 seconds looking at a masterpiece in a museum. Today you'll learn what eye-tracking cameras revealed about how we actually look at art."
    },
    {
     "t": "context",
@@ -2728,7 +2539,7 @@ const CORPUS = [
   "difficulty": "Balanced",
   "minutes": 10,
   "quality": 92,
-  "status": "approved",
+  "status": "draft",
   "evergreen": true,
   "rights": "metadata_only",
   "title": "Why the close button is in the corner",
@@ -2746,19 +2557,7 @@ const CORPUS = [
   "cards": [
    {
     "t": "hook",
-    "text": "Paul Fitts was studying people tapping metal plates with a stylus, two decades before anyone had a mouse. The relationship he found is why your screen looks the way it does."
-   },
-   {
-    "t": "predict",
-    "q": "Time to hit a target depends on distance and size. In what way?",
-    "options": [
-     "Linearly with distance",
-     "With the square of the distance",
-     "Logarithmically with the ratio of distance to target width",
-     "Only with target size"
-    ],
-    "a": 2,
-    "reveal": "Logarithmically with the ratio. Doubling the distance costs far less than halving the target does."
+    "text": "The reason your close button is in the corner, your phone keyboard is the size it is, and your car controls are where they are — all traces back to one equation from 1954. Today you'll learn it."
    },
    {
     "t": "context",
@@ -2832,19 +2631,7 @@ const CORPUS = [
   "cards": [
    {
     "t": "hook",
-    "text": "Every management course teaches it. Workers at the Hawthorne plant got more productive whenever the lighting changed, brighter or dimmer, because they were being watched. The data behind that story was believed lost for eighty years."
-   },
-   {
-    "t": "predict",
-    "q": "Levitt and List located the original illumination data. What did it show?",
-    "options": [
-     "It confirmed the standard account",
-     "The famous data patterns were not there",
-     "The effect was larger than reported",
-     "The records were unreadable"
-    ],
-    "a": 1,
-    "reveal": "The widely repeated descriptions of remarkable patterns turned out to be fictional. More subtle possible effects remained, but not the story everyone tells."
+    "text": "The most cited effect in management — the idea that being observed makes you work harder — may have never actually been proven. Today you'll learn what researchers found when they went back to the original data."
    },
    {
     "t": "context",
@@ -3012,6 +2799,139 @@ function motif(kind,pal,seed,w,hgt){
 
 /* ============ persistence ============ */
 const KEY='onething:v1'; let MEM=null; let STORAGE_OK=true;
+
+/* ── HAPTICS ─────────────────────────────────────────────────── */
+function haptic(type){
+  if(!navigator.vibrate) return;
+  if(type==='correct') navigator.vibrate(10);
+  else if(type==='wrong') navigator.vibrate([12,8,12]);
+  else if(type==='complete') navigator.vibrate([15,10,30]);
+  else if(type==='levelup') navigator.vibrate([20,15,40,15,80]);
+  else if(type==='milestone') navigator.vibrate([30,20,60]);
+}
+
+/* ── STREAK HELPERS ──────────────────────────────────────────── */
+function animateCountUp(el, from, to, duration){
+  if(!el || from === to) { if(el) el.textContent = to; return; }
+  const start = performance.now();
+  function step(now){
+    const p = Math.min((now - start) / duration, 1);
+    const ease = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.round(from + (to - from) * ease);
+    if(p < 1) requestAnimationFrame(step);
+    else el.textContent = to;
+  }
+  requestAnimationFrame(step);
+}
+
+function checkStreakMilestone(streak){
+  const milestones = [3, 7, 14, 30, 100];
+  return milestones.includes(streak);
+}
+
+function milestoneTitle(streak){
+  if(streak >= 100) return 'Century';
+  if(streak >= 30) return 'One Month Strong';
+  if(streak >= 14) return 'Two Weeks Straight';
+  if(streak >= 7) return 'Week One Done';
+  if(streak >= 3) return 'Three Days Running';
+  return '';
+}
+
+function milestoneMessage(streak){
+  if(streak >= 100) return "A hundred days. That's not a habit — that's who you are now.";
+  if(streak >= 30) return "Thirty days. Most people give up in the first week. You didn't.";
+  if(streak >= 14) return "Two weeks without missing a day. The compound interest is building.";
+  if(streak >= 7) return "Seven days straight. You have the habit now. Protect it.";
+  if(streak >= 3) return "Three days in a row. The streak is becoming real.";
+  return '';
+}
+
+/* ── HAPTICS ─────────────────────────────────────────────────── */
+function haptic(type){
+  if(!navigator.vibrate) return;
+  if(type==='correct') navigator.vibrate(10);
+  else if(type==='wrong') navigator.vibrate([12,8,12]);
+  else if(type==='complete') navigator.vibrate([15,10,30]);
+  else if(type==='levelup') navigator.vibrate([20,15,40,15,80]);
+  else if(type==='milestone') navigator.vibrate([30,20,60]);
+}
+
+/* ── COUNT-UP + STREAK MILESTONE HELPERS ─────────────────────── */
+function animateCountUp(el, from, to, duration){
+  if(!el || from === to){ if(el) el.textContent = to; return; }
+  const start = performance.now();
+  function step(now){
+    const p = Math.min((now - start) / duration, 1);
+    const ease = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.round(from + (to - from) * ease);
+    if(p < 1) requestAnimationFrame(step);
+    else el.textContent = to;
+  }
+  requestAnimationFrame(step);
+}
+function checkStreakMilestone(streak){ return [3,7,14,30,100].includes(streak); }
+function milestoneTitle(streak){
+  if(streak>=100) return 'Century';
+  if(streak>=30) return 'One Month Strong';
+  if(streak>=14) return 'Two Weeks Straight';
+  if(streak>=7) return 'Week One Done';
+  if(streak>=3) return 'Three Days Running';
+  return '';
+}
+function milestoneMessage(streak){
+  if(streak>=100) return "A hundred days. That's not a habit — that's who you are now.";
+  if(streak>=30) return "Thirty days. Most people give up in the first week. You didn't.";
+  if(streak>=14) return "Two weeks without missing a day. The compound interest is building.";
+  if(streak>=7) return "Seven days straight. You have the habit now. Protect it.";
+  if(streak>=3) return "Three days in a row. The streak is becoming real.";
+  return '';
+}
+
+/* ── SUPABASE ──────────────────────────────────────────────── */
+const SUPA_URL = 'https://udsfrbmjmdlesumbnfpx.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVkc2ZyYm1qbWRsZXN1bWJuZnB4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY2NDYyMzQsImV4cCI6MjEwMjIyMjIzNH0.3I7t-F9L65D1b62XldWg8AANPZ7LRvVKWZm2fKUae3U';
+const supa = (typeof supabase !== 'undefined') ? supabase.createClient(SUPA_URL, SUPA_KEY) : null;
+
+let AUTH_USER = null; // null = guest, object = signed-in user
+
+async function initAuth(){
+  if(!supa) return;
+  const { data: { session } } = await supa.auth.getSession();
+  if(session) AUTH_USER = session.user;
+  supa.auth.onAuthStateChange((_event, session) => {
+    AUTH_USER = session ? session.user : null;
+    if(_event === 'SIGNED_IN') { S.onboarded && render(); }
+    if(_event === 'SIGNED_OUT') { AUTH_USER = null; render(); }
+  });
+}
+
+async function signInGoogle(){
+  if(!supa) return;
+  await supa.auth.signInWithOAuth({ provider: 'google',
+    options: { redirectTo: window.location.origin } });
+}
+
+async function signInMagicLink(email){
+  if(!supa) return { error: null };
+  return await supa.auth.signInWithOtp({ email,
+    options: { emailRedirectTo: window.location.origin } });
+}
+
+async function signOut(){
+  if(!supa) return;
+  await supa.auth.signOut();
+  AUTH_USER = null;
+  S = blank(); await save(); render();
+}
+
+function isGuest(){ return AUTH_USER === null; }
+
+/* Guest corpus = only hardcoded papers (already in CORPUS)
+   Signed-in corpus = CORPUS + Supabase papers (future) */
+function activeCorpus(){
+  return CORPUS.filter(p => p.status === 'approved' && (p.source?.year == null || p.source?.year >= 2000));
+}
 async function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); STORAGE_OK=true; }
   catch(e){ MEM=JSON.stringify(S); STORAGE_OK=false; } }
 async function load(){
@@ -3113,62 +3033,210 @@ function dotCal(days){
 }
 
 /* ============ ONBOARDING ============ */
+
+/* Abstract SVG backgrounds — reuse the app's own visual vocabulary */
+function obBg(type, pal){
+  const c1 = pal||'#0C6B47', c2 = pal||'rgba(12,107,71,.12)';
+  if(type==='rings') return `<svg width="420" height="420" viewBox="0 0 420 420" fill="none" xmlns="http://www.w3.org/2000/svg" style="position:absolute;right:-60px;bottom:-60px;opacity:.12">
+    <circle cx="280" cy="280" r="60" stroke="${c1}" stroke-width="1.5"/>
+    <circle cx="280" cy="280" r="110" stroke="${c1}" stroke-width="1"/>
+    <circle cx="280" cy="280" r="165" stroke="${c1}" stroke-width=".75"/>
+    <circle cx="280" cy="280" r="225" stroke="${c1}" stroke-width=".5"/>
+    <circle cx="280" cy="280" r="290" stroke="${c1}" stroke-width=".4"/>
+    <circle cx="280" cy="280" r="360" stroke="${c1}" stroke-width=".3"/>
+  </svg>`;
+  if(type==='dots') return `<svg width="320" height="320" viewBox="0 0 320 320" fill="none" xmlns="http://www.w3.org/2000/svg" style="position:absolute;right:-20px;top:-20px;opacity:.07">
+    ${Array.from({length:8},(_,r)=>Array.from({length:8},(_,c)=>`<circle cx="${c*42+10}" cy="${r*42+10}" r="3" fill="${c1}"/>`).join('')).join('')}
+  </svg>`;
+  if(type==='arc') return `<svg width="360" height="360" viewBox="0 0 360 360" fill="none" xmlns="http://www.w3.org/2000/svg" style="position:absolute;left:-80px;bottom:-80px;opacity:.08">
+    <path d="M360 0 A360 360 0 0 0 0 360" stroke="${c1}" stroke-width="1.5" fill="none"/>
+    <path d="M360 60 A300 300 0 0 0 60 360" stroke="${c1}" stroke-width="1" fill="none"/>
+    <path d="M360 120 A240 240 0 0 0 120 360" stroke="${c1}" stroke-width=".75" fill="none"/>
+    <path d="M360 180 A180 180 0 0 0 180 360" stroke="${c1}" stroke-width=".5" fill="none"/>
+  </svg>`;
+  return '';
+}
+
+function obProgress(step, total){
+  const pct = Math.round((step/total)*100);
+  return `<div class="ob-progress"><i style="width:${pct}%"></i></div>`;
+}
+
+function obGlyph(type){
+  if(type==='circle-sm') return `<svg class="ob-glyph" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="5" fill="currentColor"/></svg>`;
+  if(type==='circle-md') return `<svg class="ob-glyph" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="8" fill="currentColor" opacity=".9"/></svg>`;
+  if(type==='circle-rings') return `<svg class="ob-glyph" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="5" fill="currentColor"/><circle cx="16" cy="16" r="10" stroke="currentColor" stroke-width="1.5" fill="none" opacity=".5"/><circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="1" fill="none" opacity=".25"/></svg>`;
+  if(type==='spark') return `<svg class="ob-glyph" viewBox="0 0 32 32" fill="none"><path d="M16 4l2.5 8.5L27 16l-8.5 2.5L16 27l-2.5-8.5L5 16l8.5-2.5L16 4z" fill="currentColor"/></svg>`;
+  if(type==='dot') return `<svg class="ob-glyph" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="3" fill="currentColor"/></svg>`;
+  if(type==='ring') return `<svg class="ob-glyph" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="9" stroke="currentColor" stroke-width="2" fill="none"/></svg>`;
+  if(type==='deep') return `<svg class="ob-glyph" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="4" fill="currentColor"/><circle cx="16" cy="16" r="9" stroke="currentColor" stroke-width="1.5" fill="none" opacity=".6"/><circle cx="16" cy="16" r="13" stroke="currentColor" stroke-width="1" fill="none" opacity=".3"/></svg>`;
+  return '';
+}
+
 function vwOnboard(){
   const u=S.user, st=S.step;
-  const wrap=(inner,cta,enabled,alt)=>`
-    <div class="row" style="margin-bottom:26px">
-      <span class="eyebrow">One Thing</span>
-      <span class="small tnum">${st} of 4</span>
-    </div>${inner}
-    <div style="margin-top:30px">
-      <button class="btn primary" data-a="next" ${enabled?'':'disabled'}>${cta}</button>
-      ${alt||''}
-    </div>`;
+  const TOTAL=5;
 
-  if(st===0) return `
-    <div style="min-height:58vh;display:flex;flex-direction:column;justify-content:center">
-      <span class="eyebrow">One Thing</span>
-      <h1 style="margin:18px 0 0;font-size:39px">You read for two hours yesterday.<br>Name one thing you kept.</h1>
-      <p class="read" style="color:var(--mute);margin:20px 0 0;font-size:18px">Not your fault. That's just what a feed does.</p>
-      <p class="small" style="margin:12px 0 0;font-size:14px;letter-spacing:.02em">One real idea a day. Five minutes. We get out of your way.</p>
+  /* ── STEP 0: SPLASH ──────────────────────────────────────── */
+  if(st===0) return `<div class="ob-screen" style="background:var(--ground)">
+    <div class="ob-bg">${obBg('rings')}</div>
+    <div class="ob-content" style="justify-content:center;flex:1">
+      <span class="ob-eyebrow">One Thing</span>
+      <h1 class="ob-headline" style="font-size:clamp(34px,9.5vw,44px);margin-bottom:24px">Your brain deserves more than 15-second videos.</h1>
+      <p class="ob-body" style="color:var(--ink);font-size:17px;line-height:1.65">Every day, we find the most fascinating thing you've never come across — and make you understand it in five minutes.</p>
+      <p style="font-family:var(--ui);font-size:13.5px;font-weight:700;color:var(--mute);letter-spacing:.01em;margin:0">That's it. That's the whole thing.</p>
     </div>
-    <button class="btn primary" data-a="next">Show me today's</button>
-    <p class="small" style="text-align:center;margin-top:14px">No feed. Nothing to catch up on.</p>`;
+    <div class="ob-footer">
+      <button class="btn primary" style="font-size:16px" data-a="next">Meet today's idea</button>
+    </div>
+  </div>`;
 
+  /* ── STEP 1: TOPICS ──────────────────────────────────────── */
   if(st===1){
     const n=u.interests.length;
-    return wrap(`
-      <h2>What makes you look twice?</h2>
-      <p class="small" style="margin:10px 0 20px">Pick three or more. Any fewer and you'll start seeing tomorrow coming.</p>
-      <div class="chips">${TOPICS.map(t=>`<button class="chip" data-topic="${t}" aria-pressed="${u.interests.includes(t)}">${t}</button>`).join('')}</div>
-      <p class="small tnum" style="margin-top:16px">${n===0?'Nothing picked yet':n<3?(3-n)+' more to go':n+" picked. That'll keep it interesting."}</p>`,
-      'Continue', n>=3);
+    const chips=TOPICS.map((t,i)=>`<button class="chip" data-topic="${t}" aria-pressed="${u.interests.includes(t)}"
+      style="animation-delay:${i*18}ms">${t}</button>`).join('');
+    return `<div class="ob-screen" style="background:var(--ground)">
+      <div class="ob-bg">${obBg('dots')}</div>
+      <div class="ob-content">
+        ${obProgress(1,TOTAL)}
+        <div style="position:relative">
+          <span class="ob-num">01</span>
+          <span class="ob-eyebrow">Your interests</span>
+          <h2 class="ob-headline" style="font-size:clamp(26px,7vw,32px)">What makes you look twice?</h2>
+          <p class="ob-body">Pick three or more. Any fewer and you'll see tomorrow coming.</p>
+        </div>
+        <div class="ob-chip-grid">${chips}</div>
+        <p class="small" style="margin-top:16px;color:${n<3?'var(--mute)':'var(--green)'};font-weight:${n>=3?'600':'400'}">
+          ${n===0?'Nothing picked yet':n<3?(3-n)+' more to go':'\u2713 '+n+' picked \u2014 that\u2019ll keep it interesting'}</p>
+      </div>
+      <div class="ob-footer">
+        <button class="btn primary" data-a="next" ${n>=3?'':'disabled'}>Continue</button>
+      </div>
+    </div>`;
   }
 
+  /* ── STEP 2: SUBTOPICS ───────────────────────────────────── */
   if(st===2){
     const avail=u.interests.filter(t=>SUBS[t]);
     if(!avail.length){ S.step=3; return vwOnboard(); }
-    return wrap(`
-      <h2>Anywhere you'd go deeper?</h2>
-      <p class="small" style="margin:10px 0 20px">Optional. It sharpens your first week. After that we go by what you actually finish, not what you ticked.</p>
-      ${avail.map(t=>`<div style="margin-bottom:18px"><span class="eyebrow">${t}</span>
-        <div class="chips" style="margin-top:9px">${SUBS[t].map(s=>`<button class="chip sm" data-sub="${h(s)}" aria-pressed="${u.subs.includes(s)}">${h(s)}</button>`).join('')}</div></div>`).join('')}`,
-      'Continue', true, `<button class="btn ghost" data-a="next" style="margin-top:9px">Nothing jumps out</button>`);
+    return `<div class="ob-screen" style="background:var(--ground)">
+      <div class="ob-bg">${obBg('dots')}</div>
+      <div class="ob-content">
+        ${obProgress(2,TOTAL)}
+        <div style="position:relative">
+          <span class="ob-num">02</span>
+          <span class="ob-eyebrow">Go deeper</span>
+          <h2 class="ob-headline" style="font-size:clamp(24px,7vw,30px)">Anywhere you'd go deeper?</h2>
+          <p class="ob-body">Optional — but it sharpens your first week.</p>
+        </div>
+        ${avail.map(t=>`<div style="margin-bottom:20px">
+          <span class="eyebrow" style="color:var(--mute)">${t}</span>
+          <div class="chips" style="margin-top:10px">${SUBS[t].map(s=>`<button class="chip sm" data-sub="${h(s)}" aria-pressed="${u.subs.includes(s)}">${h(s)}</button>`).join('')}</div>
+        </div>`).join('')}
+      </div>
+      <div class="ob-footer">
+        <button class="btn primary" data-a="next">Continue</button>
+        <button class="btn ghost" data-a="next" style="margin-top:9px">Nothing jumps out</button>
+      </div>
+    </div>`;
   }
 
-  if(st===3) return wrap(`
-    <h2>How long have you got?</h2>
-    <p class="small" style="margin:10px 0 20px">We'll match the piece to your time. There's no clock running on you.</p>
-    ${[[5,'Five minutes','The length of a coffee queue'],[10,'Ten minutes','Where most days land'],[15,'Fifteen minutes','When you want the method too']].map(([m,t,x])=>`
-      <button class="sel" data-dur="${m}" data-s="${u.duration===m?'pick':''}"><strong>${t}</strong><br><span class="small">${x}</span></button>`).join('')}`,
-    'Continue', true);
+  /* ── STEP 3: DURATION ────────────────────────────────────── */
+  if(st===3){
+    const opts=[
+      [5,'circle-sm','Five minutes','The length of a coffee queue'],
+      [10,'circle-md','Ten minutes','Where most days land'],
+      [15,'circle-rings','Fifteen minutes','When you want the method too']
+    ];
+    return `<div class="ob-screen" style="background:var(--ground)">
+      <div class="ob-bg">${obBg('arc')}</div>
+      <div class="ob-content">
+        ${obProgress(3,TOTAL)}
+        <div style="position:relative">
+          <span class="ob-num">03</span>
+          <span class="ob-eyebrow">Your time</span>
+          <h2 class="ob-headline" style="font-size:clamp(24px,7vw,30px)">How long have you got?</h2>
+          <p class="ob-body">We'll match the piece to your time. No clock running on you.</p>
+        </div>
+        ${opts.map(([m,glyph,t,x])=>`<button class="sel" data-dur="${m}" data-s="${u.duration===m?'pick':''}" style="text-align:left;display:flex;align-items:center;gap:16px;padding:16px 18px">
+          <span style="color:var(--green);flex:none">${obGlyph(glyph)}</span>
+          <span><strong style="display:block;margin-bottom:2px">${t}</strong><span class="small">${x}</span></span>
+        </button>`).join('')}
+      </div>
+      <div class="ob-footer">
+        <button class="btn primary" data-a="next">Continue</button>
+      </div>
+    </div>`;
+  }
 
-  return wrap(`
-    <h2>How deep should we go?</h2>
-    <p class="small" style="margin:10px 0 20px">Get a few questions wrong and we'll ease off. Nothing here is locked in.</p>
-    ${[['Beginner','From scratch','Assume I know nothing about it'],['Balanced','Straight to it','Assume I&#39;m curious and paying attention'],['Challenging','Show your working','I want the evidence, not just the answer']].map(([d,t,x])=>`
-      <button class="sel" data-diff="${d}" data-s="${u.difficulty===d?'pick':''}"><strong>${t}</strong><br><span class="small">${x}</span></button>`).join('')}`,
-    'Start my streak', true);
+  /* ── STEP 4: DIFFICULTY ──────────────────────────────────── */
+  if(st===4){
+    const opts=[
+      ['Beginner','dot','From scratch','Assume I know nothing about it'],
+      ['Balanced','ring','Straight to it','Assume I\u2019m curious and paying attention'],
+      ['Challenging','deep','Show your working','I want the evidence, not just the answer']
+    ];
+    return `<div class="ob-screen" style="background:var(--ground)">
+      <div class="ob-bg">${obBg('rings')}</div>
+      <div class="ob-content">
+        ${obProgress(4,TOTAL)}
+        <div style="position:relative">
+          <span class="ob-num">04</span>
+          <span class="ob-eyebrow">Depth</span>
+          <h2 class="ob-headline" style="font-size:clamp(24px,7vw,30px)">How deep should we go?</h2>
+          <p class="ob-body">Get a few wrong and we'll ease off. Nothing here is locked in.</p>
+        </div>
+        ${opts.map(([d,glyph,t,x])=>`<button class="sel" data-diff="${d}" data-s="${u.difficulty===d?'pick':''}" style="text-align:left;display:flex;align-items:center;gap:16px;padding:16px 18px">
+          <span style="color:var(--green);flex:none">${obGlyph(glyph)}</span>
+          <span><strong style="display:block;margin-bottom:2px">${t}</strong><span class="small">${x}</span></span>
+        </button>`).join('')}
+      </div>
+      <div class="ob-footer">
+        <button class="btn primary" data-a="next">Continue</button>
+      </div>
+    </div>`;
+  }
+
+  /* ── STEP 5: AUTH ────────────────────────────────────────── */
+  const authState = S._authFlow || 'idle';
+  const googleSVG = `<svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.909-2.259c-.806.54-1.837.86-3.047.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z"/></svg>`;
+
+  return `<div class="auth-screen">
+    <div class="ob-bg">${obBg('rings')}</div>
+    <div style="position:relative;z-index:1;flex:1;display:flex;flex-direction:column">
+      <div style="margin-bottom:32px">
+        <span class="ob-eyebrow" style="color:var(--green)">One Thing</span>
+        <h2 class="ob-headline" style="font-size:clamp(28px,8vw,36px);margin-bottom:12px">One last thing.</h2>
+        <p style="font-family:var(--read);font-size:16px;line-height:1.65;color:var(--ink);margin:0">Save your streak, highlights, and reading history — they follow you everywhere. Or just read today's and decide later.</p>
+      </div>
+      ${authState==='email_sent'?`
+        <div style="background:white;border-radius:16px;padding:20px;margin-bottom:20px;border:1.5px solid var(--green)">
+          <p style="font-weight:700;margin:0 0 6px;color:var(--green)">Check your email.</p>
+          <p class="small" style="margin:0;color:var(--ink)">We sent a magic link. Click it and you're in — no password needed.</p>
+        </div>
+        <button class="btn ghost" data-a="auth:back" style="background:white">Try a different email</button>
+      `:authState==='email_input'?`
+        <input id="auth-email" type="email" placeholder="your@email.com"
+          style="width:100%;padding:15px 16px;border:1.5px solid rgba(12,107,71,.3);border-radius:14px;font-family:var(--read);font-size:16px;background:white;color:var(--ink);margin-bottom:12px;outline:none"
+          autocomplete="email" autofocus>
+        <button class="btn primary" data-a="auth:magic" style="width:100%;margin-bottom:10px">Send magic link</button>
+        <button class="btn ghost" data-a="auth:back" style="width:100%;background:white">Back</button>
+      `:`
+        <button class="btn primary" data-a="auth:google" style="width:100%;margin-bottom:12px;display:flex;align-items:center;justify-content:center;gap:10px;background:white;color:var(--ink);border:1.5px solid rgba(22,24,29,.12)">
+          ${googleSVG} Continue with Google
+        </button>
+        <button class="btn primary" data-a="auth:email" style="width:100%;margin-bottom:20px">Continue with email</button>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+          <div style="flex:1;height:1px;background:rgba(12,107,71,.2)"></div>
+          <span class="small" style="color:var(--green)">or</span>
+          <div style="flex:1;height:1px;background:rgba(12,107,71,.2)"></div>
+        </div>
+        <button class="btn ghost" data-a="auth:guest" style="width:100%;background:transparent;border-color:rgba(12,107,71,.3);color:var(--ink)">Continue as guest</button>
+      `}
+      <p class="small" style="text-align:center;margin-top:20px;color:var(--mute)">No spam. Unsubscribe anytime.</p>
+    </div>
+  </div>`;
 }
 
 /* ============ TODAY ============ */
@@ -3184,8 +3252,7 @@ function vwToday(){
 
   return `
     ${STORAGE_OK?'':`<div class="note warn" style="margin-bottom:18px"><strong>Nothing is saving.</strong> Storage is blocked here, so this won't survive a reload. On the real thing the server holds it, not your browser.</div>`}
-    <div class="row"><span class="eyebrow">${greet}</span>
-      <button class="btn tiny ghost" data-a="tab:profile">Settings</button></div>
+    <div class="row"><span class="eyebrow">${greet}${S.user.name?', '+h(S.user.name):''}</span></div>
     <p class="small" style="margin:14px 0 22px">${h(streakLine)}${kept?` · ${kept} kept`:''}</p>
 
     ${done?`
@@ -3195,18 +3262,18 @@ function vwToday(){
           <span class="eyebrow tone" style="${tone(c)}">That's you done</span>
           <h2 style="margin:14px 0 12px">${h(c.title)}</h2>
           <p class="small">Tomorrow's lands at midnight. There's nothing else here for you today, which is the point.</p>
-          <button class="btn ghost" data-a="review" style="margin-top:20px">Read it again</button>
+          <button class="btn ghost" data-a="review" style="margin-top:20px">Read the original</button>
         </div>
       </div>`:`
       <div class="stack">
-        <div class="today-card">
+        <button class="today-card shimmer" style="width:100%;text-align:left;cursor:pointer" data-a="start">
           <div class="today-art" style="${tone(c)}">${motif(c.motif,c.pal,c.id,400,150)}</div>
           <div style="padding:22px">
             <span class="eyebrow tone" style="${tone(c)}">${h(c.topic)}</span>
             <h2 style="margin:12px 0 12px">${h(c.title)}</h2>
             <p class="read" style="font-size:16px;color:var(--mute);margin:0">${h(c.blurb)}</p>
           </div>
-        </div>
+        </button>
       </div>
       <button class="btn primary" style="margin-top:22px" data-a="start">${k>0?'Keep the streak alive':'Start your streak'}</button>
       ${a.revisit?`<div class="note warn" style="margin-top:16px">You've been through everything in your subjects. Worth a second look while we bring more in.</div>`:''}
@@ -3220,7 +3287,7 @@ function vwToday(){
 }
 
 /* ============ THE STORY DECK ============ */
-const LABEL={context:'The setup',evidence:'What they did',finding:'What they found',matters:'Why you would care'};
+const LABEL={context:"Here's the backstory",evidence:'What happened',finding:'The discovery',matters:'Why this changes things'};
 
 function vwLearn(){
   const a=S.assignments.find(x=>x.id===L.aid), c=content(a.contentId);
@@ -3229,84 +3296,94 @@ function vwLearn(){
   const segs=Array.from({length:total},(_,n)=>`<i class="${n<=step?'done':''}"></i>`).join('');
   const head=`<div class="deckbar">
       <button class="btn tiny ghost" data-a="exit" aria-label="Close">Close</button>
-      <div style="display:flex;gap:8px">
-        <button class="btn tiny ghost" data-a="share" aria-label="Share this story">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 3.9M15.4 6.6L8.6 10.5"/></svg>
-        </button>
-        <button class="btn tiny ghost" data-a="bookmark">${S.bookmarks.includes(c.id)?'Saved':'Save'}</button>
-      </div>
+      <div class="segs" style="flex:1;padding:0 12px">${segs}</div>
+      <button class="btn tiny ghost" data-a="bookmark">${S.bookmarks.includes(c.id)?'Saved':'Save'}</button>
     </div>`;
 
-  let body='', canGo=true, center=true;
+  /* Build all slides as full-height snap children */
+  const slides = [];
 
-  if(L.idx<c.cards.length){
-    const card=c.cards[L.idx];
-    if(card.t==='predict'){
-      const picked=L.pred!=null; canGo=picked; center=false;
-      body=`<div class="lcard">
-        <span class="eyebrow tone">Have a guess</span>
-        <h2 style="margin:14px 0 20px;font-size:23px">${h(card.q)}</h2>
-        ${card.options.map((o,n)=>{let st=''; if(picked) st=n===card.a?'right':(n===L.pred?'wrong':'');
-          return `<button class="sel" data-pred="${n}" data-s="${st}" ${picked?'disabled':''}>${h(o)}</button>`;}).join('')}
-        ${picked?`<div class="lcard" style="margin-top:20px">
-          <span class="eyebrow tone">${L.pred===card.a?'You got it':'Hardly anyone gets this one'}</span>
-          <p class="read" style="margin-top:10px">${h(card.reveal)}</p></div>`:''}
-      </div>`;
-    } else if(card.t==='hook'){
+  /* ── READING CARDS ── */
+  c.cards.forEach((card, idx) => {
+    let body='', isCenter=true;
+    if(card.t==='hook'){
       body=`<div class="lcard"><p class="hook" style="margin:0">${h(card.text)}</p></div>`;
     } else if(card.t==='finding'){
-      body=`<div class="lcard"><span class="eyebrow tone">What they found</span>
-        <p class="finding" style="margin:16px 0 0">${hlText(card.text,c.id,L.idx)}</p></div>`;
+      body=`<div class="lcard"><span class="eyebrow tone">The discovery</span>
+        <p class="finding" style="margin:16px 0 0">${hlText(card.text,c.id,idx)}</p></div>`;
     } else {
-      center=false;
+      isCenter=false;
       body=`<div class="lcard"><span class="eyebrow tone">${h(LABEL[card.t]||'')}</span>
-        <p class="read" style="margin:16px 0 0">${hlText(card.text,c.id,L.idx)}</p>
-        ${card.t==='matters'&&c.uncertainty?`<div class="note warn" style="margin-top:22px">
-          <strong>Where it's still argued</strong><br>${h(c.uncertainty)}</div>`:''}
-        <p class="small" style="margin-top:24px;opacity:.55">Tap a line to keep it.</p>
+        <p class="read" style="margin:16px 0 0;font-size:16px;line-height:1.75">${hlText(card.text,c.id,idx)}</p>
+        ${card.t==='matters'&&c.uncertainty?`<div class="note warn" style="margin-top:18px">
+          <strong>Still argued</strong><br>${h(c.uncertainty)}</div>`:''}
+        <p class="small" style="margin-top:20px;opacity:.5">Swipe up to continue · Tap a line to keep it</p>
       </div>`;
     }
-  } else if(L.idx===c.cards.length){
-    const q=L.qi||0, cur=c.quiz[q], ans=L.qa[q], graded=L.qgrade&&L.qgrade[q];
-    canGo=!!graded; center=false;
+    slides.push(`<div class="deck-slide" style="${tone(c)}">
+      <div class="storyart">${motif(c.motif,c.pal,c.id,420,880)}</div>
+      ${idx===0?head:'<div class="deckbar" style="justify-content:flex-end">'+
+        `<div class="segs" style="flex:1;padding:0 12px">${Array.from({length:total},(_,n)=>`<i class="${n<=idx?'done':''}"></i>`).join('')}</div>`+
+        `<button class="btn tiny ghost" data-a="bookmark">${S.bookmarks.includes(c.id)?'Saved':'Save'}</button></div>`}
+      <div class="storybody ${isCenter?'':'top'}">${body}</div>
+    </div>`);
+  });
+
+  /* ── QUIZ SLIDES ── */
+  c.quiz.forEach((cur, q) => {
+    const ans=L.qa[q], graded=L.qgrade&&L.qgrade[q];
+    const canSubmit=ans!=null&&!graded;
+    const cardIdx=c.cards.length;
     body=`<div class="lcard">
       <span class="eyebrow tone">Quick check · ${q+1} of ${c.quiz.length}</span>
-      <h2 style="margin:14px 0 20px;font-size:22px">${h(cur.q)}</h2>
-      ${cur.options.map((o,n)=>{let st=''; if(graded) st=n===graded.correct?'right':(n===ans?'wrong':''); else if(ans===n) st='pick';
-        return `<button class="sel" data-ans="${n}" data-s="${st}" ${graded?'disabled':''}>${h(o)}</button>`;}).join('')}
-      ${graded?`<div class="lcard note ${graded.ok?'':'warn'}" style="margin-top:18px">
-        <strong>${graded.ok?"That's it.":'Not this time.'}</strong> ${h(graded.explain)}</div>`
-        :`<button class="btn" style="margin-top:18px" data-a="grade" ${ans==null?'disabled':''}>Check</button>`}
+      <h2 style="margin:14px 0 20px;font-size:21px;line-height:1.25">${h(cur.q)}</h2>
+      ${cur.options.map((o,n)=>{
+        let st='';
+        if(graded) st=n===graded.correct?'right':(n===ans?'wrong':'');
+        else if(ans===n) st='pick';
+        return `<button class="sel" data-ans="${n}" data-s="${st}" ${graded?'disabled':''}>${h(o)}</button>`;
+      }).join('')}
+      ${graded?`<div class="lcard quiz-result ${graded.ok?'note':'note warn'}" style="margin-top:16px">
+        <strong>${graded.ok?"That's it.":'Not this time.'}</strong> ${h(graded.explain)}
+        ${!graded.ok?`<p style="margin:12px 0 0;font-size:13px;opacity:.7">Swipe up to continue</p>`:''}
+      </div>`
+      :`<button class="btn" style="margin-top:18px;width:100%" data-a="grade" ${ans==null?'disabled':''}>Check my answer</button>`}
     </div>`;
-  } else {
-    center=false;
-    const s=c.source;
-    body=`<div class="lcard">
-      <span class="eyebrow tone">The paper</span>
-      <h3 style="margin:16px 0 12px;font-size:20px">${h(s.title)}</h3>
-      <p class="small" style="margin:0">${h(s.authors)}, ${s.year}</p>
-      <a class="btn ghost" style="margin-top:20px;text-decoration:none;background:rgba(255,255,255,.7)"
-        href="${h(s.url)}" target="_blank" rel="noopener">Read the story</a>
-      <button class="btn primary" style="margin-top:10px" data-a="finish">Finish</button>
-    </div>`;
-    canGo=false;
-  }
+    const segI=cardIdx+q;
+    slides.push(`<div class="deck-slide" style="${tone(c)}" data-quiz="${q}">
+      <div class="storyart">${motif(c.motif,c.pal,c.id,420,880)}</div>
+      <div class="deckbar">
+        <button class="btn tiny ghost" data-a="exit">Close</button>
+        <div class="segs" style="flex:1;padding:0 12px">${Array.from({length:total},(_,n)=>`<i class="${n<=segI?'done':''}"></i>`).join('')}</div>
+        <button class="btn tiny ghost" data-a="bookmark">${S.bookmarks.includes(c.id)?'Saved':'Save'}</button>
+      </div>
+      <div class="storybody top">${body}</div>
+    </div>`);
+  });
 
-  const zones=canGo?`<div class="tapzone back" data-a="prevcard" aria-hidden="true"></div>
-    <div class="tapzone fwd" data-a="nextcard" aria-hidden="true"></div>`:
-    `<div class="tapzone back" data-a="prevcard" aria-hidden="true"></div>`;
-  const fab=(L.idx<=c.cards.length)?`<button class="nextfab" data-a="nextcard" ${canGo?'':'disabled'} aria-label="Next">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button>`:'';
-
-  return `<div id="deck" style="${tone(c)}">
+  /* ── SOURCE + FINISH SLIDE ── */
+  const s=c.source;
+  slides.push(`<div class="deck-slide" style="${tone(c)}" data-finish="1">
     <div class="storyart">${motif(c.motif,c.pal,c.id,420,880)}</div>
-    ${zones}
-    <div class="segs">${segs}</div>
-    ${head}
-    <div class="storybody ${center?'':'top'}">${body}</div>
-    ${fab}
-  </div>`;
+    <div class="deckbar">
+      <button class="btn tiny ghost" data-a="exit">Close</button>
+      <div class="segs" style="flex:1;padding:0 12px">${Array.from({length:total},(_,n)=>`<i class="done"></i>`).join('')}</div>
+    </div>
+    <div class="storybody">
+      <div class="lcard">
+        <span class="eyebrow tone">The paper</span>
+        <h3 style="margin:16px 0 10px;font-size:19px;line-height:1.3">${h(s.title)}</h3>
+        <p class="small" style="margin:0 0 20px">${h(s.authors)}, ${s.year}</p>
+        <a class="btn ghost" style="display:block;text-align:center;text-decoration:none;margin-bottom:12px"
+          href="${h(s.url)}" target="_blank" rel="noopener">Read the original</a>
+        <button class="btn primary" style="width:100%" data-a="finish">Finish &amp; see your streak</button>
+      </div>
+    </div>
+  </div>`);
+
+  return `<div id="deck">${slides.join('')}</div>`;
 }
+
 
 function hlText(text,cid,ci){
   return sentences(text).map((s,si)=>{
@@ -3318,41 +3395,146 @@ function hlText(text,cid,ci){
 /* ============ DONE ============ */
 const XPLABEL={complete_daily:"Finished today's",complete_quiz:'Answered the check',
   perfect_quiz:'Got them all',reflection:'Wrote it down',first_topic:'First time in '};
+
+function badgeEmoji(id){
+  const m={'first_thing':'📖','week_one':'🔥','deep_diver':'🌊','explorer':'🧭',
+    'polymath':'🔬','critical_thinker':'🎯','century':'💯'};
+  return m[id]||'⭐';
+}
+
 function vwDone(){
   const rec=L.receipt, a=S.assignments.find(x=>x.id===L.aid), c=content(a.contentId);
   const lv=CORE.levelFor(S.user.xp);
   const startAt=L.celebrated?rec.streak:0;
+  const isMilestone=checkStreakMilestone(rec.streak);
+  const isLevelUp=(L._prevLevel||0)>0&&lv.level>(L._prevLevel||0);
+  const name=S.user.name?S.user.name.split(' ')[0]:'';
+  const guestMode=isGuest();
+
   return `
-    <div style="text-align:center;padding-top:16px">
-      <span class="eyebrow tone" style="${tone(c)}">That's today done</span>
-      <div class="bignum tnum" id="donestreak" style="margin:18px 0 6px;color:var(--green)">${startAt}</div>
-      <span class="eyebrow">day${rec.streak===1?'':'s'} running</span>
-      <p class="read" style="margin:18px 0 0;color:var(--mute);font-size:16px">
-        ${rec.streak===1?'One down. Come back tomorrow and it becomes a habit.':
-          rec.streak<7?'Keep going. The first week is the one that decides it.':
-          'You have the habit now. Protect it.'}</p>
-      <button class="btn ghost tiny" style="margin:16px auto 0;width:auto" data-a="share">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 3.9M15.4 6.6L8.6 10.5"/></svg>
-        Share your streak</button>
+  <div style="min-height:100%;background:var(--card);font-family:var(--read)">
+
+    <!-- Book header -->
+    <div style="padding:32px 28px 0;border-bottom:1px solid var(--line)">
+      <p style="font-family:var(--ui);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+        color:var(--mute);margin:0 0 16px">Chapter complete</p>
+      <h2 style="font-family:var(--display);font-size:22px;font-weight:800;line-height:1.2;
+        margin:0 0 8px;color:var(--ink)">${h(c.title)}</h2>
+      <p style="font-family:var(--ui);font-size:13px;color:var(--mute);margin:0 0 24px">${h(c.topic)} · ${c.source.year}</p>
     </div>
-    ${rec.bridged?`<div class="note" style="margin-top:20px">You crossed a timezone and lost a calendar day to it. We bridged the streak rather than breaking it.</div>`:''}
-    ${rec.offlineSync?`<div class="note" style="margin-top:20px">Finished offline last night. Counted for that day.</div>`:''}
-    <hr class="rule">
-    ${rec.lines.map(l=>`<div class="xpline"><span>${h(l.reason==='first_topic'?XPLABEL.first_topic+c.topic:(XPLABEL[l.reason]||l.reason))}</span><span class="tnum">+${l.amount}</span></div>`).join('')}
-    <div class="xpline" style="border:0;font-weight:700;padding-top:12px"><span>Total</span><span class="tnum">+${rec.xpAwarded} XP</span></div>
-    <div style="margin:20px 0 8px" class="row"><span class="small">${h(lv.name)}</span>
-      <span class="small tnum">${lv.ceiling-S.user.xp} to go</span></div>
-    <div class="meter"><i style="width:${Math.round(lv.progress*100)}%"></i></div>
-    ${rec.unlocked.length?`<div style="margin-top:24px"><span class="eyebrow">New badge</span>
-      ${rec.unlocked.map(u=>`<div class="note" style="margin-top:10px"><strong>${h(u.name)}</strong><br>${h(u.desc)}</div>`).join('')}</div>`:''}
-    <hr class="rule">
-    ${a.reflection?`<div class="note plain">${h(a.reflection)}</div>`
-      :`<label class="eyebrow" for="refl">What stuck?</label>
-        <textarea id="refl" rows="3" placeholder="One line is plenty. Skip it if nothing did."
-          style="width:100%;margin-top:10px;padding:14px;border:1.5px solid var(--line);border-radius:13px;font:inherit;font-family:var(--read);resize:vertical"></textarea>
-        <button class="btn ghost" style="margin-top:10px" data-a="reflect">Save it</button>`}
-    <button class="btn" style="margin-top:24px" data-a="tab:today">Done for today</button>`;
+
+    <!-- Streak — the hero number -->
+    <div style="padding:28px 28px 24px;text-align:center;border-bottom:1px solid var(--line)">
+      <div style="display:flex;align-items:baseline;justify-content:center;gap:10px;margin-bottom:6px">
+        <span class="bignum tnum" id="donestreak" style="color:var(--green);font-size:64px">${startAt}</span>
+        <span style="font-family:var(--ui);font-size:14px;font-weight:600;color:var(--mute)">
+          day${rec.streak===1?'':'s'} running</span>
+      </div>
+      ${isMilestone?`<div style="margin:16px 0 0;padding:16px 20px;background:var(--green-soft);
+          border-radius:14px;animation:levelup .5s cubic-bezier(.22,1,.36,1) both;text-align:left">
+        <p style="font-family:var(--ui);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+          color:var(--green);margin:0 0 6px">${milestoneTitle(rec.streak)}</p>
+        <p style="font-family:var(--read);font-size:15px;color:var(--ink);margin:0">${milestoneMessage(rec.streak)}</p>
+      </div>`:
+      `<p style="font-family:var(--read);font-size:15px;color:var(--mute);margin:8px 0 0;font-style:italic">
+        ${rec.streak===1?`${name?name+', one':'One'} down. Come back tomorrow and it becomes a habit.`:
+          rec.streak<7?'Keep going. The first week is the one that decides it.':
+          'You have the habit now. Protect it.'}</p>`}
+      ${isLevelUp?`<div style="margin:20px 0 0;padding:16px 20px;
+          background:linear-gradient(135deg,var(--green-soft),rgba(12,107,71,.08));border-radius:14px;
+          animation:levelup .6s .1s cubic-bezier(.22,1,.36,1) both;text-align:left">
+        <p style="font-family:var(--ui);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+          color:var(--green);margin:0 0 4px">Level Up</p>
+        <p style="font-family:var(--display);font-size:26px;font-weight:800;color:var(--green);margin:0 0 4px">${lv.name}</p>
+        <p style="font-family:var(--read);font-size:14px;color:var(--mute);margin:0;font-style:italic">You're becoming the person who knows things.</p>
+      </div>`:''}
+    </div>
+
+    <!-- XP receipt — marginalia style -->
+    <div style="padding:20px 28px;border-bottom:1px solid var(--line)">
+      <p style="font-family:var(--ui);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+        color:var(--mute);margin:0 0 12px">Today's XP</p>
+      ${rec.lines.map(l=>`<div style="display:flex;justify-content:space-between;
+          font-family:var(--ui);font-size:13.5px;padding:6px 0;border-bottom:1px dashed var(--line)">
+        <span style="color:var(--ink)">${h(l.reason==='first_topic'?XPLABEL.first_topic+c.topic:(XPLABEL[l.reason]||l.reason))}</span>
+        <span style="font-weight:700;color:var(--green)">+${l.amount}</span>
+      </div>`).join('')}
+      <div style="display:flex;justify-content:space-between;font-family:var(--ui);font-size:14px;
+          font-weight:700;padding:10px 0 0">
+        <span>Total</span><span style="color:var(--green)">+${rec.xpAwarded} XP</span>
+      </div>
+      <div style="margin-top:14px">
+        <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+          <span style="font-family:var(--ui);font-size:12px;color:var(--mute)">${h(lv.name)}</span>
+          <span style="font-family:var(--ui);font-size:12px;color:var(--mute)">${lv.ceiling-S.user.xp} to next</span>
+        </div>
+        <div class="meter"><i style="width:${Math.round(lv.progress*100)}%"></i></div>
+      </div>
+    </div>
+
+    <!-- Badges — Duolingo style -->
+    ${rec.unlocked.length?`<div style="padding:20px 28px;border-bottom:1px solid var(--line)">
+      <p style="font-family:var(--ui);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+        color:var(--mute);margin:0 0 14px">Badge unlocked</p>
+      ${rec.unlocked.map(u=>`<div style="display:flex;align-items:center;gap:16px;padding:16px;
+          background:var(--green-soft);border-radius:16px;margin-bottom:10px;
+          animation:levelup .5s cubic-bezier(.22,1,.36,1) both">
+        <div style="width:56px;height:56px;border-radius:50%;background:var(--green);
+          display:flex;align-items:center;justify-content:center;font-size:28px;flex:none">
+          ${badgeEmoji(u.id)}
+        </div>
+        <div>
+          <p style="font-family:var(--display);font-size:17px;font-weight:800;
+            color:var(--ink);margin:0 0 3px">${h(u.name)}</p>
+          <p style="font-family:var(--read);font-size:14px;color:var(--mute);margin:0;font-style:italic">${h(u.desc)}</p>
+        </div>
+      </div>`).join('')}
+    </div>`:''}
+
+    <!-- Reflection — warmer copy -->
+    <div style="padding:20px 28px;border-bottom:1px solid var(--line)">
+      ${a.reflection?`<p style="font-family:var(--read);font-size:15px;line-height:1.7;
+          color:var(--ink);font-style:italic;margin:0">"${h(a.reflection)}"</p>`
+      :`<p style="font-family:var(--ui);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+          color:var(--mute);margin:0 0 10px">One line to remember it by</p>
+        <textarea id="refl" rows="2" placeholder="What will you remember from this?"
+          style="width:100%;padding:14px;border:1.5px solid var(--line);border-radius:12px;
+          font:16px/1.6 var(--read);color:var(--ink);background:transparent;resize:none;
+          outline:none;box-sizing:border-box"></textarea>
+        <button class="btn ghost" style="margin-top:10px;width:100%" data-a="reflect">Save this thought</button>`}
+    </div>
+
+    <!-- Actions -->
+    <div style="padding:24px 28px calc(24px + env(safe-area-inset-bottom))">
+      ${guestMode?`
+        <!-- Guest: soft sign-in nudge tied to share -->
+        <div style="background:var(--green-soft);border-radius:16px;padding:20px;margin-bottom:16px">
+          <p style="font-family:var(--display);font-size:18px;font-weight:800;margin:0 0 6px;color:var(--ink)">
+            Keep this streak.</p>
+          <p style="font-family:var(--read);font-size:14px;color:var(--mute);margin:0 0 16px;font-style:italic">
+            Sign in and it follows you everywhere — across every device, forever.</p>
+          <button class="btn primary" data-a="auth:google" style="width:100%;margin-bottom:10px;
+            display:flex;align-items:center;justify-content:center;gap:10px">
+            <svg width="16" height="16" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.909-2.259c-.806.54-1.837.86-3.047.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z"/></svg>
+            Sign in with Google</button>
+          <button class="btn ghost" data-a="auth:email" style="width:100%;margin-bottom:8px">Sign in with email</button>
+          <button class="btn ghost" data-a="tab:today" style="width:100%;color:var(--mute);font-size:13px">
+            Maybe later</button>
+        </div>
+      `:`<button class="btn primary" style="width:100%;margin-bottom:12px" data-a="share">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;vertical-align:middle">
+          <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+          <path d="M8.6 13.5l6.8 3.9M15.4 6.6L8.6 10.5"/>
+        </svg>Share your streak</button>`}
+      <button class="btn ghost" style="width:100%" data-a="tab:today">Back to today</button>
+    </div>
+
+    ${rec.bridged?`<div class="note" style="margin:0 28px 20px">Timezone crossed — we bridged your streak.</div>`:''}
+  </div>`;
 }
+
+
 
 /* ============ LIBRARY ============ */
 function vwLibrary(){
@@ -3387,12 +3569,14 @@ function vwLibrary(){
       </div>`}).join('')
       : `<div class="note plain">Nothing saved. Hit Save while you're reading and it turns up here.</div>`;
   } else {
-    body = S.highlights.length? S.highlights.slice().reverse().map(x=>{const c=content(x.cid);return `
-      <div class="today-card" style="margin-bottom:11px;padding:17px">
-        <p class="read" style="margin:0 0 10px;font-size:16px"><span class="hl">${h(x.t)}</span></p>
-        <div class="row"><span class="small">${h(c?c.title:'')}</span>
-          <button class="btn tiny ghost" data-unhl="${h(x.k)}">Remove</button></div>
-      </div>`}).join('')
+    body = S.highlights.length? `<div class="sticky-wrap">${S.highlights.slice().reverse().map((x,i)=>{
+      const c=content(x.cid);
+      const rot=((i%5)-2)*1.6;
+      return `<div class="sticky-note" style="transform:rotate(${rot}deg)">
+        <p style="margin:0 0 10px">${h(x.t)}</p>
+        <div class="row" style="margin-top:6px"><span class="small" style="opacity:.6;font-size:12px">${h(c?c.title:'')}</span>
+          <button class="btn tiny ghost" data-unhl="${h(x.k)}" style="font-size:11px">Remove</button></div>
+      </div>`;}).join('')}</div>`
       : `<div class="note plain">No lines kept yet. Tap any sentence while you read and it stays here.</div>`;
   }
   return `<h1>Everything you've kept</h1>
@@ -3436,7 +3620,142 @@ function vwProgress(){
 /* ============ PROFILE ============ */
 function vwProfile(){
   const u=S.user;
+  const themes=[
+    ['auto','System','Follows your device'],
+    ['light','Light','Always light'],
+    ['dark','Dark','Always dark'],
+    ['dyslexic','Dyslexic','Wider spacing, softer background'],
+    ['adhd','Focus','Cleaner layout, bolder key points'],
+  ];
+
+  const authBanner = isGuest() ? `
+    <div style="background:var(--green-soft);border-radius:16px;padding:20px;margin-bottom:24px">
+      <h2 style="font-size:20px;margin-bottom:8px">Save your progress</h2>
+      <p class="small" style="margin:0 0 16px;color:var(--ink);font-size:13.5px">Your streak, history and preferences follow you everywhere.</p>
+      <button class="btn primary" data-a="auth:google" style="width:100%;margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:10px">
+        <svg width="16" height="16" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.909-2.259c-.806.54-1.837.86-3.047.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z"/></svg>
+        Sign in with Google</button>
+      <button class="btn ghost" data-a="auth:email" style="width:100%">Sign in with email</button>
+    </div>` : `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;padding:16px;background:var(--green-soft);border-radius:16px">
+      <div>
+        <p class="small" style="margin:0;font-weight:600;color:var(--ink)">${AUTH_USER?.email||'Signed in'}</p>
+        <p class="small" style="margin:2px 0 0">Account active</p>
+      </div>
+      <button class="btn tiny ghost" data-a="signout">Sign out</button>
+    </div>`;
+
   return `<h1>You</h1>
+    ${authBanner}
+
+    <!-- Name -->
+    <div style="margin-bottom:24px">
+      <span class="eyebrow">Your name</span>
+      <div style="display:flex;gap:10px;margin-top:10px">
+        <input id="user-name" type="text" value="${h(u.name||'')}" placeholder="First name"
+          style="flex:1;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;
+          font:16px var(--read);color:var(--ink);background:transparent;outline:none">
+        <button class="btn ghost" data-a="savename" style="flex:none">Save</button>
+      </div>
+    </div>
+
+    <!-- Interests -->
+    <div style="margin-bottom:24px">
+      <span class="eyebrow">What you're into</span>
+      <div class="chips" style="margin-top:12px">${TOPICS.map(t=>`<button class="chip sm" data-topic="${t}" aria-pressed="${u.interests.includes(t)}">${t}</button>`).join('')}</div>
+      <p class="small" style="margin-top:11px">Changes land tomorrow. Today's is already promised to you.</p>
+    </div>
+
+    <hr class="rule">
+
+    <!-- Theme / Accessibility -->
+    <div style="margin-bottom:24px">
+      <span class="eyebrow">Display</span>
+      <p class="small" style="margin:8px 0 14px">Includes accessibility modes for dyslexia and focus.</p>
+      ${themes.map(([id,name,desc])=>`<button class="sel" data-a="theme:${id}"
+        data-s="${(u.theme||'auto')===id?'pick':''}"
+        style="text-align:left;margin-bottom:8px;padding:14px 16px">
+        <strong style="display:block;margin-bottom:2px">${name}</strong>
+        <span class="small">${desc}</span>
+      </button>`).join('')}
+    </div>
+
+    <hr class="rule">
+
+    <!-- Difficulty -->
+    <div style="margin-bottom:24px">
+      <span class="eyebrow">Depth</span>
+      ${[['Beginner','From scratch'],['Balanced','Straight to it'],['Challenging','Show the evidence']].map(([d,t])=>`
+        <button class="sel" data-diff="${d}" data-s="${u.difficulty===d?'pick':''}"
+          style="text-align:left;margin-bottom:8px;padding:14px 16px">
+          <strong>${t}</strong>
+        </button>`).join('')}
+    </div>
+
+    <hr class="rule">
+
+    <!-- Danger -->
+    <span class="eyebrow">Account</span>
+    <button class="btn ghost" style="margin-top:12px;color:var(--brick);border-color:var(--brick);width:100%" data-a="delete">Delete my account</button>
+    <p class="small" style="margin:8px 0 0;color:var(--mute);font-size:12px;text-align:center">Permanently deletes all your data. Required by GDPR &amp; NDPA.</p>`;
+}
+
+
+
+/* ============ PROGRESS ============ */
+function vwProgress(){
+  const st=CORE.statsFor(DB(),S.user), lv=CORE.levelFor(S.user.xp);
+  const entries=Object.entries(st.byTopic).sort((a,b)=>b[1]-a[1]);
+  const max=entries.length?entries[0][1]:1;
+  const palOf=t=>(CORPUS.find(c=>c.topic===t)||{pal:['#65685F','#eee']}).pal;
+  return `<h1>Progress</h1>
+    <div class="row" style="margin:26px 0 6px;align-items:flex-end">
+      <div><div class="bignum tnum">${st.completed}</div><span class="eyebrow">things kept</span></div>
+      <div style="text-align:right"><div class="bignum tnum" style="color:var(--green)">${S.user.currentStreak||0}</div><span class="eyebrow">days running</span></div>
+    </div>
+    <p class="small tnum" style="margin:16px 0 22px">Best run so far: ${S.user.longestStreak||0} day${S.user.longestStreak===1?'':'s'}</p>
+    ${dotCal(28)}
+    <p class="small" style="margin:11px 0 0">The last four weeks. Filled means finished.</p>
+    <hr class="rule">
+    <div class="row"><span class="eyebrow">${h(lv.name)}</span><span class="small tnum">${S.user.xp} XP</span></div>
+    <div class="meter" style="margin-top:10px"><i style="width:${Math.round(lv.progress*100)}%"></i></div>
+    <p class="small" style="margin-top:9px">${lv.ceiling-S.user.xp} XP until the next one.</p>
+    <hr class="rule">
+    <span class="eyebrow">Where your curiosity goes</span>
+    <div style="margin-top:16px">${entries.length?entries.map(([t,n])=>{const p=palOf(t);return `
+      <div style="margin-bottom:14px"><div class="row" style="margin-bottom:5px">
+        <span style="font-size:14.5px">${h(t)}</span><span class="small tnum">${n}</span></div>
+        <div class="topicbar" style="width:${Math.max(7,(n/max)*100)}%;background:${p[0]}"></div></div>`}).join('')
+      :`<p class="small">Nothing to show until you finish your first one.</p>`}</div>
+    <hr class="rule">
+    <span class="eyebrow">Badges</span>
+    <div style="margin-top:14px">${CORE.ACHIEVEMENTS.map(a=>{const on=S.user.achievements.includes(a.id);return `
+      <div class="row" style="padding:12px 0;border-bottom:1px dashed var(--line);opacity:${on?1:.4}">
+        <div><strong style="font-size:14.5px">${h(a.name)}</strong><br><span class="small">${h(a.desc)}</span></div>
+        <span style="color:var(--green);font-weight:700">${on?'✓':''}</span></div>`}).join('')}</div>`;
+}
+
+/* ============ PROFILE ============ */
+function vwProfile(){
+  const u=S.user;
+  const authBanner = isGuest() ? `
+    <div style="background:var(--green-soft);border-radius:16px;padding:20px;margin-bottom:24px">
+      <h2 style="font-size:20px;margin-bottom:8px">Save your progress</h2>
+      <p class="small" style="margin:0 0 16px;color:var(--ink);font-size:13.5px">Your streak, history and preferences will follow you everywhere.</p>
+      <button class="btn primary" data-a="auth:google" style="width:100%;margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:10px">
+        <svg width="16" height="16" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.909-2.259c-.806.54-1.837.86-3.047.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z"/></svg>
+        Sign in with Google</button>
+      <button class="btn ghost" data-a="auth:email" style="width:100%">Sign in with email</button>
+    </div>` : `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;padding:16px;background:var(--green-soft);border-radius:16px">
+      <div>
+        <p class="small" style="margin:0;font-weight:600;color:var(--ink)">${AUTH_USER?.email || 'Signed in'}</p>
+        <p class="small" style="margin:2px 0 0">Account active</p>
+      </div>
+      <button class="btn tiny ghost" data-a="signout">Sign out</button>
+    </div>`;
+  return `<h1>You</h1>
+    ${authBanner}
     <div style="margin-top:24px"><span class="eyebrow">What you're into</span>
       <div class="chips" style="margin-top:12px">${TOPICS.map(t=>`<button class="chip sm" data-topic="${t}" aria-pressed="${u.interests.includes(t)}">${t}</button>`).join('')}</div>
       <p class="small" style="margin-top:11px">Changes land tomorrow. Today's is already promised to you.</p></div>
@@ -3467,7 +3786,8 @@ function vwProfile(){
     <span class="eyebrow">Your stuff</span>
     <p class="small" style="margin:10px 0 12px">Everything we hold: your settings, what you've read, your streak, your saves and your lines.</p>
     <button class="btn ghost" data-a="export">Download all of it</button>
-    <button class="btn ghost" style="margin-top:9px;color:var(--brick);border-color:var(--brick)" data-a="delete">Delete my account</button>`;
+    <button class="btn ghost" style="margin-top:9px;color:var(--brick);border-color:var(--brick)" data-a="delete">Delete my account</button>
+    <p class="small" style="margin:8px 0 0;color:var(--mute);font-size:12px;text-align:center">Permanently deletes all your data — streak, history, highlights. Required by GDPR &amp; NDPA.</p>`;
 }
 
 /* ============ ROUTER ============ */
@@ -3476,6 +3796,8 @@ function streakChip(){
   const a=S.assignments.find(x=>x.localDate===today());
   const doneToday=a&&a.status==='completed';
   const risk=k>0&&!doneToday;
+  const thisWeek=today().slice(0,8);
+  const freezeAvailable=k>=3&&S.user.streakFreezeUsed!==thisWeek&&risk;
   const label=k===0?'Start your streak today'
     :doneToday?`day${k===1?'':'s'} running · today's locked in`
     :`day${k===1?'':'s'} running · don't lose it today`;
@@ -3484,7 +3806,9 @@ function streakChip(){
       <path d="M12 2.5c-1.4 3.6-5 5.4-5 9.7a5 5 0 0010 0c0-1.9-.7-3.1-1.7-4.1.3 1.9-.8 2.7-1.6 2.1.7-2.1-.3-4.5-1.7-7.7z"/>
     </svg>
     <span class="n">${k}</span>
-    <span>${label}</span>`};
+    <span style="flex:1">${label}</span>
+    ${freezeAvailable?`<button class="btn tiny ghost" data-a="streak:freeze" style="padding:4px 10px;font-size:11px;flex:none">🧊 Freeze</button>`:''}
+  `};
 }
 
 /* ============ REWARD FX ============ */
@@ -3539,7 +3863,8 @@ function animateCount(sel,to,dur){
 
 function render(){
   const tabs=$('#tabs'), view=$('#view'), screen=$('#screen'), sb=$('#streakbar'), cons=$('#console');
-  if(!S.onboarded){ tabs.hidden=true; view.className='pad'; view.innerHTML=vwOnboard(); }
+  if(cons && (location.hostname==='localhost' || location.hostname==='127.0.0.1')) cons.style.display='flex';
+  if(!S.onboarded){ tabs.hidden=true; view.className=''; view.innerHTML=vwOnboard(); }
   else if(S.tab==='learn'){ tabs.hidden=true; view.className=''; view.innerHTML=vwLearn(); }
   else if(S.tab==='done'){ tabs.hidden=true; view.className='pad'; view.innerHTML=vwDone(); }
   else {
@@ -3556,7 +3881,7 @@ function render(){
   if(sb){
     if(S.onboarded&&S.tab!=='learn'&&S.tab!=='done'){
       const chip=streakChip();
-      sb.hidden=false; sb.className=chip.risk?'risk':''; sb.innerHTML=chip.html;
+      sb.hidden=false; sb.className=chip.risk?'risk':'active'; sb.innerHTML=chip.html;
     } else { sb.hidden=true; }
   }
   if(cons) cons.hidden=!(S.onboarded&&S.tab==='today');
@@ -3604,7 +3929,49 @@ document.addEventListener('click',async e=>{
 async function act(a){
   const u=S.user;
   if(a==='noop') return;
-  if(a==='next'){ S.step++; if(S.step>4){ S.onboarded=true; S.tab='today'; } save(); return render(); }
+  if(a==='next'){ S.step++; if(S.step>5){ S.onboarded=true; S.tab='today'; } save(); return render(); }
+  if(a==='auth:google'){ signInGoogle(); return; }
+  if(a==='auth:email'){
+    if(S.onboarded){
+      SHEET=`<div class="sheet" data-a="sheet-close"><div data-a="noop" style="padding:28px 24px">
+        <h2 style="margin-bottom:8px">Sign in with email</h2>
+        <p class="small" style="margin:0 0 20px">We'll send a magic link. No password needed.</p>
+        <input id="auth-email" type="email" placeholder="your@email.com"
+          style="width:100%;padding:14px 16px;border:1.5px solid var(--line);border-radius:12px;font-family:var(--read);font-size:16px;background:var(--card);color:var(--ink);margin-bottom:12px;outline:none"
+          autocomplete="email" autofocus>
+        <button class="btn primary" data-a="auth:magic" style="width:100%;margin-bottom:10px">Send magic link</button>
+        <button class="btn ghost" data-a="sheet-close" style="width:100%">Cancel</button>
+      </div></div>`;
+      render(); return;
+    }
+    S._authFlow='email_input'; render(); return;
+  }
+  if(a==='auth:back'){ S._authFlow='idle'; render(); return; }
+  if(a==='auth:guest'){ S.onboarded=true; S.tab='today'; save(); render(); return; }
+  if(a==='signout'){ signOut(); return; }
+  if(a.startsWith('theme:')){
+    const t=a.split(':')[1];
+    S.user.theme=t; applyTheme(t); save(); render(); return;
+  }
+  if(a==='savename'){
+    const el=document.getElementById('user-name');
+    if(el){ S.user.name=el.value.trim(); save(); render(); } return;
+  }
+  if(a==='streak:freeze'){
+    const thisWeek=today().slice(0,8);
+    if(S.user.streakFreezeUsed===thisWeek){ toast("Freeze already used this week."); return; }
+    if((S.user.currentStreak||0)<3){ toast("Earn a 3-day streak to unlock freeze."); return; }
+    S.user.streakFreezeUsed=thisWeek;
+    toast("Streak frozen for tonight. See you tomorrow.");
+    save(); render(); return;
+  }
+  if(a==='auth:magic'){
+    const email = document.getElementById('auth-email')?.value?.trim();
+    if(!email){ return; }
+    const {error} = await signInMagicLink(email);
+    if(error){ alert('Could not send link: '+error.message); return; }
+    S._authFlow='email_sent'; render(); return;
+  }
   if(a==='dayboundary'){ u.dayStartHour=u.dayStartHour===4?0:4; save();
     toast(u.dayStartHour===4?'Your day now ends at 4am.':'Your day ends at midnight again.'); return render(); }
   if(a==='start'||a==='review') return startLearning();
@@ -3623,6 +3990,7 @@ async function act(a){
   if(a==='share:app') return doShare(appShare());
   if(a==='nextcard') return advance(1);
   if(a==='prevcard') return advance(-1);
+  /* keyboard nav */
   if(a==='grade') return gradeOne();
   if(a==='finish') return finish();
   if(a==='reflect') return saveReflection();
@@ -3637,33 +4005,76 @@ async function act(a){
 // Swipe, because a story deck that only responds to taps feels half-built.
 (function(){
   let x0=null,y0=null;
-  document.addEventListener('touchstart',e=>{ if(S.tab!=='learn')return;
-    x0=e.touches[0].clientX; y0=e.touches[0].clientY; },{passive:true});
-  document.addEventListener('touchend',e=>{
-    if(S.tab!=='learn'||x0==null) return;
-    const dx=e.changedTouches[0].clientX-x0, dy=e.changedTouches[0].clientY-y0;
-    if(Math.abs(dx)>52&&Math.abs(dx)>Math.abs(dy)*1.6) advance(dx<0?1:-1);
-    x0=y0=null;
-  },{passive:true});
+  /* TikTok scroll-snap — sync L.idx from scroll position */
+  let _deckScrollTimer=null;
+  document.addEventListener('scroll',e=>{
+    if(S.tab!=='learn') return;
+    const deck=document.getElementById('deck');
+    if(!deck||e.target!==deck) return;
+    clearTimeout(_deckScrollTimer);
+    _deckScrollTimer=setTimeout(()=>{
+      const slides=deck.querySelectorAll('.deck-slide');
+      const scrollTop=deck.scrollTop;
+      const h=deck.clientHeight;
+      const idx=Math.round(scrollTop/h);
+      if(idx!==L._slideIdx){ L._slideIdx=idx; syncSlideState(idx); }
+    },80);
+  },{passive:true,capture:true});
 })();
 
-function advance(dir){
-  const a=S.assignments.find(x=>x.id===L.aid), c=content(a.contentId);
-  if(dir>0){
-    if(L.idx<c.cards.length){
-      if(c.cards[L.idx].t==='predict'&&L.pred==null) return;
-      L.idx++; L.pred=null;
-    } else if(L.idx===c.cards.length){
-      if(!(L.qgrade&&L.qgrade[L.qi||0])) return;
-      if((L.qi||0)+1<c.quiz.length) L.qi=(L.qi||0)+1; else L.idx++;
+function scrollToSlide(n, smooth){
+  const deck=document.getElementById('deck');
+  if(!deck) return;
+  deck.scrollTo({top: n * deck.clientHeight, behavior: smooth?'smooth':'instant'});
+}
+
+function syncSlideState(slideIdx){
+  const a=S.assignments.find(x=>x.id===L.aid);
+  if(!a) return;
+  const c=content(a.contentId);
+  const cardCount=c.cards.length;
+  const quizCount=c.quiz.length;
+  if(slideIdx<cardCount){
+    L.idx=slideIdx; L.qi=0;
+  } else if(slideIdx<cardCount+quizCount){
+    L.idx=cardCount; L.qi=slideIdx-cardCount;
+    /* auto-grade if user swiped past ungraded quiz */
+    if(L.qa[L.qi]!=null&&!(L.qgrade&&L.qgrade[L.qi])){
+      gradeOne();
     }
   } else {
-    if(L.idx>c.cards.length){ L.idx=c.cards.length; L.qi=c.quiz.length-1; }
-    else if(L.idx===c.cards.length&&(L.qi||0)>0) L.qi=L.qi-1;
-    else if(L.idx>0){ L.idx--; L.pred=null; }
-    else return;
+    L.idx=cardCount+quizCount;
   }
-  save(); render();
+  L._slideIdx=slideIdx;
+  save();
+  /* re-render to update segs + quiz state without scrolling */
+  const deck=document.getElementById('deck');
+  const top=deck?deck.scrollTop:0;
+  render();
+  requestAnimationFrame(()=>{
+    const d=document.getElementById('deck');
+    if(d) d.scrollTop=top;
+  });
+}
+
+function scrollAfterGrade(qi){
+  /* After grading, keep on same slide — result shows inline */
+  /* If correct, auto-advance after 1.2s */
+  const a=S.assignments.find(x=>x.id===L.aid);
+  const c=content(a.contentId);
+  if(L.qgrade[qi] && L.qgrade[qi].ok){
+    const nextSlide=c.cards.length+qi+1;
+    setTimeout(()=>scrollToSlide(nextSlide,true),1200);
+  }
+  /* If wrong — stay, explanation shows inline, user swipes when ready */
+}
+
+function advance(dir){
+  /* Legacy — kept for keyboard nav */
+  const deck=document.getElementById('deck');
+  if(!deck) return;
+  const cur=Math.round(deck.scrollTop/deck.clientHeight);
+  scrollToSlide(cur+dir, true);
 }
 function startLearning(){
   const r=CORE.getOrCreateAssignment(DB(),S.user,now());
@@ -3679,23 +4090,41 @@ function gradeOne(){
   L.qgrade[q]=CORE.gradeQuiz(c,L.qa).detail[q];   // graded server-side
   S.keepScroll=true; save(); render();
   if(L.qgrade[q].ok){
+    haptic('correct');
     const per=Math.round(CORE.XP.quiz/c.quiz.length);
     const isLast=q===c.quiz.length-1;
     const perfect=isLast&&c.quiz.every((_,i)=>L.qgrade[i]&&L.qgrade[i].ok);
     const label=perfect?`+${per+CORE.XP.perfectQuiz} · Perfect!`:`+${per}`;
-    requestAnimationFrame(()=>fireConfettiFromEl(document.querySelector('.sel[data-s="right"]'),label));
+    requestAnimationFrame(()=>{
+      const el=document.querySelector('.sel[data-s="right"]');
+      if(el){ el.classList.add('wash'); setTimeout(()=>el.classList.remove('wash'),700); }
+      fireConfettiFromEl(el,label);
+    });
+  } else {
+    haptic('wrong');
+    requestAnimationFrame(()=>{
+      const el=document.querySelector('.sel[data-s="wrong"]');
+      if(el){ el.classList.add('shake'); setTimeout(()=>el.classList.remove('shake'),300); }
+    });
   }
+  scrollAfterGrade(L.qi||0);
 }
 function finish(){
   const a=S.assignments.find(x=>x.id===L.aid);
   if(a.status==='completed'){ S.tab='today'; save(); return render(); }
+  const prevLv=CORE.levelFor(S.user.xp).level;
   const res=CORE.completeLearning(DB(),S.user,now(),{
     localDate:a.localDate,quizAnswers:L.qa,bookmarked:S.bookmarks.includes(a.contentId)});
   if(res.error){ toast(errText(res.error)); S.keepScroll=true; save(); return render(); }
-  L.receipt=res.receipt; L.celebrated=false; S.tab='done'; save(); render();
+  L.receipt=res.receipt; L.celebrated=false; L._prevLevel=prevLv; S.tab='done'; save(); render();
+  haptic('complete');
   requestAnimationFrame(()=>{
     fireConfetti(.5,.24,`+${res.receipt.xpAwarded} XP`);
-    animateCount('#donestreak',res.receipt.streak,700);
+    const streakEl=document.getElementById('donestreak');
+    const from=Math.max(0,res.receipt.streak-1);
+    animateCountUp(streakEl, from, res.receipt.streak, 700);
+    if(checkStreakMilestone(res.receipt.streak)) haptic('milestone');
+    if(CORE.levelFor(S.user.xp).level > prevLv) haptic('levelup');
     L.celebrated=true;
   });
 }
@@ -3907,9 +4336,20 @@ async function consoleAction(k){
 }
 
 /* ============ boot ============ */
+function applyTheme(theme){
+  const d=document.documentElement;
+  d.removeAttribute('data-theme');
+  if(theme&&theme!=='auto') d.setAttribute('data-theme',theme);
+  /* Also mirror on #device for scoped overrides */
+  const dev=document.getElementById('device');
+  if(dev){ dev.removeAttribute('data-theme'); if(theme&&theme!=='auto') dev.setAttribute('data-theme',theme); }
+}
+
 (async function(){
   const saved=await load();
   if(saved&&saved.v===1) S=Object.assign(blank(),saved,{user:Object.assign(blank().user,saved.user)});
+  applyTheme(S.user.theme||'auto');
+  await initAuth();
   render();
   log('One Thing prototype ready.','dim');
   log('Server core: '+Object.keys(CORE).length+' exported functions.','dim');
