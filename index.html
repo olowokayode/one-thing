@@ -126,9 +126,10 @@ button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
 
 #screen{flex:1;overflow:hidden;position:relative;display:flex;flex-direction:column}
 .pad{padding:26px 24px 28px}
-#view{flex:1;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;-webkit-overflow-scrolling:touch}
+#view{flex:1;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;-webkit-overflow-scrolling:touch;min-height:0}
 #view.pad{padding:26px 24px 28px}
 #view:has(#deck){overflow:hidden}
+#view:has(.ob-screen){overflow:hidden}
 nav#tabs{display:flex;border-top:1px solid var(--line);background:var(--card);flex:none}
 nav#tabs[hidden]{display:none}
 nav#tabs button{flex:1;padding:11px 4px calc(11px + env(safe-area-inset-bottom));font-size:10.5px;
@@ -247,10 +248,10 @@ h3{font-size:18px;font-weight:700;letter-spacing:-.01em}
 .rule{height:1px;background:var(--line);border:0;margin:22px 0}
 
 /* ── ONBOARDING ─────────────────────────────────────────────── */
-.ob-screen{min-height:100%;display:flex;flex-direction:column;position:relative;overflow:hidden}
+.ob-screen{height:100%;display:flex;flex-direction:column;position:relative;overflow:hidden}
 .ob-bg{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden}
-.ob-content{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;padding:28px 26px 0}
-.ob-footer{position:relative;z-index:1;padding:20px 26px calc(20px + env(safe-area-inset-bottom))}
+.ob-content{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;padding:28px 26px 0;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.ob-footer{position:relative;z-index:1;padding:16px 26px calc(24px + env(safe-area-inset-bottom));background:var(--ground);flex-shrink:0}
 .ob-progress{height:3px;border-radius:99px;background:var(--line);margin-bottom:32px;overflow:hidden}
 .ob-progress i{display:block;height:100%;border-radius:99px;background:var(--green);
   transition:width .4s cubic-bezier(.34,1.2,.64,1)}
@@ -264,8 +265,8 @@ h3{font-size:18px;font-weight:700;letter-spacing:-.01em}
 .ob-body{font-family:var(--read);font-size:16px;line-height:1.7;color:var(--mute);margin:0 0 32px}
 .ob-chip-grid{display:flex;flex-wrap:wrap;gap:10px;padding-bottom:20px}
 .ob-glyph{width:32px;height:32px;margin-bottom:10px;display:block;color:var(--green)}
-.auth-screen{background:var(--green-soft);min-height:100%;display:flex;flex-direction:column;transition:background .3s;
-  padding:48px 26px 32px;position:relative;overflow:hidden}
+.auth-screen{background:var(--green-soft);height:100%;display:flex;flex-direction:column;transition:background .3s;
+  padding:48px 26px calc(32px + env(safe-area-inset-bottom));position:relative;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .auth-screen .ob-bg{opacity:.4}
 .row{display:flex;justify-content:space-between;align-items:center;gap:12px}
 .note{background:var(--green-soft);border-left:2.5px solid var(--green);padding:13px 15px;
