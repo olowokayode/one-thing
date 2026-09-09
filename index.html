@@ -3156,6 +3156,7 @@ function vwOnboard(){
       <div class="ob-footer">
         <button class="btn primary" data-a="next">Continue</button>
         <button class="btn ghost" data-a="next" style="margin-top:9px">Nothing jumps out</button>
+        <button class="btn ghost" data-a="back" style="margin-top:6px;color:var(--mute);font-size:13px">&larr; Back</button>
       </div>
     </div>`;
   }
@@ -3184,6 +3185,7 @@ function vwOnboard(){
       </div>
       <div class="ob-footer">
         <button class="btn primary" data-a="next">Continue</button>
+        <button class="btn ghost" data-a="back" style="margin-top:8px;color:var(--mute);font-size:13px">&larr; Back</button>
       </div>
     </div>`;
   }
@@ -3213,6 +3215,7 @@ function vwOnboard(){
       </div>
       <div class="ob-footer">
         <button class="btn primary" data-a="next">Continue</button>
+        <button class="btn ghost" data-a="back" style="margin-top:8px;color:var(--mute);font-size:13px">&larr; Back</button>
       </div>
     </div>`;
   }
@@ -3267,7 +3270,7 @@ function vwToday(){
   const greet=hr<12?'Good morning':hr<18?'Good afternoon':'Good evening';
   const done=a.status==='completed';
   const k=S.user.currentStreak||0, kept=S.assignments.filter(x=>x.status==='completed').length;
-  const streakLine=k>1?`${k} days running`:k===1?'Day one on the board':kept?'Streak gone. Today restarts it.':'Nothing on the board yet';
+  const streakLine=k>1?`${k} days running`:k===1?'Day one. Come back tomorrow.':kept?'Streak gone. Today restarts it.':'Your first read is waiting.';
 
   return `
     ${STORAGE_OK?'':`<div class="note warn" style="margin-bottom:18px"><strong>Nothing is saving.</strong> Storage is blocked.</div>`}
@@ -3897,6 +3900,7 @@ async function act(a){
   const u=S.user;
   if(a==='noop') return;
   if(a==='next'){ S.step++; if(S.step>5){ S.onboarded=true; S.tab='today'; } save(); return render(); }
+  if(a==='back'){ if(S.step>1) S.step--; save(); return render(); }
   if(a==='auth:google'){ signInGoogle(); return; }
   if(a==='auth:email'){
     if(S.onboarded){

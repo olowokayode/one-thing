@@ -1,10 +1,10 @@
 /* One Thing — app-shell cache.
    Bump CACHE's version suffix whenever you want to force clients onto a
    fresh shell; the activate handler clears every older cache automatically. */
-const CACHE = 'one-thing-shell-v1';
+const CACHE = 'one-thing-shell-v2';
 const SHELL = [
   '/',
-  '/one-thing.html',
+  '/index.html',
   '/favicon.svg',
   '/favicon-32.png',
   '/apple-touch-icon.png',
