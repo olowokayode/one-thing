@@ -124,7 +124,7 @@ button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
   100%{opacity:0;transform:translate(-50%,-170%) scale(1)}
 }
 
-#screen{flex:1;overflow:hidden;position:relative;display:flex;flex-direction:column}
+#screen,main#screen{flex:1;overflow:hidden;position:relative;display:flex;flex-direction:column}
 .pad{padding:26px 24px 28px}
 #view{flex:1;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;-webkit-overflow-scrolling:touch;min-height:0}
 #view.pad{padding:26px 24px 28px}
@@ -161,7 +161,7 @@ h3{font-size:18px;font-weight:700;letter-spacing:-.01em}
 
 .chips{display:flex;flex-wrap:wrap;gap:8px}
 .chip{border:1.5px solid var(--line);padding:9px 14px;border-radius:100px;font-size:14px;font-weight:500;
-  min-height:42px;display:flex;align-items:center;transition:.14s}
+  min-height:44px;display:flex;align-items:center;transition:.14s}
 .chip[aria-pressed="true"]{background:var(--green);color:#fff;border-color:var(--green)}
 .chip.sm{font-size:12.5px;padding:7px 12px;min-height:36px}
 
@@ -306,13 +306,29 @@ details[open] summary:after{transform:rotate(-135deg);margin:3px 0 0}
 @media(prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;transition-duration:.001ms!important}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+/* Error monitoring — catches uncaught JS errors and unhandled rejections */
+window.addEventListener('error', function(e){
+  if(window.__onething_errors) window.__onething_errors.push({
+    msg: e.message, src: e.filename, line: e.lineno, col: e.colno,
+    stack: e.error&&e.error.stack, ts: Date.now()
+  });
+});
+window.addEventListener('unhandledrejection', function(e){
+  if(window.__onething_errors) window.__onething_errors.push({
+    msg: String(e.reason), type:'promise', ts: Date.now()
+  });
+});
+window.__onething_errors = [];
+</script>
 </head>
 <body>
 <div id="stage">
   <div id="device">
     <button id="streakbar" data-a="tab:today" hidden></button>
-    <div id="screen"><div class="pad" id="view"></div></div>
-    <nav id="tabs" hidden aria-label="Main"></nav>
+    <main id="screen"><div class="pad" id="view"></div></main>
+    <nav id="tabs" hidden aria-label="Main navigation"></nav>
+    <div aria-live="polite" aria-atomic="true" id="a11y-announce" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden"></div>
   </div>
   <aside id="console" aria-label="Stress test console">
     <h4>Stress console</h4>
@@ -3700,7 +3716,11 @@ function vwProfile(){
     <!-- Danger -->
     <span class="eyebrow">Account</span>
     <button class="btn ghost" style="margin-top:12px;color:var(--brick);border-color:var(--brick);width:100%" data-a="delete">Delete my account</button>
-    <p class="small" style="margin:8px 0 0;color:var(--mute);font-size:12px;text-align:center">Permanently deletes all your data. Required by GDPR &amp; NDPA.</p>`;
+    <p class="small" style="margin:8px 0 0;color:var(--mute);font-size:12px;text-align:center">Permanently deletes all your data. Required by GDPR &amp; NDPA.</p>
+    <div style="margin-top:32px;padding-top:20px;border-top:1px solid var(--line);display:flex;justify-content:center;gap:24px">
+      <a href="/privacy.html" target="_blank" style="font-family:var(--ui);font-size:12px;color:var(--mute);text-decoration:none">Privacy Policy</a>
+      <a href="/terms.html" target="_blank" style="font-family:var(--ui);font-size:12px;color:var(--mute);text-decoration:none">Terms of Service</a>
+    </div>`;
 }
 
 
