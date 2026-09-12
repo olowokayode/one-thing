@@ -927,7 +927,7 @@ const CORPUS = [
  },
  {
   "id": "c_test",
-  "topic": "Education",
+  "topic": "Psychology",
   "sub": "Memory",
   "difficulty": "Balanced",
   "minutes": 10,
@@ -1076,7 +1076,7 @@ const CORPUS = [
  },
  {
   "id": "c_tard",
-  "topic": "Nature",
+  "topic": "Science",
   "sub": "Extremophiles",
   "difficulty": "Beginner",
   "minutes": 5,
@@ -1524,7 +1524,7 @@ const CORPUS = [
  },
  {
   "id": "c_afold",
-  "topic": "AI",
+  "topic": "Technology",
   "sub": "Computational biology",
   "difficulty": "Challenging",
   "minutes": 15,
@@ -1672,7 +1672,7 @@ const CORPUS = [
  },
  {
   "id": "c_spf",
-  "topic": "Beauty",
+  "topic": "Health",
   "sub": "Skin science",
   "difficulty": "Beginner",
   "minutes": 5,
@@ -1821,7 +1821,7 @@ const CORPUS = [
  },
  {
   "id": "c_trade",
-  "topic": "Finance",
+  "topic": "Economics",
   "sub": "Behavioural finance",
   "difficulty": "Balanced",
   "minutes": 10,
@@ -1971,7 +1971,7 @@ const CORPUS = [
  },
  {
   "id": "c_cut",
-  "topic": "Movies",
+  "topic": "Design",
   "sub": "Editing",
   "difficulty": "Balanced",
   "minutes": 10,
@@ -2419,7 +2419,7 @@ const CORPUS = [
  },
  {
   "id": "c_weird",
-  "topic": "Culture",
+  "topic": "Society",
   "sub": "Cross-cultural research",
   "difficulty": "Balanced",
   "minutes": 10,
@@ -2494,7 +2494,7 @@ const CORPUS = [
  },
  {
   "id": "c_look",
-  "topic": "Arts",
+  "topic": "Design",
   "sub": "Museums",
   "difficulty": "Beginner",
   "minutes": 5,
@@ -2643,7 +2643,7 @@ const CORPUS = [
  },
  {
   "id": "c_hawth",
-  "topic": "Business",
+  "topic": "Economics",
   "sub": "Management research",
   "difficulty": "Balanced",
   "minutes": 10,
@@ -4101,8 +4101,22 @@ function advance(dir){
 }
 function startLearning(){
   const r=CORE.getOrCreateAssignment(DB(),S.user,now());
+  if(r.error==='NO_CONTENT'){
+    /* Fallback: try with no topic filter — serve any approved paper */
+    const fallbackUser=Object.assign({},S.user,{interests:[],subs:[]});
+    const r2=CORE.getOrCreateAssignment({...DB(),},fallbackUser,now());
+    if(r2.error||!r2.assignment){
+      toast('No papers available right now. Try adding more topics in the You tab.');
+      return;
+    }
+    /* Use the fallback assignment but attach to real user */
+    const a=Object.assign({},r2.assignment,{userId:S.user.id,id:'dl_'+S.user.id+'_'+r2.assignment.localDate});
+    L={aid:a.id,idx:0,pred:null,qa:[],qi:0,qgrade:{},_slideIdx:0};
+    if(!S.assignments.find(x=>x.id===a.id)) S.assignments.push(a);
+    S.tab='learn'; save(); render(); return;
+  }
   if(r.error||!r.assignment){
-    toast(r.error?errText(r.error):'No paper found for your topics. Try adding more interests in the You tab.');
+    toast(r.error?errText(r.error):'No paper found. Try adding more topics in the You tab.');
     return;
   }
   const a=r.assignment;
