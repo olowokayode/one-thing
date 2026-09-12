@@ -177,7 +177,9 @@ h3{font-size:18px;font-weight:700;letter-spacing:-.01em}
 .art{position:relative;overflow:hidden;background:var(--tint)}
 .art svg{position:absolute;inset:0;width:100%;height:100%;display:block}
 .today-card{border:1.5px solid var(--line);border-radius:22px;overflow:hidden;background:var(--card)}
-.today-card.shimmer{background:linear-gradient(120deg,var(--card) 30%,rgba(255,255,255,.9) 50%,var(--card) 70%);background-size:400% 100%;animation:shimmer 2.8s ease-in-out infinite}
+.today-card.shimmer{background:var(--card)}
+@media(prefers-color-scheme:light){.today-card.shimmer{background:linear-gradient(120deg,var(--card) 30%,rgba(255,255,255,.9) 50%,var(--card) 70%);background-size:400% 100%;animation:shimmer 2.8s ease-in-out infinite}}
+[data-theme="light"] .today-card.shimmer{background:linear-gradient(120deg,var(--card) 30%,rgba(255,255,255,.9) 50%,var(--card) 70%);background-size:400% 100%;animation:shimmer 2.8s ease-in-out infinite}
 .today-art{height:150px}
 .stack{position:relative}
 
@@ -228,7 +230,7 @@ h3{font-size:18px;font-weight:700;letter-spacing:-.01em}
 .finding{font-family:var(--display);font-size:30px;font-weight:800;line-height:1.12;letter-spacing:-.02em;color:var(--tone)}
 /* fab buttons removed — swipe navigation replaces them */
 
-.sel{width:100%;text-align:left;border:2px solid rgba(22,24,29,.2);background:rgba(255,255,255,.8);
+.sel{width:100%;text-align:left;border:2px solid var(--line);background:var(--card);
   border-radius:14px;padding:15px 16px;font-size:15.5px;font-family:var(--read);margin-bottom:9px;
   transition:.16s;display:block;min-height:54px}
 .sel:hover:not([disabled]){border-color:var(--ink)}
@@ -2991,7 +2993,7 @@ async function load(){
 async function wipe(){ try{ localStorage.removeItem(KEY); }catch(e){} MEM=null; }
 
 const ERRMSG={
-  FUTURE_CONTENT_LOCKED:"Tomorrow's isn't ready. It lands at midnight, your time.",
+  FUTURE_CONTENT_LOCKED:"Not ready yet. It drops at midnight, your time.",
   QUIZ_INCOMPLETE:'Just the questions left.',
   NOT_STARTED:'Open it before you finish it.',
   DAY_CLOSED:"That day's closed. Still worth reading, it just can't count now.",
@@ -3134,7 +3136,7 @@ function vwOnboard(){
       <p style="font-family:var(--ui);font-size:13px;font-weight:600;color:var(--mute);letter-spacing:.01em;margin:0">No feed. No noise. One thing.</p>
     </div>
     <div class="ob-footer">
-      <button class="btn primary" style="font-size:16px;letter-spacing:.01em" data-a="next">Show me today's idea</button>
+      <button class="btn primary" style="font-size:16px;letter-spacing:.01em" data-a="next">Show me the idea</button>
     </div>
   </div>`;
 
@@ -3184,7 +3186,7 @@ function vwOnboard(){
       <div class="ob-footer">
         <button class="btn primary" data-a="next">Continue</button>
         <button class="btn ghost" data-a="next" style="margin-top:9px">Nothing jumps out</button>
-        <button class="btn ghost" data-a="back" style="margin-top:6px;color:var(--mute);font-size:13px">&larr; Back</button>
+        <button class="btn ghost" data-a="back" style="margin-top:6px;color:var(--mute);font-size:13px;background:transparent;border-color:transparent">&larr; Back</button>
       </div>
     </div>`;
   }
@@ -3213,7 +3215,7 @@ function vwOnboard(){
       </div>
       <div class="ob-footer">
         <button class="btn primary" data-a="next">Continue</button>
-        <button class="btn ghost" data-a="back" style="margin-top:8px;color:var(--mute);font-size:13px">&larr; Back</button>
+        <button class="btn ghost" data-a="back" style="margin-top:8px;color:var(--mute);font-size:13px;background:transparent;border-color:transparent">&larr; Back</button>
       </div>
     </div>`;
   }
@@ -3243,7 +3245,7 @@ function vwOnboard(){
       </div>
       <div class="ob-footer">
         <button class="btn primary" data-a="next">Continue</button>
-        <button class="btn ghost" data-a="back" style="margin-top:8px;color:var(--mute);font-size:13px">&larr; Back</button>
+        <button class="btn ghost" data-a="back" style="margin-top:8px;color:var(--mute);font-size:13px;background:transparent;border-color:transparent">&larr; Back</button>
       </div>
     </div>`;
   }
@@ -3258,7 +3260,7 @@ function vwOnboard(){
       <div style="margin-bottom:32px">
         <span class="ob-eyebrow" style="color:var(--green)">Almost there</span>
         <h2 class="ob-headline" style="font-size:clamp(28px,8vw,34px);margin-bottom:12px">Keep what you learn.</h2>
-        <p style="font-family:var(--read);font-size:16px;line-height:1.7;color:var(--ink);margin:0">Sign in and your streak, notes, and history follow you across every device. Skip it for now and you'll lose today's progress when you close the tab.</p>
+        <p style="font-family:var(--read);font-size:16px;line-height:1.7;color:var(--ink);margin:0">Sign in and your streak, notes, and history follow you across every device. Skip it for now and you'll lose your progress when you close the tab.</p>
       </div>
       ${authState==='email_sent'?`
         <div style="background:white;border-radius:16px;padding:20px;margin-bottom:20px;border:1.5px solid var(--green)">
@@ -3273,7 +3275,7 @@ function vwOnboard(){
         <button class="btn primary" data-a="auth:magic" style="width:100%;margin-bottom:10px">Send magic link</button>
         <button class="btn ghost" data-a="auth:back" style="width:100%;background:white">Back</button>
       `:`
-        <button class="btn primary" data-a="auth:google" style="width:100%;margin-bottom:12px;display:flex;align-items:center;justify-content:center;gap:10px;background:white;color:var(--ink);border:1.5px solid rgba(22,24,29,.12)">
+        <button class="btn primary" data-a="auth:google" style="width:100%;margin-bottom:12px;display:flex;align-items:center;justify-content:center;gap:10px;background:var(--card);color:var(--ink);border:1.5px solid var(--line)">
           ${googleSVG} Continue with Google
         </button>
         <button class="btn primary" data-a="auth:email" style="width:100%;margin-bottom:20px">Continue with email</button>
@@ -3316,7 +3318,7 @@ function vwToday(){
         <div style="padding:26px 22px;text-align:center">
           <span class="eyebrow tone" style="${tone(c)}">That's you done</span>
           <h2 style="margin:14px 0 12px">${h(c.title)}</h2>
-          <p class="small">Tomorrow's lands at midnight. There's nothing else here for you today, which is the point.</p>
+          <p class="small">Come back tomorrow for the next one. That's the whole app.</p>
           <button class="btn ghost" data-a="review" style="margin-top:20px">Read the original</button>
         </div>
       </div>`:`
@@ -3330,7 +3332,7 @@ function vwToday(){
           </div>
         </button>
       </div>
-      <button class="btn primary" style="margin-top:22px" data-a="start">${k>0?'Continue reading':'Read today\'s'}</button>
+      <button class="btn primary" style="margin-top:22px" data-a="start">${k>0?'Continue reading':'Read now'}</button>
       ${a.revisit?`<div class="note warn" style="margin-top:16px">You've been through everything in your subjects. Worth a second look while we bring more in.</div>`:''}
       <details style="margin-top:16px">
         <summary class="small" style="color:var(--mute);cursor:pointer">Why this one?</summary>
@@ -3514,7 +3516,7 @@ function vwDone(){
     <!-- XP receipt — marginalia style -->
     <div style="padding:20px 28px;border-bottom:1px solid var(--line)">
       <p style="font-family:var(--ui);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
-        color:var(--mute);margin:0 0 12px">Today's XP</p>
+        color:var(--mute);margin:0 0 12px">XP earned</p>
       ${rec.lines.map(l=>`<div style="display:flex;justify-content:space-between;
           font-family:var(--ui);font-size:13.5px;padding:6px 0;border-bottom:1px dashed var(--line)">
         <span style="color:var(--ink)">${h(l.reason==='first_topic'?XPLABEL.first_topic+c.topic:(XPLABEL[l.reason]||l.reason))}</span>
@@ -3682,19 +3684,20 @@ function vwProfile(){
     <!-- Name -->
     <div style="margin-bottom:24px">
       <span class="eyebrow">Your name</span>
-      <div style="display:flex;gap:10px;margin-top:10px">
+      <div style="margin-top:10px">
         <input id="user-name" type="text" value="${h(u.name||'')}" placeholder="First name"
-          style="flex:1;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;
-          font:16px var(--read);color:var(--ink);background:transparent;outline:none">
-        <button class="btn ghost" data-a="savename" style="flex:none">Save</button>
+          style="width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;
+          font:16px var(--read);color:var(--ink);background:var(--card);outline:none;box-sizing:border-box"
+          onblur="this.value.trim()!==S.user.name&&act('savename')">
       </div>
+      <p class="small" style="margin:6px 0 0;color:var(--mute)">Saved automatically when you leave the field.</p>
     </div>
 
     <!-- Interests -->
     <div style="margin-bottom:24px">
       <span class="eyebrow">What you're into</span>
       <div class="chips" style="margin-top:12px">${TOPICS.map(t=>`<button class="chip sm" data-topic="${t}" aria-pressed="${u.interests.includes(t)}">${t}</button>`).join('')}</div>
-      <p class="small" style="margin-top:11px">Changes land tomorrow. Today's is already promised to you.</p>
+      <p class="small" style="margin-top:11px">Changes apply from tomorrow.</p>
     </div>
 
     <hr class="rule">
@@ -3786,7 +3789,7 @@ function streakChip(){
   const thisWeek=today().slice(0,8);
   const freezeAvailable=k>=3&&S.user.streakFreezeUsed!==thisWeek&&risk;
   const label=k===0?'Start your streak today'
-    :doneToday?`day${k===1?'':'s'} running · today's locked in`
+    :doneToday?`day${k===1?'':'s'} running · done for today`
     :`day${k===1?'':'s'} running · don't lose it today`;
   return {risk, html:`
     <svg class="flame" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
@@ -3852,10 +3855,24 @@ function render(){
   const tabs=$('#tabs'), view=$('#view'), screen=$('#screen'), sb=$('#streakbar'), cons=$('#console');
   if(cons && (location.hostname==='localhost' || location.hostname==='127.0.0.1')) cons.style.display='flex';
   if(!S.onboarded){ tabs.hidden=true; view.className=''; view.innerHTML=vwOnboard(); }
-  else if(S.tab==='learn'){ tabs.hidden=true; view.className=''; view.innerHTML=vwLearn(); }
+  else if(S.tab==='learn'){
+    tabs.hidden=true; view.className='';
+    /* Cache deck HTML — only rebuild if assignment changed */
+    const deckKey=L.aid+'|'+L.qi+'|'+JSON.stringify(L.qgrade)+'|'+JSON.stringify(L.qa);
+    if(!view._deckKey||view._deckKey!==deckKey){
+      view.innerHTML=vwLearn();
+      view._deckKey=deckKey;
+    }
+    /* Scroll to correct slide without rebuilding */
+    const deck=document.getElementById('deck');
+    if(deck&&L._slideIdx!=null){
+      const target=L._slideIdx*(deck.clientHeight||window.innerHeight);
+      if(Math.abs(deck.scrollTop-target)>10) deck.scrollTop=target;
+    }
+  }
   else if(S.tab==='done'){ tabs.hidden=true; view.className='pad'; view.innerHTML=vwDone(); }
   else {
-    tabs.hidden=false;
+    tabs.hidden=false; view._deckKey=null;
     const map={today:vwToday,library:vwLibrary,progress:vwProgress,profile:vwProfile};
     view.className='pad'; view.innerHTML=(map[S.tab]||vwToday)();
     const ICONS={today:'M4 6h16M4 12h16M4 18h9',library:'M5 4v16l7-4 7 4V4z',progress:'M4 19V9m6 10V5m6 14v-7',profile:'M12 12a4 4 0 100-8 4 4 0 000 8zM4 21a8 8 0 0116 0'};
@@ -3980,7 +3997,9 @@ async function act(a){
   if(a==='dayboundary'){ u.dayStartHour=u.dayStartHour===4?0:4; save();
     toast(u.dayStartHour===4?'Your day now ends at 4am.':'Your day ends at midnight again.'); return render(); }
   if(a==='start'||a==='review') return startLearning();
-  if(a==='exit'){ S.tab='today'; save(); return render(); }
+  if(a==='exit'){
+    S.tab='today'; L={}; save(); render(); return;
+  }
   if(a==='bookmark'){ const c=content(S.assignments.find(x=>x.id===L.aid).contentId);
     const i=S.bookmarks.indexOf(c.id); i>=0?S.bookmarks.splice(i,1):S.bookmarks.push(c.id);
     S.keepScroll=true; save(); return render(); }
@@ -4082,10 +4101,14 @@ function advance(dir){
 }
 function startLearning(){
   const r=CORE.getOrCreateAssignment(DB(),S.user,now());
-  if(r.error){ toast(errText(r.error)); return; }
+  if(r.error||!r.assignment){
+    toast(r.error?errText(r.error):'No paper found for your topics. Try adding more interests in the You tab.');
+    return;
+  }
   const a=r.assignment;
   if(!a.startedAt) a.startedAt=now();
-  L={aid:a.id,idx:0,pred:null,qa:[],qi:0,qgrade:{}};
+  L={aid:a.id,idx:0,pred:null,qa:[],qi:0,qgrade:{},_slideIdx:0};
+  S.assignments=S.assignments.map(x=>x.id===a.id?a:x);
   S.tab='learn'; save(); render();
 }
 function gradeOne(){
