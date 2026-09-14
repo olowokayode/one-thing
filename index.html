@@ -3347,7 +3347,16 @@ function vwToday(){
 const LABEL={context:"Here's the backstory",evidence:'What happened',finding:'The discovery',matters:'Why this changes things'};
 
 function vwLearn(){
-  const a=S.assignments.find(x=>x.id===L.aid), c=content(a.contentId);
+  const a=S.assignments.find(x=>x.id===L.aid);
+  if(!a){ /* Assignment not found — recover gracefully */
+    console.error('vwLearn: no assignment for aid=',L.aid,'assignments=',S.assignments.length);
+    S.tab='today'; L={}; setTimeout(()=>render(),0); return '<div class="pad"><p class="small">Loading...</p></div>';
+  }
+  const c=content(a.contentId);
+  if(!c){ /* Content not found */
+    console.error('vwLearn: no content for id=',a.contentId);
+    S.tab='today'; L={}; setTimeout(()=>render(),0); return '<div class="pad"><p class="small">Loading...</p></div>';
+  }
   const total=c.cards.length+c.quiz.length+1;
   const step=L.idx<c.cards.length?L.idx:(L.idx===c.cards.length?c.cards.length+(L.qi||0):total-1);
   const segs=Array.from({length:total},(_,n)=>`<i class="${n<=step?'done':''}"></i>`).join('');
@@ -3857,9 +3866,9 @@ function render(){
   if(!S.onboarded){ tabs.hidden=true; view.className=''; view.innerHTML=vwOnboard(); }
   else if(S.tab==='learn'){
     tabs.hidden=true; view.className='';
-    /* Cache deck HTML — only rebuild if assignment changed */
+    /* Cache deck HTML — only skip rebuild if same assignment+state */
     const deckKey=L.aid+'|'+L.qi+'|'+JSON.stringify(L.qgrade)+'|'+JSON.stringify(L.qa);
-    if(!view._deckKey||view._deckKey!==deckKey){
+    if(!view._deckKey || view._deckKey!==deckKey || !document.getElementById('deck')){
       view.innerHTML=vwLearn();
       view._deckKey=deckKey;
     }
@@ -4113,6 +4122,8 @@ function startLearning(){
     const a=Object.assign({},r2.assignment,{userId:S.user.id,id:'dl_'+S.user.id+'_'+r2.assignment.localDate});
     L={aid:a.id,idx:0,pred:null,qa:[],qi:0,qgrade:{},_slideIdx:0};
     if(!S.assignments.find(x=>x.id===a.id)) S.assignments.push(a);
+    const view2=document.getElementById('view');
+    if(view2) view2._deckKey=null;
     S.tab='learn'; save(); render(); return;
   }
   if(r.error||!r.assignment){
@@ -4123,6 +4134,9 @@ function startLearning(){
   if(!a.startedAt) a.startedAt=now();
   L={aid:a.id,idx:0,pred:null,qa:[],qi:0,qgrade:{},_slideIdx:0};
   S.assignments=S.assignments.map(x=>x.id===a.id?a:x);
+  /* Clear deck cache so vwLearn always rebuilds fresh */
+  const view=document.getElementById('view');
+  if(view) view._deckKey=null;
   S.tab='learn'; save(); render();
 }
 function gradeOne(){
