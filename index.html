@@ -4132,8 +4132,11 @@ function startLearning(){
   }
   const a=r.assignment;
   if(!a.startedAt) a.startedAt=now();
+  /* Ensure assignment is in S.assignments — getOrCreateAssignment pushes to db.assignments
+     which is the same reference, but we must not lose it when rebuilding the array */
+  if(!S.assignments.find(x=>x.id===a.id)) S.assignments.push(a);
+  else S.assignments=S.assignments.map(x=>x.id===a.id?a:x);
   L={aid:a.id,idx:0,pred:null,qa:[],qi:0,qgrade:{},_slideIdx:0};
-  S.assignments=S.assignments.map(x=>x.id===a.id?a:x);
   /* Clear deck cache so vwLearn always rebuilds fresh */
   const view=document.getElementById('view');
   if(view) view._deckKey=null;
