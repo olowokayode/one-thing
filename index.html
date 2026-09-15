@@ -4109,21 +4109,24 @@ function advance(dir){
   scrollToSlide(cur+dir, true);
 }
 function startLearning(){
+  /* vwToday already called getOrCreateAssignment during render,
+     so the assignment should already be in S.assignments.
+     We call it again to get the same assignment object. */
   const r=CORE.getOrCreateAssignment(DB(),S.user,now());
   if(r.error==='NO_CONTENT'){
-    /* Fallback: try with no topic filter — serve any approved paper */
-    const fallbackUser=Object.assign({},S.user,{interests:[],subs:[]});
-    const r2=CORE.getOrCreateAssignment({...DB(),},fallbackUser,now());
-    if(r2.error||!r2.assignment){
-      toast('No papers available right now. Try adding more topics in the You tab.');
-      return;
-    }
-    /* Use the fallback assignment but attach to real user */
-    const a=Object.assign({},r2.assignment,{userId:S.user.id,id:'dl_'+S.user.id+'_'+r2.assignment.localDate});
-    L={aid:a.id,idx:0,pred:null,qa:[],qi:0,qgrade:{},_slideIdx:0};
-    if(!S.assignments.find(x=>x.id===a.id)) S.assignments.push(a);
-    const view2=document.getElementById('view');
-    if(view2) view2._deckKey=null;
+    /* Try without topic filter as fallback */
+    const anyPaper=CORPUS.filter(p=>p.status==='approved')[0];
+    if(!anyPaper){ toast('No papers available. Check back soon.'); return; }
+    const fallbackId='dl_'+S.user.id+'_'+new Date().toISOString().slice(0,10);
+    const fb={id:fallbackId,userId:S.user.id,contentId:anyPaper.id,
+      localDate:new Date().toISOString().slice(0,10),
+      status:'assigned',assignedAt:Date.now(),startedAt:Date.now(),
+      completedAt:null,tier:2,confidence:0.5,why:['fallback — no topic match'],
+      quizScore:null,xpEarned:0,revisit:false};
+    if(!S.assignments.find(x=>x.id===fallbackId)) S.assignments.push(fb);
+    L={aid:fallbackId,idx:0,pred:null,qa:[],qi:0,qgrade:{},_slideIdx:0};
+    const view=document.getElementById('view');
+    if(view) view._deckKey=null;
     S.tab='learn'; save(); render(); return;
   }
   if(r.error||!r.assignment){
@@ -4131,13 +4134,12 @@ function startLearning(){
     return;
   }
   const a=r.assignment;
-  if(!a.startedAt) a.startedAt=now();
-  /* Ensure assignment is in S.assignments — getOrCreateAssignment pushes to db.assignments
-     which is the same reference, but we must not lose it when rebuilding the array */
-  if(!S.assignments.find(x=>x.id===a.id)) S.assignments.push(a);
-  else S.assignments=S.assignments.map(x=>x.id===a.id?a:x);
+  a.startedAt=a.startedAt||now();
+  /* Ensure assignment is in S.assignments */
+  const idx=S.assignments.findIndex(x=>x.id===a.id);
+  if(idx<0) S.assignments.push(a);
+  else S.assignments[idx]=a;
   L={aid:a.id,idx:0,pred:null,qa:[],qi:0,qgrade:{},_slideIdx:0};
-  /* Clear deck cache so vwLearn always rebuilds fresh */
   const view=document.getElementById('view');
   if(view) view._deckKey=null;
   S.tab='learn'; save(); render();
